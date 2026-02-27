@@ -1,0 +1,20 @@
+{
+  "name": "protoc-gen-es-string-descriptor",
+  "version": "0.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "izumin5210 <m@izum.in>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/izumin5210/protoc-gen-es-string-descriptor.git"
+  },
+  "bugs": {
+    "url": "https://github.com/izumin5210/protoc-gen-es-string-descriptor/issues"
+  },
+  "packageManager": "pnpm@10.30.1"
+}
