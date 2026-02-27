@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package testdata;
+
+message User {
+  string name = 1;
+  int32 age = 2;
+  string email = 3;
+}
+
+enum Status {
+  STATUS_UNSPECIFIED = 0;
+  STATUS_ACTIVE = 1;
+  STATUS_INACTIVE = 2;
+}

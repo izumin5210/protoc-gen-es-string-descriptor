@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package testdata;
+
+message Outer {
+  string name = 1;
+
+  message Inner {
+    string value = 1;
+    int32 count = 2;
+  }
+
+  Inner inner = 2;
+  repeated Inner items = 3;
+}
