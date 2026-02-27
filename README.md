@@ -1,0 +1,1 @@
+# protoc-gen-es-string-descriptor
