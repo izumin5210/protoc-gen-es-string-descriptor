@@ -1,1 +1,3 @@
-approveBuilds: '@bufbuild/buf esbuild'
+onlyBuiltDependencies:
+  - '@bufbuild/buf'
+  - esbuild
