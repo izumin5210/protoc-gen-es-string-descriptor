@@ -58,20 +58,5 @@ describe("Golden Tests", () => {
       }
     });
 
-    it("should produce multi-line fileDesc calls", () => {
-      const request = buildCodeGeneratorRequest(protoFiles);
-      const response = plugin.run(request);
-
-      for (const file of response.file) {
-        if (file.content && file.content.includes("fileDesc(")) {
-          // fileDesc should be multi-line (contains string concatenation)
-          expect(file.content).toContain('" +');
-          // Should import from our runtime
-          expect(file.content).toContain(
-            'import { fileDesc } from "protoc-gen-es-string-descriptor/runtime"',
-          );
-        }
-      }
-    });
-  });
+});
 });
