@@ -6,5 +6,5 @@
   },
   "tags": ["-lintignore"],
   "ignoreFiles": ["src/__tests__/golden/**"],
-  "ignoreDependencies": ["@bufbuild/buf"]
+  "ignoreDependencies": ["@bufbuild/buf", "@vitest/coverage-v8"]
 }
