@@ -29,9 +29,7 @@ export function transformFileContent(content: string): string {
         return `${prefix}"${escapeBytesAsJSString(bytes)}"`;
       }
 
-      const lines = chunks.map(
-        (chunk) => `"${escapeBytesAsJSString(chunk)}"`,
-      );
+      const lines = chunks.map((chunk) => `"${escapeBytesAsJSString(chunk)}"`);
       return `${prefix}"" +\n${lines.map((line) => `    ${line}`).join(" +\n")}`;
     },
   );

@@ -1,6 +1,6 @@
-import { base64Encode } from "@bufbuild/protobuf/wire";
-import { fileDesc as originalFileDesc } from "@bufbuild/protobuf/codegenv1";
 import type { DescFile } from "@bufbuild/protobuf";
+import { fileDesc as originalFileDesc } from "@bufbuild/protobuf/codegenv1";
+import { base64Encode } from "@bufbuild/protobuf/wire";
 
 /**
  * Drop-in replacement for `fileDesc` from `@bufbuild/protobuf/codegenv1`

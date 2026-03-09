@@ -2,10 +2,7 @@
  * Split a byte array after every occurrence of the given separator byte.
  * Equivalent to Go's bytes.SplitAfter.
  */
-export function splitAfter(
-  bytes: Uint8Array,
-  separator: number,
-): Uint8Array[] {
+export function splitAfter(bytes: Uint8Array, separator: number): Uint8Array[] {
   if (bytes.length === 0) {
     return [];
   }
