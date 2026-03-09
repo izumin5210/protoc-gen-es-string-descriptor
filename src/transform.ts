@@ -90,8 +90,7 @@ export function transformFileContent(content: string): string {
 function findLastImportEnd(content: string): number {
   const importRe = /^import\s.+;\s*$/gm;
   let lastIndex = -1;
-  let match: RegExpExecArray | null;
-  while ((match = importRe.exec(content)) !== null) {
+  for (const match of content.matchAll(importRe)) {
     lastIndex = match.index + match[0].length + 1;
   }
   return lastIndex;

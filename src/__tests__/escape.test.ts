@@ -65,7 +65,6 @@ describe("jsStringToBytes", () => {
       0x0a, 0x12, 0x07, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x22, 0x5c,
       0x00, 0xff,
     ]);
-    const escaped = escapeBytesAsJSString(original);
     // The escaped string, when placed in a JS string literal and evaluated,
     // should produce the original bytes via charCodeAt.
     // We verify this by constructing the string manually.

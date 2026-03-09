@@ -53,8 +53,7 @@ export const UserSchema = messageDesc(file_example, 0);`;
     // Extract the raw string content from the transformed output
     const stringParts: string[] = [];
     const regex = /"([^"]*)"/g;
-    let match;
-    while ((match = regex.exec(result)) !== null) {
+    for (const match of result.matchAll(regex)) {
       stringParts.push(match[1]);
     }
     const rawString = stringParts.join("");
