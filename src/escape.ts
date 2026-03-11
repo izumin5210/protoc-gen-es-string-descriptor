@@ -1,3 +1,5 @@
+/** biome-ignore-all lint/complexity/useSimpleNumberKeys: this is a simple lookup table for byte values */
+
 const SPECIAL_ESCAPES: Record<number, string> = {
   0x08: "\\b",
   0x09: "\\t",
@@ -22,7 +24,7 @@ export function escapeBytesAsJSString(bytes: Uint8Array): string {
     } else if (byte >= 0x20 && byte <= 0x7e) {
       result += String.fromCharCode(byte);
     } else {
-      result += "\\x" + byte.toString(16).padStart(2, "0");
+      result += `\\x${byte.toString(16).padStart(2, "0")}`;
     }
   }
   return result;

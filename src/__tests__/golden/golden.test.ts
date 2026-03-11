@@ -54,13 +54,11 @@ function unescapeJSString(escaped: string): string {
 function extractFileDescBytes(content: string): Uint8Array[] {
   const results: Uint8Array[] = [];
   const callRe = /fileDesc\(((?:"(?:[^"\\]|\\.)*"(?:\s*\+\s*)?)+)/g;
-  let callMatch;
-  while ((callMatch = callRe.exec(content)) !== null) {
+  for (const callMatch of content.matchAll(callRe)) {
     const stringExpr = callMatch[1];
     const strRe = /"((?:[^"\\]|\\.)*)"/g;
-    let strMatch;
     let combined = "";
-    while ((strMatch = strRe.exec(stringExpr)) !== null) {
+    for (const strMatch of stringExpr.matchAll(strRe)) {
       combined += strMatch[1];
     }
     const unescaped = unescapeJSString(combined);
@@ -72,8 +70,7 @@ function extractFileDescBytes(content: string): Uint8Array[] {
 function extractBase64FileDescBytes(content: string): Uint8Array[] {
   const results: Uint8Array[] = [];
   const re = /fileDesc\("([A-Za-z0-9+/=]+)"/g;
-  let match;
-  while ((match = re.exec(content)) !== null) {
+  for (const match of content.matchAll(re)) {
     results.push(base64Decode(match[1]));
   }
   return results;
@@ -87,7 +84,7 @@ describe("Golden Tests", () => {
       testdataDir,
       "-o",
       join(testdataDir, "descriptor.binpb"),
-    ]);
+    ], { shell: true });
   });
 
   describe.each(testCases)("$name", ({ protoFiles }) => {

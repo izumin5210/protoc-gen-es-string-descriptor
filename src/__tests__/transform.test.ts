@@ -1,7 +1,7 @@
-import { describe, expect, it } from "vitest";
 import { base64Encode } from "@bufbuild/protobuf/wire";
-import { transformFileContent } from "../transform.js";
+import { describe, expect, it } from "vitest";
 import { jsStringToBytes } from "../escape.js";
+import { transformFileContent } from "../transform.js";
 
 describe("transformFileContent", () => {
   it("does not modify code without fileDesc", () => {
@@ -13,8 +13,7 @@ export const UserSchema = messageDesc(file_example, 0);`;
   it("transforms a simple fileDesc call", () => {
     // 0x0a 0x05 "hello" 0x12 0x03 "foo"
     const bytes = new Uint8Array([
-      0x0a, 0x05, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x12, 0x03, 0x66, 0x6f,
-      0x6f,
+      0x0a, 0x05, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x12, 0x03, 0x66, 0x6f, 0x6f,
     ]);
     const b64 = base64Encode(bytes, "std_raw");
 
@@ -42,10 +41,9 @@ export const UserSchema = messageDesc(file_example, 0);`;
 
   it("preserves byte-level correctness after transformation", () => {
     const originalBytes = new Uint8Array([
-      0x0a, 0x0c, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x70,
-      0x72, 0x6f, 0x74, 0x6f, 0x12, 0x07, 0x65, 0x78, 0x61, 0x6d, 0x70,
-      0x6c, 0x65, 0x1a, 0x0a, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x12,
-      0x02, 0x0a, 0x00,
+      0x0a, 0x0c, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x70, 0x72,
+      0x6f, 0x74, 0x6f, 0x12, 0x07, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65,
+      0x1a, 0x0a, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x12, 0x02, 0x0a, 0x00,
     ]);
     const b64 = base64Encode(originalBytes, "std_raw");
 
@@ -55,8 +53,7 @@ export const UserSchema = messageDesc(file_example, 0);`;
     // Extract the raw string content from the transformed output
     const stringParts: string[] = [];
     const regex = /"([^"]*)"/g;
-    let match;
-    while ((match = regex.exec(result)) !== null) {
+    for (const match of result.matchAll(regex)) {
       stringParts.push(match[1]);
     }
     const rawString = stringParts.join("");

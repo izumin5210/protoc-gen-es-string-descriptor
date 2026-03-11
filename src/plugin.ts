@@ -1,5 +1,8 @@
+import type {
+  CodeGeneratorRequest,
+  CodeGeneratorResponse,
+} from "@bufbuild/protobuf/wkt";
 import { protocGenEs } from "@bufbuild/protoc-gen-es/dist/cjs/src/protoc-gen-es-plugin.js";
-import type { CodeGeneratorRequest, CodeGeneratorResponse } from "@bufbuild/protobuf/wkt";
 import { transformFileContent } from "./transform.js";
 
 export const plugin = {
