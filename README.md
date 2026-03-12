@@ -1,5 +1,8 @@
 # protoc-gen-es-string-descriptor
 
+[![protoc-gen-es-string-descriptor Version](https://img.shields.io/npm/v/protoc-gen-es-string-descriptor?logo=npm&labelColor=313244&color=CB3837)](https://www.npmjs.com/package/protoc-gen-es-string-descriptor)
+[![License](https://img.shields.io/github/license/izumin5210/protoc-gen-es-string-descriptor?labelColor=%23313244&color=%23a6e3a1)](./LICENSE)
+
 A [protoc-gen-es](https://github.com/bufbuild/protobuf-es) wrapper that makes generated file descriptors **diff-friendly** by splitting them into multi-line raw byte string literals.
 
 ## Motivation
