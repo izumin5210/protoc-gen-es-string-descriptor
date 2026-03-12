@@ -46,14 +46,12 @@ At runtime, a drop-in `fileDesc` replacement (exported from `protoc-gen-es-strin
 ## Installation
 
 ```bash
-npm install protoc-gen-es-string-descriptor
+npm install -D protoc-gen-es-string-descriptor @bufbuild/protoc-gen-es
+npm install @bufbuild/protobuf
 # or
-pnpm add protoc-gen-es-string-descriptor
+pnpm add -D protoc-gen-es-string-descriptor @bufbuild/protoc-gen-es
+pnpm add @bufbuild/protobuf
 ```
-
-### Peer dependencies
-
-- `@bufbuild/protobuf` ^2.0.0
 
 ## Setup
 
