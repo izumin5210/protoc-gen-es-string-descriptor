@@ -1,5 +1,11 @@
 # protoc-gen-es-string-descriptor
 
+## 0.1.0
+
+### Minor Changes
+
+- [#8](https://github.com/izumin5210/protoc-gen-es-string-descriptor/pull/8) [`e77dc37`](https://github.com/izumin5210/protoc-gen-es-string-descriptor/commit/e77dc378b9c433525cb3085789f195225e4aec46) Thanks [@izumin5210](https://github.com/izumin5210)! - feat: initial release
+
 ## 0.0.1
 
 ### Patch Changes
