@@ -1,7 +1,7 @@
 {
   "name": "protoc-gen-es-string-descriptor",
   "version": "0.0.0",
-  "description": "A protoc-gen-es wrapper that splits file descriptors into diff-friendly multi-line format",
+  "description": "A protoc-gen-es drop-in replacement that makes file descriptors diff-friendly by splitting them into multi-line raw byte string literals",
   "type": "module",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -40,7 +40,10 @@
   "keywords": [
     "protobuf",
     "protoc-gen-es",
-    "codegen"
+    "buf",
+    "codegen",
+    "diff-friendly",
+    "file-descriptor"
   ],
   "author": "izumin5210 <m@izum.in>",
   "license": "MIT",
