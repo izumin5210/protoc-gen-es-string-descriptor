@@ -6,7 +6,7 @@ import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2"
 import { enumDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
 import type { Message } from "@bufbuild/protobuf";
 
-import { fileDesc } from "protoc-gen-es-string-descriptor/runtime";
+import { fileDesc } from "protoc-gen-es-string-descriptor";
 /**
  * Describes the file simple.proto.
  */

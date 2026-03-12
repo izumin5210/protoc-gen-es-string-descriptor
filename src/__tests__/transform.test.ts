@@ -86,7 +86,7 @@ export const file_example = fileDesc("${b64}");`;
     const result = transformFileContent(input);
 
     expect(result).toContain(
-      'import { fileDesc } from "protoc-gen-es-string-descriptor/runtime"',
+      'import { fileDesc } from "protoc-gen-es-string-descriptor"',
     );
     expect(result).toContain(
       'import { messageDesc } from "@bufbuild/protobuf/codegenv1"',
@@ -106,7 +106,7 @@ export const file_example = fileDesc("${b64}");`;
     const result = transformFileContent(input);
 
     expect(result).toContain(
-      'import { fileDesc } from "protoc-gen-es-string-descriptor/runtime"',
+      'import { fileDesc } from "protoc-gen-es-string-descriptor"',
     );
     expect(result).toContain(
       'import { messageDesc } from "@bufbuild/protobuf/codegenv2"',
@@ -123,7 +123,7 @@ export const file_example = fileDesc("${b64}");`;
     const result = transformFileContent(input);
 
     expect(result).toContain(
-      'import { fileDesc } from "protoc-gen-es-string-descriptor/runtime"',
+      'import { fileDesc } from "protoc-gen-es-string-descriptor"',
     );
     // The original import line should be removed entirely
     expect(result).not.toContain('@bufbuild/protobuf/codegenv1"');
