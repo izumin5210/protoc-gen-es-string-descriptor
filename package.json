@@ -1,6 +1,6 @@
 {
   "name": "protoc-gen-es-string-descriptor",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A protoc-gen-es drop-in replacement that makes file descriptors diff-friendly by splitting them into multi-line raw byte string literals",
   "type": "module",
   "main": "dist/runtime.js",

@@ -1,5 +1,11 @@
 # protoc-gen-es-string-descriptor
 
+## 0.1.1
+
+### Patch Changes
+
+- [#10](https://github.com/izumin5210/protoc-gen-es-string-descriptor/pull/10) [`1eada41`](https://github.com/izumin5210/protoc-gen-es-string-descriptor/commit/1eada418d6ffa394f64a14c760d850794824b55b) Thanks [@izumin5210](https://github.com/izumin5210)! - fix: resolve `ERR_PACKAGE_PATH_NOT_EXPORTED` by removing subpath export
+
 ## 0.1.0
 
 ### Minor Changes
