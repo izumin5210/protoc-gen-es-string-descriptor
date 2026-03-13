@@ -2,7 +2,7 @@ import { base64Decode } from "@bufbuild/protobuf/wire";
 import { escapeBytesAsJSString } from "./escape.js";
 import { splitAfter } from "./split.js";
 
-const RUNTIME_PACKAGE = "protoc-gen-es-string-descriptor/runtime";
+const RUNTIME_PACKAGE = "protoc-gen-es-string-descriptor";
 const CODEGEN_IMPORT_RE =
   /^(import\s+\{)([^}]+)(\}\s+from\s+")(@bufbuild\/protobuf\/codegenv[12])(";\s*)$/gm;
 const FILE_DESC_RE = /(fileDesc\()"([A-Za-z0-9+/=]+)"/g;
