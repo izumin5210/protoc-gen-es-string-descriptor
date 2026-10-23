@@ -1,0 +1,761 @@
+{
+  "path": "google/cloud/deploy/v1/cloud_deploy.proto",
+  "rev": "4792db7b61d0d1430f5bc33463bbe90254f3d5f6",
+  "records": [
+    {
+      "c1": "3d1ce7126b8e545b08bb672433d10f7991cabfe8",
+      "c2": "bbe8aa1896799a456a90dfda189e9150ed92c310",
+      "subjects": [
+        "feat: Publish Google Cloud Deploy v1 API",
+        "docs: fix docstring formatting"
+      ],
+      "status": "no-base"
+    },
+    {
+      "c1": "bbe8aa1896799a456a90dfda189e9150ed92c310",
+      "c2": "43184df871e92765241e32402d67fd970bc97773",
+      "subjects": [
+        "docs: fix docstring formatting",
+        "docs:Cloud Deploy API Platform Logging documentation"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "43184df871e92765241e32402d67fd970bc97773",
+      "c2": "59a30fb00d6142f88c6b9960e195ff33bc66776e",
+      "subjects": [
+        "docs:Cloud Deploy API Platform Logging documentation",
+        "feat: Publish new JobRun resource and associated methods for Google Cloud Deploy"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "59a30fb00d6142f88c6b9960e195ff33bc66776e",
+      "c2": "f252e11bdab81146c67a7de4eddec412f18cd94f",
+      "subjects": [
+        "feat: Publish new JobRun resource and associated methods for Google Cloud Deploy",
+        "fix!: Fix resource annotations for Cloud Deploy to use common resource name for locations"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "f252e11bdab81146c67a7de4eddec412f18cd94f",
+      "c2": "d02e58244db5d01607ec2ad52a47e7edce8612f0",
+      "subjects": [
+        "fix!: Fix resource annotations for Cloud Deploy to use common resource name for locations",
+        "chore: update import paths for Go targets to match open source location chore: update go_package in protos to match open source location chore: add explicit release levels to Go gapic targets"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "d02e58244db5d01607ec2ad52a47e7edce8612f0",
+      "c2": "fb3b26c94035af1513bbbd37dd6e480a6a5fd243",
+      "subjects": [
+        "chore: update import paths for Go targets to match open source location chore: update go_package in protos to match open source location chore: add explicit release levels to Go gapic targets",
+        "feat: added supported for Cloud Deploy Progressive Deployment Strategy deprecate: TYPE_RENDER_STATUES_CHANGE, use RELEASE_RENDER log type instead"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "fb3b26c94035af1513bbbd37dd6e480a6a5fd243",
+      "c2": "2da477b6a72168c65fdb4245530cfa702cc4b029",
+      "subjects": [
+        "feat: added supported for Cloud Deploy Progressive Deployment Strategy deprecate: TYPE_RENDER_STATUES_CHANGE, use RELEASE_RENDER log type instead",
+        "feat: added support for DeployArtifacts feat: added support for in cluster verification"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "2da477b6a72168c65fdb4245530cfa702cc4b029",
+      "c2": "a7658127bcfc80102023ed0c4474f5a5c92813c1",
+      "subjects": [
+        "feat: added support for DeployArtifacts feat: added support for in cluster verification",
+        "feat: Add support for disabling Pod overprovisioning in the progressive deployment strategy configuration for a Kubernetes Target"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "a7658127bcfc80102023ed0c4474f5a5c92813c1",
+      "c2": "1ef8cc2287ed9abb9e9c9800032c2a3405fa8089",
+      "subjects": [
+        "feat: Add support for disabling Pod overprovisioning in the progressive deployment strategy configuration for a Kubernetes Target",
+        "feat: Add deploy parameters for cloud deploy"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "1ef8cc2287ed9abb9e9c9800032c2a3405fa8089",
+      "c2": "a04c947d894c63bba3bbea48250caa6f57ca95e1",
+      "subjects": [
+        "feat: Add deploy parameters for cloud deploy",
+        "feat: added support routeUpdateWaitTime field for Deployment Strategies Users can specify a non trivial amount of wait time after each route update for deployment strategies."
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "a04c947d894c63bba3bbea48250caa6f57ca95e1",
+      "c2": "b9fb22c5183a7d8753a7e2c633b4f2e50da5b50a",
+      "subjects": [
+        "feat: added support routeUpdateWaitTime field for Deployment Strategies Users can specify a non trivial amount of wait time after each route update for deployment strategies.",
+        "docs: small documentation updates chore: add enums for additional platform logs"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "b9fb22c5183a7d8753a7e2c633b4f2e50da5b50a",
+      "c2": "c940ce2a95afaa302181fc26e045d3faf57d0e2b",
+      "subjects": [
+        "docs: small documentation updates chore: add enums for additional platform logs",
+        "feat: added support for predeploy and postdeploy actions"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "c940ce2a95afaa302181fc26e045d3faf57d0e2b",
+      "c2": "41d7a832828ef42fcf6d97d48f4802b55628126f",
+      "subjects": [
+        "feat: added support for predeploy and postdeploy actions",
+        "feat: add Automation API and Rollback API chore: update platform logs docs: small documentation updates"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "41d7a832828ef42fcf6d97d48f4802b55628126f",
+      "c2": "1523043a3f738300b5b04bf19d3bab499848434b",
+      "subjects": [
+        "feat: add Automation API and Rollback API chore: update platform logs docs: small documentation updates",
+        "feat: Add custom target type support feat: Add revision tagging for one of the Cloud Run deployment strategies docs: Fixed a number of comments."
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "1523043a3f738300b5b04bf19d3bab499848434b",
+      "c2": "6f69d9ab75d42b0e6c639bf3656dab71a19c5196",
+      "subjects": [
+        "feat: Add custom target type support feat: Add revision tagging for one of the Cloud Run deployment strategies docs: Fixed a number of comments.",
+        "feat: Add stable cutback duration configuration to the k8s gateway service mesh deployment strategy. This allows configuring the amount of time to migrate traffic back to the original Service in the stable phase feat: Updated logging protos with new fields docs: Fixed a number of comments"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "6f69d9ab75d42b0e6c639bf3656dab71a19c5196",
+      "c2": "357c057a1b8d298a49a5d0c7210e64dcf4ffb45f",
+      "subjects": [
+        "feat: Add stable cutback duration configuration to the k8s gateway service mesh deployment strategy. This allows configuring the amount of time to migrate traffic back to the original Service in the stable phase feat: Updated logging protos with new fields docs: Fixed a number of comments",
+        "feat: add Skaffold remote config support for GCB repos docs: clarified related comments"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "357c057a1b8d298a49a5d0c7210e64dcf4ffb45f",
+      "c2": "62bc6257938d5fe9cd4fbce9d4b2f23e9467929f",
+      "subjects": [
+        "feat: add Skaffold remote config support for GCB repos docs: clarified related comments",
+        "docs: small corrections to Cloud Deploy API documentation"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "62bc6257938d5fe9cd4fbce9d4b2f23e9467929f",
+      "c2": "3597f7db2191c00b100400991ef96e52d62f5841",
+      "subjects": [
+        "docs: small corrections to Cloud Deploy API documentation",
+        "chore: update copyright year for auto-generated protos"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "3597f7db2191c00b100400991ef96e52d62f5841",
+      "c2": "0d8db1a5197b56c3d4dd5dd058d3e0e041c84f90",
+      "subjects": [
+        "chore: update copyright year for auto-generated protos",
+        "feat: add Skaffold verbose support to Execution Environment properties"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "0d8db1a5197b56c3d4dd5dd058d3e0e041c84f90",
+      "c2": "b0c32da88f7502f4562e7d3d10c7ded09d9842ab",
+      "subjects": [
+        "feat: add Skaffold verbose support to Execution Environment properties",
+        "feat: added support for deploy policies feat: added support for configuring a proxy_url to a Kubernetes server docs: small corrections to Cloud Deploy API documentation"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "b0c32da88f7502f4562e7d3d10c7ded09d9842ab",
+      "c2": "9293133bd77b3b07e85a2a1e8529b5ab874e6896",
+      "subjects": [
+        "feat: added support for deploy policies feat: added support for configuring a proxy_url to a Kubernetes server docs: small corrections to Cloud Deploy API documentation",
+        "feat: added support for new custom target type and deploy policy platform logs docs: small Cloud Deploy API documentation updates"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "9293133bd77b3b07e85a2a1e8529b5ab874e6896",
+      "c2": "68d815481dd354a8fd9cff04c8d841ea53321d3f",
+      "subjects": [
+        "feat: added support for new custom target type and deploy policy platform logs docs: small Cloud Deploy API documentation updates",
+        "feat: add support for different Pod selector labels when doing canaries fix!: make changes to an API that is disabled on the server, but whose client libraries were prematurely published"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "68d815481dd354a8fd9cff04c8d841ea53321d3f",
+      "c2": "3802bd05434f298c9f72aa2b7a20ade763ea8795",
+      "subjects": [
+        "feat: add support for different Pod selector labels when doing canaries fix!: make changes to an API that is disabled on the server, but whose client libraries were prematurely published",
+        "fix!: remove an API that was mistakenly made public"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 23
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 23
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 22,
+          "correct": true
+        }
+      }
+    },
+    {
+      "c1": "3802bd05434f298c9f72aa2b7a20ade763ea8795",
+      "c2": "e728fd395bec5a2913fee66aaefe92cfc3594f83",
+      "subjects": [
+        "fix!: remove an API that was mistakenly made public",
+        "docs: very minor documentation updates"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "e728fd395bec5a2913fee66aaefe92cfc3594f83",
+      "c2": "bd4f3686c1831554b71129898e20f2cdb7aeac49",
+      "subjects": [
+        "docs: very minor documentation updates",
+        "feat: added support for deploy policies docs: Minor documentation updates"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "bd4f3686c1831554b71129898e20f2cdb7aeac49",
+      "c2": "80460eb1f855dd7e31f854f01ddaaa7df653f36a",
+      "subjects": [
+        "feat: added support for deploy policies docs: Minor documentation updates",
+        "feat!: added new fields for the Automation Repair rule feat: added route destination related fields to Gateway service mesh message"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 106
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 106
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 105,
+          "correct": true
+        }
+      }
+    },
+    {
+      "c1": "80460eb1f855dd7e31f854f01ddaaa7df653f36a",
+      "c2": "4805138ac78844e11fe6af603374b18adb435902",
+      "subjects": [
+        "feat!: added new fields for the Automation Repair rule feat: added route destination related fields to Gateway service mesh message",
+        "feat: A new field `timed_promote_release_rule` is added to message `.google.cloud.deploy.v1.AutomationRule` feat: A new message `TimedPromoteReleaseRule` is added feat: A new field `timed_promote_release_condition` is added to message `.google.cloud.deploy.v1.AutomationRuleCondition` feat: A new message `TimedPromoteReleaseCondition` is added feat: A new field `timed_promote_release_operation` is added to message `.google.cloud.deploy.v1.AutomationRun` feat: A new message `TimedPromoteReleaseOperation` is added docs: A comment for field `target_id` in message `.google.cloud.deploy.v1.AutomationRun` is changed"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 23
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 23
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 22,
+          "correct": true
+        }
+      }
+    },
+    {
+      "c1": "4805138ac78844e11fe6af603374b18adb435902",
+      "c2": "a547fc1420eb0a0f3ae32b0a4eb72d3b8b17d136",
+      "subjects": [
+        "feat: A new field `timed_promote_release_rule` is added to message `.google.cloud.deploy.v1.AutomationRule` feat: A new message `TimedPromoteReleaseRule` is added feat: A new field `timed_promote_release_condition` is added to message `.google.cloud.deploy.v1.AutomationRuleCondition` feat: A new message `TimedPromoteReleaseCondition` is added feat: A new field `timed_promote_release_operation` is added to message `.google.cloud.deploy.v1.AutomationRun` feat: A new message `TimedPromoteReleaseOperation` is added docs: A comment for field `target_id` in message `.google.cloud.deploy.v1.AutomationRun` is changed",
+        "docs: minor documentation updates"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "a547fc1420eb0a0f3ae32b0a4eb72d3b8b17d136",
+      "c2": "74069978395d7a452931a690a22c0e3a26f11229",
+      "subjects": [
+        "docs: minor documentation updates",
+        "docs: documentation improvements. `skaffold_version` field is no longer explicitly marked as optional"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "74069978395d7a452931a690a22c0e3a26f11229",
+      "c2": "99a5e296c891faa79784687422b9d555bcf54a3f",
+      "subjects": [
+        "docs: documentation improvements. `skaffold_version` field is no longer explicitly marked as optional",
+        "feat: A new field `dns_endpoint` is added to message `.google.cloud.deploy.v1.GkeCluster` docs: A comment for field `internal_ip` in message `.google.cloud.deploy.v1.GkeCluster` is changed docs: A comment for field `skaffold_version` in message `.google.cloud.deploy.v1.Release` is changed docs: A comment for field `requested_cancellation` in message `.google.cloud.deploy.v1.OperationMetadata` is changed"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "99a5e296c891faa79784687422b9d555bcf54a3f",
+      "c2": "04132de0b952ee921d91a2583915dbd82d10cd3c",
+      "subjects": [
+        "feat: A new field `dns_endpoint` is added to message `.google.cloud.deploy.v1.GkeCluster` docs: A comment for field `internal_ip` in message `.google.cloud.deploy.v1.GkeCluster` is changed docs: A comment for field `skaffold_version` in message `.google.cloud.deploy.v1.Release` is changed docs: A comment for field `requested_cancellation` in message `.google.cloud.deploy.v1.OperationMetadata` is changed",
+        "chore: Add missing field-behavior annotations docs: Minor documentation improvements"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "04132de0b952ee921d91a2583915dbd82d10cd3c",
+      "c2": "d9b049376b49f7ccf0dc0564c83357dd862f9b01",
+      "subjects": [
+        "chore: Add missing field-behavior annotations docs: Minor documentation improvements",
+        "chore: update copyright year for auto-generated protos"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "d9b049376b49f7ccf0dc0564c83357dd862f9b01",
+      "c2": "732dbc81f7dff6e93c5acb45887561a1dc3018d0",
+      "subjects": [
+        "chore: update copyright year for auto-generated protos",
+        "docs: fix typo in comments"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "732dbc81f7dff6e93c5acb45887561a1dc3018d0",
+      "c2": "453b0cc093f83796765503ead7ec9f5f8196125f",
+      "subjects": [
+        "docs: fix typo in comments",
+        "feat: Add resource definition for Revision docs: Typos fixes and small improvements"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "453b0cc093f83796765503ead7ec9f5f8196125f",
+      "c2": "91c26618f1c8076e85582cceaeedfce3881145b8",
+      "subjects": [
+        "feat: Add resource definition for Revision docs: Typos fixes and small improvements",
+        "fix: correct pattern of unused resource definition, Revision docs: Comments updated for fields in several different resources"
+      ],
+      "status": "rebase-conflict"
+    }
+  ]
+}

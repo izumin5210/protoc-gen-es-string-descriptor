@@ -1,0 +1,226 @@
+{
+  "rev": "4792db7b61d0d1430f5bc33463bbe90254f3d5f6",
+  "pairsPerFile": 40,
+  "summaries": {
+    "google/container/v1/cluster_service.proto": {
+      "pairs": 40,
+      "noBase": 0,
+      "rebaseConflict": 14,
+      "semanticConflict": 0,
+      "buildFailure": 0,
+      "replayed": 26,
+      "trivial": 9,
+      "all": {
+        "base64": {
+          "clean": 9,
+          "conflict": 17,
+          "cleanButWrong": 0,
+          "fileConflict": 17,
+          "fileCleanButWrong": 0
+        },
+        "a": {
+          "clean": 24,
+          "conflict": 2,
+          "cleanButWrong": 0,
+          "fileConflict": 3,
+          "fileCleanButWrong": 0
+        },
+        "b": {
+          "clean": 25,
+          "conflict": 0,
+          "cleanButWrong": 1,
+          "fileConflict": 2,
+          "fileCleanButWrong": 1
+        }
+      },
+      "nonTrivial": {
+        "base64": {
+          "clean": 0,
+          "conflict": 17,
+          "cleanButWrong": 0,
+          "fileConflict": 17,
+          "fileCleanButWrong": 0
+        },
+        "a": {
+          "clean": 15,
+          "conflict": 2,
+          "cleanButWrong": 0,
+          "fileConflict": 3,
+          "fileCleanButWrong": 0
+        },
+        "b": {
+          "clean": 16,
+          "conflict": 0,
+          "cleanButWrong": 1,
+          "fileConflict": 2,
+          "fileCleanButWrong": 1
+        }
+      }
+    },
+    "google/pubsub/v1/pubsub.proto": {
+      "pairs": 40,
+      "noBase": 0,
+      "rebaseConflict": 4,
+      "semanticConflict": 0,
+      "buildFailure": 0,
+      "replayed": 36,
+      "trivial": 21,
+      "all": {
+        "base64": {
+          "clean": 21,
+          "conflict": 15,
+          "cleanButWrong": 0,
+          "fileConflict": 15,
+          "fileCleanButWrong": 0
+        },
+        "a": {
+          "clean": 31,
+          "conflict": 5,
+          "cleanButWrong": 0,
+          "fileConflict": 6,
+          "fileCleanButWrong": 2
+        },
+        "b": {
+          "clean": 35,
+          "conflict": 1,
+          "cleanButWrong": 0,
+          "fileConflict": 2,
+          "fileCleanButWrong": 3
+        }
+      },
+      "nonTrivial": {
+        "base64": {
+          "clean": 0,
+          "conflict": 15,
+          "cleanButWrong": 0,
+          "fileConflict": 15,
+          "fileCleanButWrong": 0
+        },
+        "a": {
+          "clean": 10,
+          "conflict": 5,
+          "cleanButWrong": 0,
+          "fileConflict": 6,
+          "fileCleanButWrong": 2
+        },
+        "b": {
+          "clean": 14,
+          "conflict": 1,
+          "cleanButWrong": 0,
+          "fileConflict": 2,
+          "fileCleanButWrong": 3
+        }
+      }
+    },
+    "google/cloud/deploy/v1/cloud_deploy.proto": {
+      "pairs": 35,
+      "noBase": 1,
+      "rebaseConflict": 11,
+      "semanticConflict": 0,
+      "buildFailure": 0,
+      "replayed": 23,
+      "trivial": 9,
+      "all": {
+        "base64": {
+          "clean": 9,
+          "conflict": 14,
+          "cleanButWrong": 0,
+          "fileConflict": 14,
+          "fileCleanButWrong": 0
+        },
+        "a": {
+          "clean": 17,
+          "conflict": 6,
+          "cleanButWrong": 0,
+          "fileConflict": 6,
+          "fileCleanButWrong": 0
+        },
+        "b": {
+          "clean": 23,
+          "conflict": 0,
+          "cleanButWrong": 0,
+          "fileConflict": 3,
+          "fileCleanButWrong": 0
+        }
+      },
+      "nonTrivial": {
+        "base64": {
+          "clean": 0,
+          "conflict": 14,
+          "cleanButWrong": 0,
+          "fileConflict": 14,
+          "fileCleanButWrong": 0
+        },
+        "a": {
+          "clean": 8,
+          "conflict": 6,
+          "cleanButWrong": 0,
+          "fileConflict": 6,
+          "fileCleanButWrong": 0
+        },
+        "b": {
+          "clean": 14,
+          "conflict": 0,
+          "cleanButWrong": 0,
+          "fileConflict": 3,
+          "fileCleanButWrong": 0
+        }
+      }
+    },
+    "total": {
+      "pairs": 115,
+      "noBase": 1,
+      "rebaseConflict": 29,
+      "semanticConflict": 0,
+      "buildFailure": 0,
+      "replayed": 85,
+      "trivial": 39,
+      "all": {
+        "base64": {
+          "clean": 39,
+          "conflict": 46,
+          "cleanButWrong": 0,
+          "fileConflict": 46,
+          "fileCleanButWrong": 0
+        },
+        "a": {
+          "clean": 72,
+          "conflict": 13,
+          "cleanButWrong": 0,
+          "fileConflict": 15,
+          "fileCleanButWrong": 2
+        },
+        "b": {
+          "clean": 83,
+          "conflict": 1,
+          "cleanButWrong": 1,
+          "fileConflict": 7,
+          "fileCleanButWrong": 4
+        }
+      },
+      "nonTrivial": {
+        "base64": {
+          "clean": 0,
+          "conflict": 46,
+          "cleanButWrong": 0,
+          "fileConflict": 46,
+          "fileCleanButWrong": 0
+        },
+        "a": {
+          "clean": 33,
+          "conflict": 13,
+          "cleanButWrong": 0,
+          "fileConflict": 15,
+          "fileCleanButWrong": 2
+        },
+        "b": {
+          "clean": 44,
+          "conflict": 1,
+          "cleanButWrong": 1,
+          "fileConflict": 7,
+          "fileCleanButWrong": 4
+        }
+      }
+    }
+  }
+}

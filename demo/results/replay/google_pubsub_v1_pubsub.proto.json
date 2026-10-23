@@ -1,0 +1,1078 @@
+{
+  "path": "google/pubsub/v1/pubsub.proto",
+  "rev": "4792db7b61d0d1430f5bc33463bbe90254f3d5f6",
+  "records": [
+    {
+      "c1": "d753d6386b031aa031b53d7bb1c23a23a78ee615",
+      "c2": "7427d37520b0f9ccdcd1a5a83288cdeea43cf826",
+      "subjects": [
+        "docs: Clarify BigQueryConfig PERMISSION_DENIED state",
+        "feat: Add temporary_failed_ack_ids to ModifyAckDeadlineConfirmation"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "7427d37520b0f9ccdcd1a5a83288cdeea43cf826",
+      "c2": "4dea519175b3ba0697c71249b77f681a3c90af51",
+      "subjects": [
+        "feat: Add temporary_failed_ack_ids to ModifyAckDeadlineConfirmation",
+        "docs: Add x-ref for ordering messages docs: Clarify subscription expiration policy"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "4dea519175b3ba0697c71249b77f681a3c90af51",
+      "c2": "1cfcea4fbef317c44cc13d73017a0b0462c4737d",
+      "subjects": [
+        "docs: Add x-ref for ordering messages docs: Clarify subscription expiration policy",
+        "chore: update import paths for Go targets to match open source location chore: update go_package in protos to match open source location chore: add explicit release levels to Go gapic targets"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "1cfcea4fbef317c44cc13d73017a0b0462c4737d",
+      "c2": "8a4cc94afcb9ecf3c604ebefbfab2c645e977e7d",
+      "subjects": [
+        "chore: update import paths for Go targets to match open source location chore: update go_package in protos to match open source location chore: add explicit release levels to Go gapic targets",
+        "feat: add cloud storage subscription fields"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "8a4cc94afcb9ecf3c604ebefbfab2c645e977e7d",
+      "c2": "64ecfebceee57a7fd22723d1b11b729270baf9c5",
+      "subjects": [
+        "feat: add cloud storage subscription fields",
+        "feat: add push config wrapper fields"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "64ecfebceee57a7fd22723d1b11b729270baf9c5",
+      "c2": "212ecef96e3ea7c67465ff3f52680301ad0ea1f9",
+      "subjects": [
+        "feat: add push config wrapper fields",
+        "docs: tightened requirements on cloud storage subscription filename suffixes"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "212ecef96e3ea7c67465ff3f52680301ad0ea1f9",
+      "c2": "7c762d770a82da397956b80379a6fb73505835af",
+      "subjects": [
+        "docs: tightened requirements on cloud storage subscription filename suffixes",
+        "docs: clarified where ordering_key will be written if write_metadata is set"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "7c762d770a82da397956b80379a6fb73505835af",
+      "c2": "c1f013491bc8dce60e93ca355ea494ee2e522dd8",
+      "subjects": [
+        "docs: clarified where ordering_key will be written if write_metadata is set",
+        "docs: modified some descriptions"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "c1f013491bc8dce60e93ca355ea494ee2e522dd8",
+      "c2": "95fabe6ae89c9206e89fd38a4d5c0f40c13bedfb",
+      "subjects": [
+        "docs: modified some descriptions",
+        "feat: add `use_table_schema` field to BigQueryConfig"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "95fabe6ae89c9206e89fd38a4d5c0f40c13bedfb",
+      "c2": "708f769ea3987faa1b810fcb44d9e0ee9172b352",
+      "subjects": [
+        "feat: add `use_table_schema` field to BigQueryConfig",
+        "feat: add `ingestion_data_source_settings` field to `Topic`"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "708f769ea3987faa1b810fcb44d9e0ee9172b352",
+      "c2": "27f83015e8aacb6695f56435b3185f6d45fad995",
+      "subjects": [
+        "feat: add `ingestion_data_source_settings` field to `Topic`",
+        "feat: add enforce_in_transit fields and optional annotations"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "27f83015e8aacb6695f56435b3185f6d45fad995",
+      "c2": "3d989d19608052ca0e91767129bb55c2ba2572a9",
+      "subjects": [
+        "feat: add enforce_in_transit fields and optional annotations",
+        "docs: small fix in Pub/Sub ingestion comments"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "3d989d19608052ca0e91767129bb55c2ba2572a9",
+      "c2": "811a857dd5e5a500127d0470f16c2caca366435d",
+      "subjects": [
+        "docs: small fix in Pub/Sub ingestion comments",
+        "feat: add custom datetime format for Cloud Storage subscriptions"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "811a857dd5e5a500127d0470f16c2caca366435d",
+      "c2": "3597f7db2191c00b100400991ef96e52d62f5841",
+      "subjects": [
+        "feat: add custom datetime format for Cloud Storage subscriptions",
+        "chore: update copyright year for auto-generated protos"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "3597f7db2191c00b100400991ef96e52d62f5841",
+      "c2": "a3016a877a58aee3bef1e93871542ef79993daf7",
+      "subjects": [
+        "chore: update copyright year for auto-generated protos",
+        "feat: add service_account_email for export subscriptions"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "a3016a877a58aee3bef1e93871542ef79993daf7",
+      "c2": "f29a82a206156fd665eaa01cb7987170ac0250f0",
+      "subjects": [
+        "feat: add service_account_email for export subscriptions",
+        "feat: add use_topic_schema for Cloud Storage Subscriptions"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "f29a82a206156fd665eaa01cb7987170ac0250f0",
+      "c2": "8148b2fde13d3ed79cf285e9c529572aa8cf6ef7",
+      "subjects": [
+        "feat: add use_topic_schema for Cloud Storage Subscriptions",
+        "feat: add max messages batching for Cloud Storage subscriptions"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "8148b2fde13d3ed79cf285e9c529572aa8cf6ef7",
+      "c2": "394f626e83786b5f2230d10a774c8db961b5e6b7",
+      "subjects": [
+        "feat: add max messages batching for Cloud Storage subscriptions",
+        "docs: update documentation for 31 day subscription message retention"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "394f626e83786b5f2230d10a774c8db961b5e6b7",
+      "c2": "de3b4b32cdf9edbe6ed687a985af393769052972",
+      "subjects": [
+        "docs: update documentation for 31 day subscription message retention",
+        "feat: return listing information for subscriptions created via Analytics Hub"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "de3b4b32cdf9edbe6ed687a985af393769052972",
+      "c2": "69e9dff10df4fa1e338712d38dc26b46791a6e94",
+      "subjects": [
+        "feat: return listing information for subscriptions created via Analytics Hub",
+        "feat: add ingestion Cloud Storage fields and Platform Logging fields to Topic"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": false
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": false
+        }
+      }
+    },
+    {
+      "c1": "69e9dff10df4fa1e338712d38dc26b46791a6e94",
+      "c2": "d992b0619ee79a2d32f6954cc29351ed8f15f560",
+      "subjects": [
+        "feat: add ingestion Cloud Storage fields and Platform Logging fields to Topic",
+        "feat: Add IngestionFailureEvent to the external proto"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 2
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 2
+        },
+        "b": {
+          "conflicts": 1,
+          "fileConflicts": 2
+        }
+      }
+    },
+    {
+      "c1": "d992b0619ee79a2d32f6954cc29351ed8f15f560",
+      "c2": "b062cd1d535ad083ada5d147df30f07494f4acbd",
+      "subjects": [
+        "feat: Add IngestionFailureEvent to the external proto",
+        "feat: Add Kafka-based sources to IngestionDataSourceSettings proto and IngestionFailureEvent proto"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "b062cd1d535ad083ada5d147df30f07494f4acbd",
+      "c2": "616127016cd4e657a1e177462539f581fbca5c7a",
+      "subjects": [
+        "feat: Add Kafka-based sources to IngestionDataSourceSettings proto and IngestionFailureEvent proto",
+        "feat: add support for message transforms to Topic and Subscription docs: Fix link for AnalyticsHubSubscriptionInfo"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 2
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 1,
+          "correct": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 1,
+          "correct": true
+        }
+      }
+    },
+    {
+      "c1": "616127016cd4e657a1e177462539f581fbca5c7a",
+      "c2": "40bc86036e483ab04e5bc83ac7519e15d68cbd05",
+      "subjects": [
+        "feat: add support for message transforms to Topic and Subscription docs: Fix link for AnalyticsHubSubscriptionInfo",
+        "docs: A comment for field `code` in message `.google.pubsub.v1.JavaScriptUDF` is changed"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "40bc86036e483ab04e5bc83ac7519e15d68cbd05",
+      "c2": "9415ba048aa587b1b2df2b96fc00aa009c831597",
+      "subjects": [
+        "docs: A comment for field `code` in message `.google.pubsub.v1.JavaScriptUDF` is changed",
+        "chore: update copyright year for auto-generated protos"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "9415ba048aa587b1b2df2b96fc00aa009c831597",
+      "c2": "263055cc1fc36dc2828e50eb7a92d75b1e0e4af5",
+      "subjects": [
+        "chore: update copyright year for auto-generated protos",
+        "feat: deprecate `enabled` field for message transforms and add `disabled` field docs: deprecate `enabled` field for message transforms and add `disabled` field"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "263055cc1fc36dc2828e50eb7a92d75b1e0e4af5",
+      "c2": "c260e248c64f4235a017755f347fcd99120f224f",
+      "subjects": [
+        "feat: deprecate `enabled` field for message transforms and add `disabled` field docs: deprecate `enabled` field for message transforms and add `disabled` field",
+        "docs: update documentation for JavaScriptUDF to indicate that the `message_id` metadata field is optional instead of required"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "c260e248c64f4235a017755f347fcd99120f224f",
+      "c2": "645093194f977f824dd2e89b37ef2df3647a44e8",
+      "subjects": [
+        "docs: update documentation for JavaScriptUDF to indicate that the `message_id` metadata field is optional instead of required",
+        "feat!: generate renamed go pubsub admin clients"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "645093194f977f824dd2e89b37ef2df3647a44e8",
+      "c2": "c1af7f23f557e8690a9e16bc41b1a2fae43e9a3e",
+      "subjects": [
+        "feat!: generate renamed go pubsub admin clients",
+        "feat: Add SchemaViolationReason to IngestionFailureEvent docs: Standardize spelling of \"acknowledgment\" in Pub/Sub protos"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "c1af7f23f557e8690a9e16bc41b1a2fae43e9a3e",
+      "c2": "ade5fe46aa5b7296887cd5aedbe8d35a243f6579",
+      "subjects": [
+        "feat: Add SchemaViolationReason to IngestionFailureEvent docs: Standardize spelling of \"acknowledgment\" in Pub/Sub protos",
+        "feat: Add MessageTransformationFailureReason to IngestionFailureEvent docs: Document that the `acknowledge_confirmation` and `modify_ack_deadline_confirmation` fields in message `.google.pubsub.v1.StreamingPullResponse` are not guaranteed to be populated"
+      ],
+      "status": "rebase-conflict"
+    },
+    {
+      "c1": "ade5fe46aa5b7296887cd5aedbe8d35a243f6579",
+      "c2": "a4ded737527f57207f37ba9e9c9b44732a0eb70f",
+      "subjects": [
+        "feat: Add MessageTransformationFailureReason to IngestionFailureEvent docs: Document that the `acknowledge_confirmation` and `modify_ack_deadline_confirmation` fields in message `.google.pubsub.v1.StreamingPullResponse` are not guaranteed to be populated",
+        "feat: support the protocol version in StreamingPullRequest"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "a4ded737527f57207f37ba9e9c9b44732a0eb70f",
+      "c2": "e9389923bc69ee18417b47085d09191224638282",
+      "subjects": [
+        "feat: support the protocol version in StreamingPullRequest",
+        "feat: Annotate some resource fields with their corresponding API types feat: Add AwsKinesisFailureReason.ApiViolationReason feat: Add tags to Subscription, Topic, and CreateSnapshotRequest messages for use in CreateSubscription, CreateTopic, and CreateSnapshot requests respectively docs: A comment for field `received_messages` in message `.google.pubsub.v1.StreamingPullResponse` is changed"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "e9389923bc69ee18417b47085d09191224638282",
+      "c2": "d89bb8a1ea054e95e1d1ab9700428d950f40129e",
+      "subjects": [
+        "feat: Annotate some resource fields with their corresponding API types feat: Add AwsKinesisFailureReason.ApiViolationReason feat: Add tags to Subscription, Topic, and CreateSnapshotRequest messages for use in CreateSubscription, CreateTopic, and CreateSnapshot requests respectively docs: A comment for field `received_messages` in message `.google.pubsub.v1.StreamingPullResponse` is changed",
+        "docs: Add the IDENTIFIER field behavior annotation to fields of Cloud Pub/Sub methods that represent a specific identity and need to be sourced with additional care"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 4,
+          "fileConflicts": 4
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "d89bb8a1ea054e95e1d1ab9700428d950f40129e",
+      "c2": "ff251e77243a7acef77f602616f3bf6ec0d3c48f",
+      "subjects": [
+        "docs: Add the IDENTIFIER field behavior annotation to fields of Cloud Pub/Sub methods that represent a specific identity and need to be sourced with additional care",
+        "docs: add tags documentation links to Pub/Sub resource tags fields"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "ff251e77243a7acef77f602616f3bf6ec0d3c48f",
+      "c2": "9fb55c416c90ff9e14f7101d68394eb9fca5918b",
+      "subjects": [
+        "docs: add tags documentation links to Pub/Sub resource tags fields",
+        "feat: Add AIInference MessageTransform type docs: A comment for field `topic` in message `.google.pubsub.v1.Subscription` is updated docs: A comment for field `analytics_hub_subscription_info` in message `.google.pubsub.v1.Subscription` is updated docs: A comment for field `subscription` in message `.google.pubsub.v1.CreateSnapshotRequest` is updated"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "9fb55c416c90ff9e14f7101d68394eb9fca5918b",
+      "c2": "23ec7b6ee94a2fe364cdb5a212949f1cf37f85ad",
+      "subjects": [
+        "feat: Add AIInference MessageTransform type docs: A comment for field `topic` in message `.google.pubsub.v1.Subscription` is updated docs: A comment for field `analytics_hub_subscription_info` in message `.google.pubsub.v1.Subscription` is updated docs: A comment for field `subscription` in message `.google.pubsub.v1.CreateSnapshotRequest` is updated",
+        "feat: Add BigtableConfig type"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": false
+        }
+      }
+    },
+    {
+      "c1": "23ec7b6ee94a2fe364cdb5a212949f1cf37f85ad",
+      "c2": "afb6d4b368b78cfeaf7d1aac0c3fc1564865fc33",
+      "subjects": [
+        "feat: Add BigtableConfig type",
+        "docs: Fix documentation URL AIInference MessageTransform service_account_email field"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "afb6d4b368b78cfeaf7d1aac0c3fc1564865fc33",
+      "c2": "58bc461d695b3254a0ff88cc3541b6dca7e7a95f",
+      "subjects": [
+        "docs: Fix documentation URL AIInference MessageTransform service_account_email field",
+        "feat: Add compiled_proto_schema to Schema for schema imports feat: Add Compression message transform feat: Add Regional Access Boundary (RAB) error states for ingestion sources docs: Update Bigtable comments for subscriptions and resource tags"
+      ],
+      "status": "replayed",
+      "trivial": true,
+      "encodings": {
+        "base64": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    },
+    {
+      "c1": "58bc461d695b3254a0ff88cc3541b6dca7e7a95f",
+      "c2": "667c11bc3cbb1dac66c4375beba1999458100e39",
+      "subjects": [
+        "feat: Add compiled_proto_schema to Schema for schema imports feat: Add Compression message transform feat: Add Regional Access Boundary (RAB) error states for ingestion sources docs: Update Bigtable comments for subscriptions and resource tags",
+        "feat: Add PubsubClientTelemetry proto definition"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": false
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": false
+        }
+      }
+    },
+    {
+      "c1": "667c11bc3cbb1dac66c4375beba1999458100e39",
+      "c2": "a6151f3a9dc16e6bcce137fea69e13107f34bc6f",
+      "subjects": [
+        "feat: Add PubsubClientTelemetry proto definition",
+        "feat: Add `BigtableConfig::ColumnFamilyMapping` type docs: A comment for message `BigtableConfig` is changed"
+      ],
+      "status": "replayed",
+      "trivial": false,
+      "encodings": {
+        "base64": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "a": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        }
+      }
+    }
+  ]
+}
