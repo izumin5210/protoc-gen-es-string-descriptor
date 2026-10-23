@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package example.v1;
+
+import "google/protobuf/descriptor.proto";
+import "google/protobuf/timestamp.proto";
+
+extend google.protobuf.FieldOptions {
+  string redact = 50001;
+}
+
+extend google.protobuf.MessageOptions {
+  repeated int32 tags = 50002;
+}
+
+service KitchenSinkService {
+  rpc Get(KitchenSink) returns (KitchenSink) {
+    option deprecated = true;
+  }
+  rpc Stream(stream KitchenSink) returns (stream KitchenSink);
+}
+
+message KitchenSink {
+  option (tags) = 1;
+  option (tags) = 300;
+
+  message Nested {
+    message Deeper {
+      bytes payload = 1;
+    }
+    Deeper deeper = 1;
+    repeated Deeper many = 2;
+  }
+
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+    KIND_A = 1 [deprecated = true];
+  }
+
+  string name = 1 [(redact) = "\x00\n\"\\ é"];
+  string json_name_override = 2 [json_name = "override"];
+  map<string, Nested> by_key = 3;
+  oneof choice {
+    Kind kind = 4;
+    google.protobuf.Timestamp at = 5;
+  }
+  optional double ratio = 6 [deprecated = true];
+  repeated int64 counts = 7 [packed = true];
+  reserved 100 to 199;
+  reserved "legacy";
+}
