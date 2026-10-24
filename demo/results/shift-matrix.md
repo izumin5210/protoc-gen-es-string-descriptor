@@ -15,8 +15,9 @@ Whole generated `_pb.ts`, compared with the file generated from the merged schem
 | Nested array + index manifest | 7660 | 564 | 0 | 0 | 48 |
 | Nested array + manifest | 7656 | 616 | 0 | 0 | 0 |
 | Nested array + index manifest + number types | 7736 | 536 | 0 | 0 | 0 |
-| Nested array + names | 8208 | 64 | 0 | 0 | 0 |
-| Nested array + names + number types | 8184 | 88 | 0 | 0 | 0 |
+| Nested array + name table + number types | 8184 | 88 | 0 | 0 | 0 |
+| Nested array + names | 8216 | 56 | 0 | 0 | 0 |
+| Nested array + names + number types | 8192 | 80 | 0 | 0 | 0 |
 
 #### same size (4136)
 
@@ -29,8 +30,9 @@ Whole generated `_pb.ts`, compared with the file generated from the merged schem
 | Nested array + index manifest | 3830 | 282 | 0 | 0 | 24 |
 | Nested array + manifest | 3828 | 308 | 0 | 0 | 0 |
 | Nested array + index manifest + number types | 3868 | 268 | 0 | 0 | 0 |
-| Nested array + names | 4104 | 32 | 0 | 0 | 0 |
-| Nested array + names + number types | 4092 | 44 | 0 | 0 | 0 |
+| Nested array + name table + number types | 4092 | 44 | 0 | 0 | 0 |
+| Nested array + names | 4108 | 28 | 0 | 0 | 0 |
+| Nested array + names + number types | 4096 | 40 | 0 | 0 | 0 |
 
 #### different size (4136)
 
@@ -43,20 +45,32 @@ Whole generated `_pb.ts`, compared with the file generated from the merged schem
 | Nested array + index manifest | 3830 | 282 | 0 | 0 | 24 |
 | Nested array + manifest | 3828 | 308 | 0 | 0 | 0 |
 | Nested array + index manifest + number types | 3868 | 268 | 0 | 0 | 0 |
-| Nested array + names | 4104 | 32 | 0 | 0 | 0 |
-| Nested array + names + number types | 4092 | 44 | 0 | 0 | 0 |
+| Nested array + name table + number types | 4092 | 44 | 0 | 0 | 0 |
+| Nested array + names | 4108 | 28 | 0 | 0 | 0 |
+| Nested array + names + number types | 4096 | 40 | 0 | 0 | 0 |
 
 #### Clean but wrong, by kind of edit pair
 
-| pairs | base64 | String literal | String literal + manifest | Nested array | Nested array + index manifest | Nested array + manifest | Nested array + index manifest + number types | Nested array + names | Nested array + names + number types |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| different lists: container (100) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| different lists: generated code (2052) | 0 | 0 | 0 | 36 | 0 | 0 | 0 | 0 | 0 |
-| different lists: mixed (5492) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| same list: container (56) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
-| same list: fields and oneofs (336) | 0 | 6 | 6 | 44 | 44 | 0 | 0 | 0 | 0 |
-| same list: generated code (196) | 0 | 61 | 0 | 112 | 0 | 0 | 0 | 0 | 0 |
-| same list: imports (40) | 0 | 0 | 0 | 4 | 4 | 0 | 0 | 0 | 0 |
+| pairs | base64 | String literal | String literal + manifest | Nested array | Nested array + index manifest | Nested array + manifest | Nested array + index manifest + number types | Nested array + name table + number types | Nested array + names | Nested array + names + number types |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| different lists: container (100) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| different lists: generated code (2052) | 0 | 0 | 0 | 36 | 0 | 0 | 0 | 0 | 0 | 0 |
+| different lists: mixed (5492) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| same list: container (56) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| same list: fields and oneofs (336) | 0 | 6 | 6 | 44 | 44 | 0 | 0 | 0 | 0 | 0 |
+| same list: generated code (196) | 0 | 61 | 0 | 112 | 0 | 0 | 0 | 0 | 0 | 0 |
+| same list: imports (40) | 0 | 0 | 0 | 4 | 4 | 0 | 0 | 0 | 0 | 0 |
+
+#### Nested array + name table + number types → Nested array + names + number types: 8 pairs differ
+
+- same size: ours make public (import), theirs append (oneof): conflict → clean
+- same size: ours make public (import), theirs delete last (oneof): conflict → clean
+- same size: ours append (oneof), theirs make public (import): conflict → clean
+- same size: ours delete last (oneof), theirs make public (import): conflict → clean
+- different size: ours make public (import), theirs append (oneof): conflict → clean
+- different size: ours make public (import), theirs delete last (oneof): conflict → clean
+- different size: ours append (oneof), theirs make public (import): conflict → clean
+- different size: ours delete last (oneof), theirs make public (import): conflict → clean
 
 #### Cost: correct clean merges that a manifest or the number types turn into conflicts
 
@@ -73,4 +87,4 @@ Whole generated `_pb.ts`, compared with the file generated from the merged schem
 #### Clean but wrong with Nested array + names + number types: 0
 
 
-shift-matrix.tsv lists the 230 pairs where some variant is clean but wrong or a manifest changes the outcome.
+shift-matrix.tsv lists the 238 pairs where some variant is clean but wrong, a manifest or the number types change the outcome, or the name table and the inline markers differ.

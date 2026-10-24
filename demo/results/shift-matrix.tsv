@@ -1,231 +1,239 @@
-size	ours list	ours edit	theirs list	theirs edit	base64	a	a-manifest	b	b-index-manifest	b-manifest	b-index-manifest-numbers	b-names	b-names-numbers
-same size	imports	insert front	imports	make public	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean
-same size	imports	delete last	imports	make public	conflict	conflict	conflict	clean	clean	conflict	conflict	clean	clean
-same size	imports	make public	imports	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean
-same size	imports	make public	imports	delete last	conflict	conflict	conflict	clean	clean	conflict	conflict	clean	clean
-same size	messages	insert front	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	insert front	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	insert front	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	insert front	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	insert front	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	insert middle	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	insert middle	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	insert middle	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	insert middle	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	insert middle	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	append	messages	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	append	messages	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	append	messages	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	delete first	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	messages	delete last	nestedMessages	append	conflict	clean	clean	clean	clean	clean	conflict	clean	conflict
-same size	messages	delete last	nestedMessages	delete last	conflict	clean	clean	clean	clean	clean	conflict	clean	conflict
-same size	nestedMessages	insert front	nestedMessages	insert middle	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	insert front	nestedMessages	append	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	insert front	nestedEnums	append	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-same size	nestedMessages	insert front	nestedEnums	delete last	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-same size	nestedMessages	insert middle	nestedMessages	insert front	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	insert middle	nestedMessages	append	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	append	messages	delete last	conflict	clean	clean	clean	clean	clean	conflict	clean	conflict
-same size	nestedMessages	append	nestedMessages	insert front	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	append	nestedMessages	insert middle	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	append	nestedMessages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedMessages	delete first	nestedEnums	append	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-same size	nestedMessages	delete first	nestedEnums	delete last	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-same size	nestedMessages	delete last	messages	delete last	conflict	clean	clean	clean	clean	clean	conflict	clean	conflict
-same size	enums	insert front	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	enums	insert front	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	enums	insert middle	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	enums	insert middle	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	enums	append	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	enums	append	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	enums	append	enums	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	enums	delete first	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	insert front	nestedEnums	insert middle	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	insert front	nestedEnums	append	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	insert middle	nestedEnums	insert front	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	insert middle	nestedEnums	append	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	append	nestedMessages	insert front	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-same size	nestedEnums	append	nestedMessages	delete first	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-same size	nestedEnums	append	nestedEnums	insert front	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	append	nestedEnums	insert middle	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	append	nestedEnums	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedEnums	delete last	nestedMessages	insert front	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-same size	nestedEnums	delete last	nestedMessages	delete first	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-same size	services	insert front	services	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	services	insert front	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	services	insert middle	services	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	services	insert middle	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	services	append	services	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	services	append	services	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	services	append	services	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	services	delete first	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	extensions	insert front	extensions	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	extensions	insert front	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	extensions	insert middle	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	extensions	insert middle	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	extensions	append	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	extensions	append	extensions	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	extensions	append	extensions	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	extensions	delete first	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	insert front	nestedExtensions	insert middle	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	insert front	nestedExtensions	append	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	insert middle	nestedExtensions	insert front	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	insert middle	nestedExtensions	append	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	append	nestedExtensions	insert front	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	append	nestedExtensions	insert middle	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	append	nestedExtensions	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	nestedExtensions	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-same size	fields:f	insert front	fields:f	insert middle	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean
-same size	fields:f	insert front	fields:f	append	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean
-same size	fields:f	insert middle	fields:f	insert front	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean
-same size	fields:f	insert middle	fields:f	append	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean
-same size	fields:f	append	fields:f	insert front	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean
-same size	fields:f	append	fields:f	insert middle	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean
-same size	fields:o	insert front	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	insert middle	fields:o	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	insert middle	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	insert middle	fields:c	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	append	fields:o	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	append	fields:o	delete first	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	append	fields:c	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	append	fields:c	delete first	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	append	fields:c	delete last	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:o	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:c	insert front	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:c	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:c	insert front	fields:c	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean
-same size	fields:c	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:c	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:c	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean
-same size	fields:c	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-same size	fields:c	delete last	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	imports	insert front	imports	make public	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean
-different size	imports	delete last	imports	make public	conflict	conflict	conflict	clean	clean	conflict	conflict	clean	clean
-different size	imports	make public	imports	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean
-different size	imports	make public	imports	delete last	conflict	conflict	conflict	clean	clean	conflict	conflict	clean	clean
-different size	messages	insert front	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	insert front	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	insert front	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	insert front	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	insert front	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	insert middle	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	insert middle	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	insert middle	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	insert middle	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	insert middle	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	append	messages	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	append	messages	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	append	messages	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	delete first	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	messages	delete last	nestedMessages	append	conflict	clean	clean	clean	clean	clean	conflict	clean	conflict
-different size	messages	delete last	nestedMessages	delete last	conflict	clean	clean	clean	clean	clean	conflict	clean	conflict
-different size	nestedMessages	insert front	nestedMessages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	insert front	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	insert front	nestedEnums	append	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-different size	nestedMessages	insert front	nestedEnums	delete last	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-different size	nestedMessages	insert middle	nestedMessages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	insert middle	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	append	messages	delete last	conflict	clean	clean	clean	clean	clean	conflict	clean	conflict
-different size	nestedMessages	append	nestedMessages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	append	nestedMessages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	append	nestedMessages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedMessages	delete first	nestedEnums	append	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-different size	nestedMessages	delete first	nestedEnums	delete last	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-different size	nestedMessages	delete last	messages	delete last	conflict	clean	clean	clean	clean	clean	conflict	clean	conflict
-different size	enums	insert front	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	enums	insert front	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	enums	insert middle	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	enums	insert middle	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	enums	append	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	enums	append	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	enums	append	enums	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	enums	delete first	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	insert front	nestedEnums	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	insert front	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	insert middle	nestedEnums	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	insert middle	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	append	nestedMessages	insert front	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-different size	nestedEnums	append	nestedMessages	delete first	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-different size	nestedEnums	append	nestedEnums	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	append	nestedEnums	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	append	nestedEnums	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedEnums	delete last	nestedMessages	insert front	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-different size	nestedEnums	delete last	nestedMessages	delete first	conflict	conflict	conflict	clean	clean	clean	conflict	clean	conflict
-different size	services	insert front	services	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	services	insert front	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	services	insert middle	services	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	services	insert middle	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	services	append	services	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	services	append	services	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	services	append	services	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	services	delete first	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	extensions	insert front	extensions	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	extensions	insert front	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	extensions	insert middle	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	extensions	insert middle	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	extensions	append	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	extensions	append	extensions	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	extensions	append	extensions	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	extensions	delete first	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	insert front	nestedExtensions	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	insert front	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	insert middle	nestedExtensions	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	insert middle	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	append	nestedExtensions	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	append	nestedExtensions	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	append	nestedExtensions	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	nestedExtensions	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean
-different size	fields:o	insert front	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	insert middle	fields:o	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	insert middle	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	insert middle	fields:c	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	append	fields:o	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	append	fields:o	delete first	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	append	fields:c	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	append	fields:c	delete first	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	append	fields:c	delete last	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:o	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:c	insert front	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:c	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:c	insert front	fields:c	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean
-different size	fields:c	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:c	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:c	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean
-different size	fields:c	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
-different size	fields:c	delete last	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean
+size	ours list	ours edit	theirs list	theirs edit	base64	a	a-manifest	b	b-index-manifest	b-manifest	b-index-manifest-numbers	b-name-table-numbers	b-names	b-names-numbers
+same size	imports	insert front	imports	make public	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean	clean
+same size	imports	delete last	imports	make public	conflict	conflict	conflict	clean	clean	conflict	conflict	clean	clean	clean
+same size	imports	make public	imports	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean	clean
+same size	imports	make public	imports	delete last	conflict	conflict	conflict	clean	clean	conflict	conflict	clean	clean	clean
+same size	imports	make public	fields:c	append	conflict	clean	clean	clean	clean	clean	clean	conflict	clean	clean
+same size	imports	make public	fields:c	delete last	conflict	clean	clean	clean	clean	clean	clean	conflict	clean	clean
+same size	messages	insert front	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	insert front	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	insert front	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	insert front	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	insert front	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	insert middle	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	insert middle	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	insert middle	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	insert middle	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	insert middle	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	append	messages	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	append	messages	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	append	messages	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	delete first	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	messages	delete last	nestedMessages	append	conflict	clean	clean	clean	clean	clean	conflict	conflict	clean	conflict
+same size	messages	delete last	nestedMessages	delete last	conflict	clean	clean	clean	clean	clean	conflict	conflict	clean	conflict
+same size	nestedMessages	insert front	nestedMessages	insert middle	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	insert front	nestedMessages	append	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	insert front	nestedEnums	append	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+same size	nestedMessages	insert front	nestedEnums	delete last	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+same size	nestedMessages	insert middle	nestedMessages	insert front	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	insert middle	nestedMessages	append	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	append	messages	delete last	conflict	clean	clean	clean	clean	clean	conflict	conflict	clean	conflict
+same size	nestedMessages	append	nestedMessages	insert front	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	append	nestedMessages	insert middle	conflict	wrong descriptor	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	append	nestedMessages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedMessages	delete first	nestedEnums	append	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+same size	nestedMessages	delete first	nestedEnums	delete last	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+same size	nestedMessages	delete last	messages	delete last	conflict	clean	clean	clean	clean	clean	conflict	conflict	clean	conflict
+same size	enums	insert front	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	enums	insert front	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	enums	insert middle	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	enums	insert middle	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	enums	append	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	enums	append	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	enums	append	enums	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	enums	delete first	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	insert front	nestedEnums	insert middle	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	insert front	nestedEnums	append	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	insert middle	nestedEnums	insert front	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	insert middle	nestedEnums	append	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	append	nestedMessages	insert front	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+same size	nestedEnums	append	nestedMessages	delete first	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+same size	nestedEnums	append	nestedEnums	insert front	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	append	nestedEnums	insert middle	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	append	nestedEnums	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedEnums	delete last	nestedMessages	insert front	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+same size	nestedEnums	delete last	nestedMessages	delete first	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+same size	services	insert front	services	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	services	insert front	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	services	insert middle	services	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	services	insert middle	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	services	append	services	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	services	append	services	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	services	append	services	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	services	delete first	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	extensions	insert front	extensions	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	extensions	insert front	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	extensions	insert middle	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	extensions	insert middle	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	extensions	append	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	extensions	append	extensions	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	extensions	append	extensions	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	extensions	delete first	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	insert front	nestedExtensions	insert middle	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	insert front	nestedExtensions	append	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	insert middle	nestedExtensions	insert front	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	insert middle	nestedExtensions	append	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	append	nestedExtensions	insert front	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	append	nestedExtensions	insert middle	conflict	error	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	append	nestedExtensions	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	nestedExtensions	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+same size	fields:f	insert front	fields:f	insert middle	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean	clean
+same size	fields:f	insert front	fields:f	append	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean	clean
+same size	fields:f	insert middle	fields:f	insert front	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean	clean
+same size	fields:f	insert middle	fields:f	append	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean	clean
+same size	fields:f	append	fields:f	insert front	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean	clean
+same size	fields:f	append	fields:f	insert middle	conflict	wrong descriptor	wrong descriptor	clean	clean	clean	clean	clean	clean	clean
+same size	fields:o	insert front	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	insert middle	fields:o	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	insert middle	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	insert middle	fields:c	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	append	fields:o	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	append	fields:o	delete first	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	append	fields:c	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	append	fields:c	delete first	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	append	fields:c	delete last	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:o	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:c	insert front	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:c	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:c	insert front	fields:c	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean	clean
+same size	fields:c	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:c	append	imports	make public	conflict	clean	clean	clean	clean	clean	clean	conflict	clean	clean
+same size	fields:c	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:c	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean	clean
+same size	fields:c	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+same size	fields:c	delete last	imports	make public	conflict	clean	clean	clean	clean	clean	clean	conflict	clean	clean
+same size	fields:c	delete last	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	imports	insert front	imports	make public	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean	clean
+different size	imports	delete last	imports	make public	conflict	conflict	conflict	clean	clean	conflict	conflict	clean	clean	clean
+different size	imports	make public	imports	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean	clean
+different size	imports	make public	imports	delete last	conflict	conflict	conflict	clean	clean	conflict	conflict	clean	clean	clean
+different size	imports	make public	fields:c	append	conflict	clean	clean	clean	clean	clean	clean	conflict	clean	clean
+different size	imports	make public	fields:c	delete last	conflict	clean	clean	clean	clean	clean	clean	conflict	clean	clean
+different size	messages	insert front	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	insert front	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	insert front	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	insert front	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	insert front	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	insert middle	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	insert middle	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	insert middle	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	insert middle	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	insert middle	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	append	messages	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	append	messages	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	append	messages	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	delete first	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	messages	delete last	nestedMessages	append	conflict	clean	clean	clean	clean	clean	conflict	conflict	clean	conflict
+different size	messages	delete last	nestedMessages	delete last	conflict	clean	clean	clean	clean	clean	conflict	conflict	clean	conflict
+different size	nestedMessages	insert front	nestedMessages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	insert front	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	insert front	nestedEnums	append	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+different size	nestedMessages	insert front	nestedEnums	delete last	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+different size	nestedMessages	insert middle	nestedMessages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	insert middle	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	append	messages	delete last	conflict	clean	clean	clean	clean	clean	conflict	conflict	clean	conflict
+different size	nestedMessages	append	nestedMessages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	append	nestedMessages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	append	nestedMessages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedMessages	delete first	nestedEnums	append	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+different size	nestedMessages	delete first	nestedEnums	delete last	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+different size	nestedMessages	delete last	messages	delete last	conflict	clean	clean	clean	clean	clean	conflict	conflict	clean	conflict
+different size	enums	insert front	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	enums	insert front	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	enums	insert middle	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	enums	insert middle	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	enums	append	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	enums	append	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	enums	append	enums	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	enums	delete first	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	insert front	nestedEnums	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	insert front	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	insert middle	nestedEnums	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	insert middle	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	append	nestedMessages	insert front	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+different size	nestedEnums	append	nestedMessages	delete first	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+different size	nestedEnums	append	nestedEnums	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	append	nestedEnums	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	append	nestedEnums	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedEnums	delete last	nestedMessages	insert front	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+different size	nestedEnums	delete last	nestedMessages	delete first	conflict	conflict	conflict	clean	clean	clean	conflict	conflict	clean	conflict
+different size	services	insert front	services	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	services	insert front	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	services	insert middle	services	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	services	insert middle	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	services	append	services	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	services	append	services	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	services	append	services	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	services	delete first	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	extensions	insert front	extensions	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	extensions	insert front	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	extensions	insert middle	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	extensions	insert middle	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	extensions	append	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	extensions	append	extensions	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	extensions	append	extensions	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	extensions	delete first	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	insert front	nestedExtensions	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	insert front	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	insert middle	nestedExtensions	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	insert middle	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	append	nestedExtensions	insert front	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	append	nestedExtensions	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	append	nestedExtensions	delete first	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	nestedExtensions	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict	conflict	clean	clean	clean
+different size	fields:o	insert front	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	insert middle	fields:o	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	insert middle	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	insert middle	fields:c	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	append	fields:o	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	append	fields:o	delete first	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	append	fields:c	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	append	fields:c	delete first	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	append	fields:c	delete last	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:o	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:c	insert front	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:c	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:c	insert front	fields:c	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean	clean
+different size	fields:c	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:c	append	imports	make public	conflict	clean	clean	clean	clean	clean	clean	conflict	clean	clean
+different size	fields:c	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:c	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	conflict	clean	clean	clean
+different size	fields:c	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
+different size	fields:c	delete last	imports	make public	conflict	clean	clean	clean	clean	clean	clean	conflict	clean	clean
+different size	fields:c	delete last	fields:o	append	conflict	conflict	conflict	wrong descriptor	wrong descriptor	conflict	clean	clean	clean	clean
