@@ -24,8 +24,9 @@ This package is a **protoc-gen-es wrapper** that post-processes generated code s
 protocGenEs.run(request)        # Run original protoc-gen-es
   → response.file[].content     # Get generated code (.ts, .js, .d.ts)
   → transformFileContent()      # Post-process each file
-    1. Decode fileDesc("base64", [deps]); move oneof_index, public/weak
-       dependencies and synthetic oneofs into a name table (names.ts)
+    1. Decode fileDesc("base64", [deps]); replace oneof_index and public/weak
+       dependencies with name markers (unknown fields) and drop synthetic
+       oneofs (names.ts)
     2. Render the descriptor as a nested array (tree.ts) and check that it
        restores to the original bytes
     3. Rewrite messageDesc(file, 0, 1) & co to names
@@ -38,7 +39,7 @@ protocGenEs.run(request)        # Run original protoc-gen-es
 - **`plugin.ts`** — Wraps `protocGenEs`, maps each output file to its source proto for number types (none for `.js`)
 - **`transform.ts`** — Rewrites one generated file
 - **`tree.ts`** — `toTree` / `renderTree` (bytes → nested array literal) and `fromTree` (nested array → bytes with `BinaryWriter`)
-- **`names.ts`** — `extractNames` / `restoreNames`: the name table and synthetic oneofs, shared by plugin and runtime
+- **`names.ts`** — `embedNames` / `restoreNames`: the name markers and synthetic oneofs, shared by plugin and runtime
 - **`escape.ts`** — `escapeBytesAsJSString`: bytes→JS string literal escaping (like Go's `%q`); `jsStringToBytes`: reverse
 - **`runtime.ts`** — `fileDesc` (nested array, or the raw byte string of 0.1) and name-or-path `messageDesc` / `enumDesc` / `serviceDesc` / `extDesc`. Exported from the package root
 - **`bin.ts`** — CLI entry point using `runNodeJs(plugin)` for protoc integration

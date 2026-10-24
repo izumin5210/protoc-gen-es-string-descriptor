@@ -51,7 +51,6 @@ export const file_simple: GenFile = /*@__PURE__*/
  ]],
  "b\x06proto3",
 ], [
-], [
 ]);
 export type _numbers_testdata_User = {
   1: "name";
@@ -67,12 +66,11 @@ export const UserSchema: GenMessage<User> = /*@__PURE__*/
 
 The plugin runs protoc-gen-es and rewrites its output.
 
-1. **The descriptor is a nested array without length prefixes.** The schema of `descriptor.proto` tells which fields are sub-messages (messages, fields, enums, options, …). Each becomes `[tag, [children]]`; everything else stays raw wire bytes in a string literal. Each string or bytes field is on its own line, consecutive numbers share one, every level is indented by one space, and every element has a trailing comma. The runtime recomputes the lengths.
+1. **The descriptor is a nested array without length prefixes.** The schema of `descriptor.proto` tells which fields are sub-messages (messages, fields, enums, options, …). Each becomes `[tag, [children]]`; everything else stays raw wire bytes in a string literal. Each string, bytes or other length-delimited field is on its own line, consecutive numbers share one, every level is indented by one space, and every element has a trailing comma. The runtime recomputes the lengths.
 2. **Elements are referred to by name.**
    - `messageDesc(file, "Outer.Inner")` instead of `messageDesc(file, 0, 0)`, and likewise for `enumDesc`, `serviceDesc` and `extDesc`. Names are relative to the package. Map entries are not counted, as in protobuf-es.
    - Synthetic oneofs of proto3 `optional` fields are left out and re-created on load, named the way protoc names them.
-   - Members of real oneofs are listed as `["oneof", "Message.field", "oneofName"]` instead of `oneof_index`.
-   - Public and weak imports are listed as `["public", file_dep]` / `["weak", file_dep]` instead of `public_dependency` / `weak_dependency`.
+   - A member of a real oneof carries the oneof's name instead of `oneof_index`, and the file carries the file names of public and weak imports instead of `public_dependency` / `weak_dependency`. These markers are written into the descriptor itself, as unknown fields; see below.
 3. **Imports are listed one per line.** With names in place, their order no longer matters.
 4. **A type keyed by number is emitted per message and enum**, e.g. `_numbers_testdata_User` above. If a merge produces two fields or enum values with the same number, TypeScript reports `TS2300: Duplicate identifier '3'`. The types are emitted in `.ts` and `.d.ts` files, but not in `.js` files, and they are exported so that `noUnusedLocals` accepts them. Enums with `allow_alias` are left out.
 
@@ -80,15 +78,32 @@ The plugin runs protoc-gen-es and rewrites its output.
 
 The plugin restores every descriptor it emits the way the runtime will, and fails if the result differs from what protoc-gen-es embeds.
 
-### `fileDesc(tree, imports, names)`
+### `fileDesc(tree, imports)`
 
-All three arguments are always emitted, each spread over lines, so that adding the first import or the first name entry does not touch the same line as other changes.
+`fileDesc` takes the same two arguments as in codegenv2. Both are always emitted, each spread over lines, so that adding the first import does not touch the same line as other changes.
 
 | Argument | Contents |
 | --- | --- |
-| `tree` | The `FileDescriptorProto` as protoc-gen-es embeds it, without length prefixes, synthetic oneofs, `oneof_index`, `public_dependency` and `weak_dependency`. Each string is wire bytes, one character per byte; each `[tag, [children]]` pair is a sub-message. |
+| `tree` | The `FileDescriptorProto` as protoc-gen-es embeds it, without length prefixes and synthetic oneofs, and with markers instead of `oneof_index`, `public_dependency` and `weak_dependency`. Each string is wire bytes, one character per byte; each `[tag, [children]]` pair is a sub-message. |
 | `imports` | The imported files, in import order, as in protoc-gen-es output. |
-| `names` | `["oneof", "Message.field", "oneofName"]` for each member of a real oneof, and `["public", file]` / `["weak", file]` for public and weak imports. |
+
+The markers are length-delimited unknown fields whose payload is a UTF-8 name. `FieldDescriptorProto` and `FileDescriptorProto` declare no extension ranges, so these field numbers never carry real data.
+
+| Field number | On | Payload | Replaces |
+| --- | --- | --- | --- |
+| 536870911 | `FieldDescriptorProto` | Name of the field's real oneof | `oneof_index` |
+| 536870910 | `FileDescriptorProto` | File name of a public import, e.g. `dep/b.proto` | `public_dependency` |
+| 536870909 | `FileDescriptorProto` | File name of a weak import | `weak_dependency` |
+
+A marker is serialized with the element it belongs to, so it gets a line next to it:
+
+```ts
+  ["\x12", [
+   "\n\x06scroll",
+   "\x18\x05 \x01(\t",
+   "\xfa\xff\xff\xff\x0f\x04kind",
+  ]],
+```
 
 ## Installation
 
@@ -131,7 +146,7 @@ All `protoc-gen-es` options (e.g. `target=ts`, `target=js+dts`, `import_extensio
 
 Generated code imports the runtime from the package root, so install `protoc-gen-es-string-descriptor` as a dependency, not only as a devDependency.
 
-- `fileDesc(tree, imports, names)` rebuilds the descriptor bytes with `BinaryWriter`, restores the name table and the synthetic oneofs, and hydrates the file as `fileDesc` from `@bufbuild/protobuf/codegenv2` does. It also accepts the raw byte string that earlier versions of this plugin generated.
+- `fileDesc(tree, imports)` rebuilds the descriptor bytes with `BinaryWriter`, resolves the markers against the imports and the oneofs of each message, removes them, re-creates the synthetic oneofs, and hydrates the file as `fileDesc` from `@bufbuild/protobuf/codegenv2` does. It throws if a marker does not resolve. It also accepts the raw byte string that earlier versions of this plugin generated.
 - `messageDesc`, `enumDesc`, `serviceDesc` and `extDesc` take a name relative to the package, or the path that their codegenv2 counterparts take. Names are looked up in a map that is built per file on first use; paths are passed to codegenv2. They return the same generic types (`GenMessage`, `GenEnum`, `GenService`, `GenExtension`) as codegenv2.
 
 For a 105 KB descriptor with 300 messages, hydrating takes about 2–3 ms (roughly 20%) longer than codegenv2's `fileDesc` with base64, almost all of it for rebuilding the bytes. Looking up all 300 messages by name, including building the map, takes about 0.2 ms, compared with 0.1 ms by path. Run `pnpm bench` to reproduce.
