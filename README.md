@@ -58,22 +58,33 @@ To make such merges conflict, the plugin emits a manifest right after the `fileD
 
 ```ts
 // Index manifest: every descriptor that the generated code looks up by
-// position (messageDesc, enumDesc, serviceDesc, extDesc), one per line as
-// "<path>: <kind> <full name>". If two branches renumber the same list,
-// these lines conflict instead of merging into silently wrong indices.
+// position (messageDesc, enumDesc, serviceDesc, extDesc), one block per
+// list and one line per element as "<path>: <kind> <full name>". If two
+// branches renumber the same list, these lines conflict instead of
+// merging into silently wrong indices.
+// top-level messages:
 // 0: message example.v1.User
 // 1: message example.v1.Profile
-// 1.0: message example.v1.Profile.Link
-// 1.0: enum example.v1.Profile.Visibility
 // 2: message example.v1.Team
+// messages nested in example.v1.Profile:
+// 1.0: message example.v1.Profile.Link
+// enums nested in example.v1.Profile:
+// 1.0: enum example.v1.Profile.Visibility
+// services:
 // 0: service example.v1.TeamService
 ```
 
 How to read and maintain it:
 
 - **Path**: the arguments that the generated `messageDesc` / `enumDesc` / `serviceDesc` / `extDesc` call receives after the file, joined by `.`. These are computed by `pathInFileDesc` from `@bufbuild/protobuf/codegenv2`, the same function protoc-gen-es uses. Map entry messages are not generated, so they are not listed and don't take up an index.
-- **Order**: the order in which protoc-gen-es generates the elements. Each message is followed by its nested messages, enums and extensions, then come the top-level enums, services and extensions.
-- **Why it conflicts**: inserting or removing an element renumbers every later element of the same list. When both branches change the same list, both rewrite the lines at its end, so `git merge` reports a conflict. When only one branch changes the list, the merge stays clean and that branch's numbers are correct.
+- **Blocks**: there is one block per list that generated code indexes into, and each list is numbered independently. A block starts with a header that names the list but not its position. Blocks come in this order:
+  1. top-level messages;
+  2. for every message, in declaration order, its nested messages, nested enums and nested extensions;
+  3. top-level enums, services and top-level extensions.
+
+  Empty lists have no block.
+- **Why it conflicts**: inserting or removing an element renumbers every later element of the same list. Moving a message also changes the path of everything nested in it. When both branches change the same list, both rewrite the lines at its end, so `git merge` reports a conflict. When only one branch changes the list, the merge stays clean and that branch's numbers are correct.
+- **Why the headers**: git also reports a conflict when two changes merely touch adjacent lines. The header between two blocks keeps edits at the end of one list and at the start of the next from conflicting with each other.
 - **Opting out**: pass `index_manifest=false`, e.g. `opt: target=ts,index_manifest=false`.
 
 The manifest makes these mistakes visible at merge time; it does not prove a merge correct. Keep a CI check that regenerates the code and fails on any diff, e.g. `buf generate && git diff --exit-code`.

@@ -28,7 +28,7 @@ protocGenEs.run(request)        # Run original protoc-gen-es
     3. Replace single-line base64 with multi-line raw byte string concatenation
     4. Rewrite import { fileDesc } to point to our runtime package
   → insertIndexManifest()       # Unless index_manifest=false
-    List nestedTypes(file) with pathInFileDesc() after the fileDesc statement
+    One headed block per indexed list (pathInFileDesc() paths) after the fileDesc statement
 ```
 
 ### Key modules
