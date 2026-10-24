@@ -1,0 +1,304 @@
+[
+  {
+    "scenario": "01-index-shift",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "wrong",
+      "a-manifest": "conflict",
+      "b": "wrong",
+      "b-index-manifest": "conflict",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "conflict",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "02-both-add-enums",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "wrong",
+      "a-manifest": "conflict",
+      "b": "wrong",
+      "b-index-manifest": "conflict",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "conflict",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "03-optional-adjacent",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "wrong",
+      "b-index-manifest": "wrong",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "correct",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "04-optional-separated",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "wrong",
+      "b-index-manifest": "wrong",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "correct",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "05-optional-both-append",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "conflict",
+      "b-index-manifest": "conflict",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "correct",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "06-same-size",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "wrong",
+      "a-manifest": "wrong",
+      "b": "correct",
+      "b-index-manifest": "correct",
+      "b-manifest": "correct",
+      "b-index-manifest-numbers": "correct",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "07-dup-field-number",
+    "invalid": "message example.v1.User: fields bio and age both have the same tag 3",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "wrong",
+      "b-index-manifest": "wrong",
+      "b-manifest": "wrong",
+      "b-index-manifest-numbers": "error",
+      "b-names": "wrong",
+      "b-names-numbers": "error"
+    },
+    "details": {
+      "b-index-manifest-numbers": "TS2300: Duplicate identifier '3'.",
+      "b-names-numbers": "TS2300: Duplicate identifier '3'."
+    }
+  },
+  {
+    "scenario": "08-dup-enum-number",
+    "invalid": "enum example.v1.Role: values ROLE_GUEST and ROLE_OWNER both have the same numeric value 2; use allow_alias option if intentional",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "wrong",
+      "b-index-manifest": "wrong",
+      "b-manifest": "wrong",
+      "b-index-manifest-numbers": "error",
+      "b-names": "wrong",
+      "b-names-numbers": "error"
+    },
+    "details": {
+      "b-index-manifest-numbers": "TS2300: Duplicate identifier '2'.",
+      "b-names-numbers": "TS2300: Duplicate identifier '2'."
+    }
+  },
+  {
+    "scenario": "09-dup-field-name",
+    "invalid": "symbol \"example.v1.User.bio\" already defined at m.proto:6:10",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "error",
+      "b-index-manifest": "error",
+      "b-manifest": "error",
+      "b-index-manifest-numbers": "error",
+      "b-names": "error",
+      "b-names-numbers": "error"
+    },
+    "details": {
+      "b": "TS2300: Duplicate identifier 'bio'.",
+      "b-index-manifest": "TS2300: Duplicate identifier 'bio'.",
+      "b-manifest": "TS2300: Duplicate identifier 'bio'.",
+      "b-index-manifest-numbers": "TS2300: Duplicate identifier 'bio'.",
+      "b-names": "TS2300: Duplicate identifier 'bio'.",
+      "b-names-numbers": "TS2300: Duplicate identifier 'bio'."
+    }
+  },
+  {
+    "scenario": "10-rename-vs-ref",
+    "invalid": "field example.v1.Team.owner: unknown type User",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "error",
+      "a-manifest": "error",
+      "b": "error",
+      "b-index-manifest": "error",
+      "b-manifest": "error",
+      "b-index-manifest-numbers": "error",
+      "b-names": "error",
+      "b-names-numbers": "error"
+    },
+    "details": {
+      "a": "TS2304: Cannot find name 'User'.",
+      "a-manifest": "TS2304: Cannot find name 'User'.",
+      "b": "TS2304: Cannot find name 'User'.",
+      "b-index-manifest": "TS2304: Cannot find name 'User'.",
+      "b-manifest": "TS2304: Cannot find name 'User'.",
+      "b-index-manifest-numbers": "TS2304: Cannot find name 'User'.",
+      "b-names": "TS2304: Cannot find name 'User'.",
+      "b-names-numbers": "TS2304: Cannot find name 'User'."
+    }
+  },
+  {
+    "scenario": "11-dup-message-name",
+    "invalid": "symbol \"example.v1.Org\" already defined at m.proto:4:9",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "error",
+      "a-manifest": "conflict",
+      "b": "error",
+      "b-index-manifest": "conflict",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "conflict",
+      "b-names": "error",
+      "b-names-numbers": "error"
+    },
+    "details": {
+      "a": "TS2300: Duplicate identifier 'Org'.",
+      "b": "TS2300: Duplicate identifier 'Org'.",
+      "b-names": "TS2300: Duplicate identifier 'Org'.",
+      "b-names-numbers": "TS2300: Duplicate identifier '_numbers_example_v1_Org'."
+    }
+  },
+  {
+    "scenario": "12-public-import",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "wrong",
+      "b-index-manifest": "wrong",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "conflict",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "13-real-oneof-shift",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "wrong",
+      "b-index-manifest": "wrong",
+      "b-manifest": "wrong",
+      "b-index-manifest-numbers": "conflict",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "14-fields-separated",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "correct",
+      "b-index-manifest": "correct",
+      "b-manifest": "correct",
+      "b-index-manifest-numbers": "correct",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "15-rpcs-separated",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "correct",
+      "b-index-manifest": "correct",
+      "b-manifest": "correct",
+      "b-index-manifest-numbers": "correct",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "16-nested-different-parents",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "correct",
+      "b-index-manifest": "conflict",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "conflict",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "17-map-vs-nested",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "conflict",
+      "b-index-manifest": "conflict",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "conflict",
+      "b-names": "conflict",
+      "b-names-numbers": "conflict"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "18-imports-separated",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "conflict",
+      "b-index-manifest": "conflict",
+      "b-manifest": "conflict",
+      "b-index-manifest-numbers": "correct",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  }
+]

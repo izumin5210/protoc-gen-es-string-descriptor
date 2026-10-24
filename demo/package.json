@@ -6,6 +6,7 @@
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "conflict-demo": "tsx scripts/conflict-demo.ts",
+    "scenarios": "tsx scripts/scenarios.ts",
     "replay": "tsx scripts/replay.ts",
     "shift-matrix": "tsx scripts/shift-matrix.ts",
     "bundle-size": "tsx scripts/bundle-size.ts",

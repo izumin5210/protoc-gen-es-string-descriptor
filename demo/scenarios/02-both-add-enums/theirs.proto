@@ -1,0 +1,14 @@
+syntax = "proto3";
+package example.v1;
+
+enum Role {
+  ROLE_UNSPECIFIED = 0;
+}
+
+enum Plan {
+  PLAN_UNSPECIFIED = 0;
+}
+
+enum Region {
+  REGION_UNSPECIFIED = 0;
+}
