@@ -12,7 +12,8 @@ import {
   oneofMemberManifest,
   withManifestHeader,
 } from "./manifest.js";
-import { transformFileContentToNames } from "./names/transform.js";
+import { transformFileContentInline } from "./names/inline-transform.js";
+import { transformFileContentToNames } from "./names/table-transform.js";
 import { transformFileContentToTree } from "./option-b/transform.js";
 
 export const ENCODINGS = ["base64", "a", "b"] as const;
@@ -27,8 +28,11 @@ export type Encoding = (typeof ENCODINGS)[number];
  * - "index manifest + number types" leaves synthetic oneofs out, lists the
  *   members of real oneofs, numbers the imports when some are public or
  *   weak, and adds a type keyed by number per message and enum.
- * - "names" refers to elements, oneofs and public / weak imports by name
- *   and puts one import per line; "+ number types" is the proposal.
+ * - "names" refers to elements by name, marks real oneof members and public
+ *   / weak imports by name inline in the descriptor, and puts one import
+ *   per line; "+ number types" is the proposal.
+ * - "name table + number types" is an earlier form of the proposal: oneof
+ *   members and public / weak imports in a third `fileDesc` argument.
  */
 export const VARIANTS = [
   "base64",
@@ -38,6 +42,7 @@ export const VARIANTS = [
   "b-index-manifest",
   "b-manifest",
   "b-index-manifest-numbers",
+  "b-name-table-numbers",
   "b-names",
   "b-names-numbers",
 ] as const;
@@ -51,16 +56,20 @@ export const VARIANT_LABELS: Record<Variant, string> = {
   "b-index-manifest": "Nested array + index manifest",
   "b-manifest": "Nested array + manifest",
   "b-index-manifest-numbers": "Nested array + index manifest + number types",
+  "b-name-table-numbers": "Nested array + name table + number types",
   "b-names": "Nested array + names",
   "b-names-numbers": "Nested array + names + number types",
 };
 
 /** How the first argument of `fileDesc` is decoded. */
-export type DescriptorFormat = Encoding | "b-stripped" | "names";
+export type DescriptorFormat = Encoding | "b-stripped" | "names" | "name-table";
 
 export function formatOf(variant: Variant): DescriptorFormat {
   if (variant.startsWith("b-names")) {
     return "names";
+  }
+  if (variant === "b-name-table-numbers") {
+    return "name-table";
   }
   if (variant === "b-index-manifest-numbers") {
     return "b-stripped";
@@ -70,6 +79,7 @@ export function formatOf(variant: Variant): DescriptorFormat {
 
 export const OPTION_B_RUNTIME = "option-b-runtime";
 export const NAMES_RUNTIME = "names-runtime";
+export const NAME_TABLE_RUNTIME = "name-table-runtime";
 
 export interface GeneratedFile {
   name: string;
@@ -117,6 +127,7 @@ export function generateFromProtos(
         `${name.replace(/\.proto$/, "")}_pb`,
     );
     const desc = source === undefined ? undefined : registry.getFile(source);
+    const dependency = desc?.proto.dependency ?? [];
     const manifest = (descriptorIndices: boolean) =>
       desc === undefined ? [] : indexManifest(desc, { descriptorIndices });
     return {
@@ -143,14 +154,19 @@ export function generateFromProtos(
                   ]),
           },
         ),
-        "b-names": transformFileContentToNames(file.content, NAMES_RUNTIME, {
-          names: true,
+        "b-name-table-numbers": transformFileContentToNames(
+          file.content,
+          NAME_TABLE_RUNTIME,
+          { names: true, numberTypes: true },
+        ),
+        "b-names": transformFileContentInline(file.content, NAMES_RUNTIME, {
+          dependency,
           numberTypes: false,
         }),
-        "b-names-numbers": transformFileContentToNames(
+        "b-names-numbers": transformFileContentInline(
           file.content,
           NAMES_RUNTIME,
-          { names: true, numberTypes: true },
+          { dependency, numberTypes: true },
         ),
       },
     };

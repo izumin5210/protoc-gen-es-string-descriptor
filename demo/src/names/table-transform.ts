@@ -7,7 +7,7 @@ import {
   FileDescriptorProtoSchema,
 } from "@bufbuild/protobuf/wkt";
 import { renderTree, toTree } from "../option-b/encode.js";
-import { extractNames, stripSyntheticOneofs } from "./restore.js";
+import { extractNames, stripSyntheticOneofs } from "./table.js";
 
 export interface NamesOptions {
   /**
@@ -112,7 +112,7 @@ export function transformFileContentToNames(
  * passes to `messageDesc` & co. Map entries are not counted, as in
  * protobuf-es's registry.
  */
-function elementNames(file: FileDescriptorProto) {
+export function elementNames(file: FileDescriptorProto) {
   const names = {
     messageDesc: new Map<string, string>(),
     enumDesc: new Map<string, string>(),
@@ -191,7 +191,7 @@ function numberTypes(file: FileDescriptorProto): string[] {
 }
 
 /** Import `names` from `module` instead of `@bufbuild/protobuf/codegenv2`. */
-function moveImports(content: string, names: string[], module: string) {
+export function moveImports(content: string, names: string[], module: string) {
   return content.replace(CODEGEN_IMPORT_RE, (original, list: string) => {
     const all = list
       .split(",")

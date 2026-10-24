@@ -50,7 +50,7 @@ function strip(code: string): string {
     }
   }
   return out
-    .replace(/^type _numbers_\w+ = \{\n[\s\S]*?^\};\n/gm, "")
+    .replace(/^(export )?type _numbers_[\w$]+ = \{\n[\s\S]*?^\};\n/gm, "")
     .split("\n")
     .map((line) => line.trim())
     .join("");

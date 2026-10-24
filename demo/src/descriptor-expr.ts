@@ -1,8 +1,17 @@
 import { fromBinary, toBinary } from "@bufbuild/protobuf";
 import { base64Decode } from "@bufbuild/protobuf/wire";
-import { FileDescriptorProtoSchema } from "@bufbuild/protobuf/wkt";
+import {
+  type FileDescriptorProto,
+  FileDescriptorProtoSchema,
+} from "@bufbuild/protobuf/wkt";
 import type { DescriptorFormat } from "./generate.js";
-import { type NameEntry, restoreNames } from "./names/restore.js";
+import {
+  PUBLIC_DEPENDENCY,
+  peekMarkers,
+  restoreInlineNames,
+  WEAK_DEPENDENCY,
+} from "./names/inline.js";
+import { type NameEntry, restoreNames } from "./names/table.js";
 import { type DescTree, fromTree } from "./option-b/runtime.js";
 
 /**
@@ -37,7 +46,13 @@ export function decodeDescriptorExpr(
       return bytes;
     }
     const file = fromBinary(FileDescriptorProtoSchema, bytes);
-    restoreNames(file, names, imports);
+    if (encoding === "names") {
+      file.dependency = importNames(file, imports);
+      restoreInlineNames(file);
+      file.dependency = [];
+    } else {
+      restoreNames(file, names, imports);
+    }
     return toBinary(FileDescriptorProtoSchema, file);
   }
   if (encoding === "base64") {
@@ -48,6 +63,23 @@ export function decodeDescriptorExpr(
     bytes[i] = arg.charCodeAt(i);
   }
   return bytes;
+}
+
+/**
+ * `dependency` as the runtime would set it from the imports, as far as the
+ * import markers need it. Without evaluating the code, only the identifiers
+ * are known; protoc-gen-es names the export of `a/b.proto` `file_a_b`.
+ */
+function importNames(file: FileDescriptorProto, imports: string[]): string[] {
+  const byIdentifier = new Map(
+    [PUBLIC_DEPENDENCY, WEAK_DEPENDENCY]
+      .flatMap((no) => peekMarkers(file, no))
+      .map((name) => [
+        `file_${name.replace(/\.proto$/, "").replace(/[^a-zA-Z0-9_]+/g, "_")}`,
+        name,
+      ]),
+  );
+  return imports.map((id) => byIdentifier.get(id) ?? id);
 }
 
 /** The first argument of a `fileDesc(...)` call as the runtime receives it. */

@@ -7,7 +7,6 @@ import {
   type DescService,
   fromBinary,
   type Message,
-  toBinary,
 } from "@bufbuild/protobuf";
 import {
   enumDesc as enumDescByIndex,
@@ -22,22 +21,22 @@ import {
 } from "@bufbuild/protobuf/codegenv2";
 import { nestedTypes } from "@bufbuild/protobuf/reflect";
 import { FileDescriptorProtoSchema } from "@bufbuild/protobuf/wkt";
-import { hydrate } from "../hydrate.js";
+import { hydrateProto } from "../hydrate.js";
 import { type DescTree, fromTree } from "../option-b/runtime.js";
-import { type NameEntry, restoreNames } from "./restore.js";
+import { restoreInlineNames } from "./inline.js";
 
 /**
- * Like the Option B runtime, but the descriptor refers to oneofs and public
- * or weak imports by name, and synthetic oneofs are left out.
+ * Hydrate a file descriptor, like `fileDesc` from
+ * `@bufbuild/protobuf/codegenv2`, from a nested array in which real oneof
+ * members and public / weak imports are marked by name and synthetic oneofs
+ * are left out. Mirrors `src/runtime.ts` of the plugin's names encoding.
  */
-export function fileDesc(
-  tree: DescTree,
-  imports: DescFile[] = [],
-  names: readonly NameEntry<DescFile>[] = [],
-): DescFile {
-  const file = fromBinary(FileDescriptorProtoSchema, fromTree(tree));
-  restoreNames(file, names, imports);
-  return hydrate(toBinary(FileDescriptorProtoSchema, file), imports);
+export function fileDesc(tree: DescTree, imports: DescFile[] = []): DescFile {
+  return hydrateProto(
+    fromBinary(FileDescriptorProtoSchema, fromTree(tree)),
+    imports,
+    restoreInlineNames,
+  );
 }
 
 type AnyDesc = DescMessage | DescEnum | DescService | DescExtension;

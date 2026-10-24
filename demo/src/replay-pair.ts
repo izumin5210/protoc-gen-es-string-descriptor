@@ -248,7 +248,7 @@ function judge(
 function codeOutsideDescriptor(content: string): string {
   return content
     .replace(extractDescriptorExpr(content), "")
-    .replace(/^type _numbers_\w+ = \{\n[\s\S]*?^\};\n/gm, "")
+    .replace(/^(export )?type _numbers_[\w$]+ = \{\n[\s\S]*?^\};\n/gm, "")
     .replace(/^\/\/.*\n/gm, "");
 }
 

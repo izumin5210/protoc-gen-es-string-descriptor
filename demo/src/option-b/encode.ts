@@ -14,6 +14,15 @@ export interface TreeNode {
   children: TreeItem[];
 }
 
+export interface TreeOptions {
+  /**
+   * Put every length-delimited unknown field on a line of its own, as the
+   * names encoding does for its markers (see `../names/inline.ts`), so that
+   * a marker's line does not depend on the scalars before it.
+   */
+  unknownOnOwnLine?: boolean;
+}
+
 /**
  * Split serialized descriptor bytes into a length-less tree.
  *
@@ -24,6 +33,7 @@ export interface TreeNode {
 export function toTree(
   bytes: Uint8Array,
   schema: DescMessage = FileDescriptorProtoSchema,
+  { unknownOnOwnLine = false }: TreeOptions = {},
 ): TreeItem[] {
   const items: TreeItem[] = [];
   const reader = new BinaryReader(bytes);
@@ -58,13 +68,20 @@ export function toTree(
           ? bytes.subarray(start, reader.pos)
           : {
               tag: bytes.subarray(start, tagEnd),
-              children: toTree(bytes.subarray(bodyStart, reader.pos), message),
+              children: toTree(bytes.subarray(bodyStart, reader.pos), message, {
+                unknownOnOwnLine,
+              }),
             },
       );
     } else {
       reader.skip(wireType, fieldNo);
       const raw = bytes.subarray(start, reader.pos);
-      run = run === undefined ? raw : concat(run, raw);
+      if (unknownOnOwnLine && wireType === WireType.LengthDelimited) {
+        flush();
+        items.push(raw);
+      } else {
+        run = run === undefined ? raw : concat(run, raw);
+      }
     }
   }
   flush();

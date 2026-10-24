@@ -1,6 +1,10 @@
 import { join } from "node:path";
 import ts from "typescript";
-import { NAMES_RUNTIME, OPTION_B_RUNTIME } from "./generate.js";
+import {
+  NAME_TABLE_RUNTIME,
+  NAMES_RUNTIME,
+  OPTION_B_RUNTIME,
+} from "./generate.js";
 
 const srcDir = import.meta.dirname;
 /** Where the checked file pretends to live, so that packages resolve. */
@@ -20,6 +24,7 @@ const options: ts.CompilerOptions = {
     ],
     [OPTION_B_RUNTIME]: [join(srcDir, "option-b", "runtime.ts")],
     [NAMES_RUNTIME]: [join(srcDir, "names", "runtime.ts")],
+    [NAME_TABLE_RUNTIME]: [join(srcDir, "names", "table-runtime.ts")],
   },
 };
 

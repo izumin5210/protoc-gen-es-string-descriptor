@@ -37,6 +37,7 @@ import {
   messageDesc,
   serviceDesc,
 } from "../names/runtime.js";
+import { fileDesc as fileDescWithTable } from "../names/table-runtime.js";
 import { assertRoundTrip } from "../replay-pair.js";
 import { bufBuild } from "../tools.js";
 import { typeErrors } from "../typecheck.js";
@@ -89,18 +90,22 @@ describe("names variants", () => {
     assertRoundTrip(file.content);
   });
 
-  it("refer to oneofs and public imports by name", () => {
+  it("mark oneof members and public imports by name, each on its own line", () => {
     const content = generateNames().content["b-names"];
     const { imports, names } = parseFileDescCall(
       extractDescriptorExpr(content),
       "names",
     );
     expect(imports).toEqual(["file_example_v1_dep_a", "file_example_v1_dep_b"]);
-    expect(names).toEqual([
-      ["oneof", "Collide.x", "X_foo"],
-      ["oneof", "Collide.click", "kind"],
-      ["oneof", "Collide.a", "kind"],
-      ["public", "file_example_v1_dep_b"],
+    expect(names).toEqual([]);
+    const markers = content
+      .split("\n")
+      .filter((line) => line.includes("\\xff\\xff\\xff\\x0f"));
+    expect(markers).toEqual([
+      '   "\\xfa\\xff\\xff\\xff\\x0f\\x05X_foo",',
+      '   "\\xfa\\xff\\xff\\xff\\x0f\\x04kind",',
+      '   "\\xfa\\xff\\xff\\xff\\x0f\\x04kind",',
+      ' "\\xf2\\xff\\xff\\xff\\x0f\\x16example/v1/dep/b.proto",',
     ]);
     expect(content).toContain(
       'messageDesc(file_example_v1_names, "Collide.Inner")',
@@ -110,12 +115,25 @@ describe("names variants", () => {
     );
   });
 
+  it("keep the name table variant for comparison", () => {
+    const { names } = parseFileDescCall(
+      extractDescriptorExpr(generateNames().content["b-name-table-numbers"]),
+      "name-table",
+    );
+    expect(names).toEqual([
+      ["oneof", "Collide.x", "X_foo"],
+      ["oneof", "Collide.click", "kind"],
+      ["oneof", "Collide.a", "kind"],
+      ["public", "file_example_v1_dep_b"],
+    ]);
+  });
+
   it("emit number types except for map entries and allow_alias enums", () => {
     const content = generateNames().content["b-names-numbers"];
-    expect(content.match(/^type _numbers_\w+/gm)).toEqual([
-      "type _numbers_example_v1_Collide",
-      "type _numbers_example_v1_Collide_Inner",
-      "type _numbers_example_v1_Level",
+    expect(content.match(/^export type _numbers_\w+/gm)).toEqual([
+      "export type _numbers_example_v1_Collide",
+      "export type _numbers_example_v1_Collide_Inner",
+      "export type _numbers_example_v1_Level",
     ]);
     expect(generateNames().content["b-names"]).not.toContain("_numbers_");
   });
@@ -147,17 +165,23 @@ describe("names runtime", () => {
     imports,
   }) => {
     const [file] = generate(bufBuild(testdataDir, path), [path]);
-    const call = (variant: "b-names" | "b-index-manifest-numbers") => {
+    const call = (
+      variant: "b-names" | "b-name-table-numbers" | "b-index-manifest-numbers",
+    ) => {
       const { arg, names } = parseFileDescCall(
         extractDescriptorExpr(file.content[variant]),
-        "names",
+        variant === "b-name-table-numbers" ? "name-table" : "names",
       );
+      const tree = arg as Parameters<typeof fileDesc>[0];
+      if (variant !== "b-name-table-numbers") {
+        return fileDesc(tree, imports);
+      }
       const byId = (id: string) =>
         imports.find(
           (f) => `file_${f.name.replace(/[^a-zA-Z0-9_]+/g, "_")}` === id,
         )!;
-      return fileDesc(
-        arg as Parameters<typeof fileDesc>[0],
+      return fileDescWithTable(
+        tree,
         imports,
         names.map((e) => (e[0] === "oneof" ? e : [e[0], byId(e[1])])),
       );
@@ -169,6 +193,7 @@ describe("names runtime", () => {
     const bytes = (f: typeof original) =>
       toBinary(wkt.FileDescriptorProtoSchema, f.proto);
     expect(bytes(call("b-names"))).toEqual(bytes(original));
+    expect(bytes(call("b-name-table-numbers"))).toEqual(bytes(original));
     expect(bytes(call("b-index-manifest-numbers"))).toEqual(bytes(original));
   });
 

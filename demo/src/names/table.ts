@@ -68,7 +68,7 @@ export function restoreNames<T>(
  * fields, the way protoc names them: after the real oneofs, in field order,
  * `_` + field name, prefixed with `X` while that collides.
  */
-function restoreSyntheticOneofs(message: DescriptorProto): void {
+export function restoreSyntheticOneofs(message: DescriptorProto): void {
   const taken = new Set([
     ...message.field.map((f) => f.name),
     ...message.oneofDecl.map((o) => o.name),
