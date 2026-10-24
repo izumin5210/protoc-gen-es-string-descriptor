@@ -23,6 +23,7 @@ interface TestCase {
 const testCases: TestCase[] = [
   { name: "simple", protoFiles: ["simple.proto"] },
   { name: "nested", protoFiles: ["nested.proto"] },
+  { name: "manifest", protoFiles: ["manifest.proto"] },
 ];
 
 function buildCodeGeneratorRequest(protoFiles: string[]) {

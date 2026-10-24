@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package testdata.manifest;
+
+import "google/protobuf/descriptor.proto";
+
+service Greeter {
+  rpc Greet(Person) returns (Person);
+}
+
+service Admin {
+  rpc Ping(Person) returns (Person);
+}
+
+message Person {
+  // The map entry message comes first in nested_type but is not generated,
+  // so Address must still be at index 0.
+  map<string, Address> addresses = 1;
+
+  message Address {
+    string city = 1;
+
+    enum Kind {
+      KIND_UNSPECIFIED = 0;
+    }
+
+    extend google.protobuf.FieldOptions {
+      string label = 50002;
+    }
+  }
+
+  enum Role {
+    ROLE_UNSPECIFIED = 0;
+  }
+
+  extend google.protobuf.MessageOptions {
+    bool audited = 50003;
+  }
+}
+
+enum Level {
+  LEVEL_UNSPECIFIED = 0;
+}
+
+extend google.protobuf.FileOptions {
+  string owner = 50001;
+}

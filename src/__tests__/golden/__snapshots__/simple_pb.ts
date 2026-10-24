@@ -23,6 +23,13 @@ export const file_simple: GenFile = /*@__PURE__*/
     "\rSTATUS_ACTIVE\x10\x01\x12\x13\n" +
     "\x0fSTATUS_INACTIVE\x10\x02b\x06proto3\xd2\xf6\x03\x04\b\x00\x18\x00");
 
+// Index manifest: every descriptor that the generated code looks up by
+// position (messageDesc, enumDesc, serviceDesc, extDesc), one per line as
+// "<path>: <kind> <full name>". If two branches renumber the same list,
+// these lines conflict instead of merging into silently wrong indices.
+// 0: message testdata.User
+// 0: enum testdata.Status
+
 /**
  * @generated from message testdata.User
  */

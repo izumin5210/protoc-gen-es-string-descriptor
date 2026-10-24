@@ -22,6 +22,13 @@ export const file_nested: GenFile = /*@__PURE__*/
     "\x05value\x18\x01 \x01(\t\x12\r\n" +
     "\x05count\x18\x02 \x01(\x05b\x06proto3\xd2\xf6\x03\x04\b\x00\x18\x00");
 
+// Index manifest: every descriptor that the generated code looks up by
+// position (messageDesc, enumDesc, serviceDesc, extDesc), one per line as
+// "<path>: <kind> <full name>". If two branches renumber the same list,
+// these lines conflict instead of merging into silently wrong indices.
+// 0: message testdata.Outer
+// 0.0: message testdata.Outer.Inner
+
 /**
  * @generated from message testdata.Outer
  */
