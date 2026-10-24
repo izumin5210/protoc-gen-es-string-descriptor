@@ -163,6 +163,10 @@ For a 105 KB descriptor with 300 messages, hydrating takes about 3–4 ms (rough
 - If one branch adds a map field and another adds a nested message to the same message, the generated code still conflicts: map entries are nested messages in the descriptor, so the two additions end up next to each other.
 - Fewer conflicts do not make generated code a source of truth. CI should still regenerate the code and check that it matches.
 
+## Design decisions
+
+Why the encoding looks the way it does, and which alternatives were rejected: [ADR 0001: Merge-safe embedding of file descriptors](docs/adr/0001-merge-safe-descriptor-embedding.md).
+
 ## License
 
 [MIT](LICENSE)
