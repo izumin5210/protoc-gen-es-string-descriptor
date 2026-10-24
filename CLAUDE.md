@@ -27,11 +27,14 @@ protocGenEs.run(request)        # Run original protoc-gen-es
     2. base64Decode → splitAfter(bytes, 0x0a) → escapeBytesAsJSString per chunk
     3. Replace single-line base64 with multi-line raw byte string concatenation
     4. Rewrite import { fileDesc } to point to our runtime package
+  → insertIndexManifest()       # Unless index_manifest=false
+    List nestedTypes(file) with pathInFileDesc() after the fileDesc statement
 ```
 
 ### Key modules
 
-- **`plugin.ts`** — Wraps `protocGenEs` from `@bufbuild/protoc-gen-es`, applies `transformFileContent` to each response file
+- **`plugin.ts`** — Wraps `protocGenEs` from `@bufbuild/protoc-gen-es`, applies `transformFileContent` to each response file, strips its own `index_manifest` option before delegating, and maps output files (`<name>_pb.{ts,js,d.ts}`) back to their proto file for the manifest
+- **`manifest.ts`** — `indexManifest(file)`: one comment line per element referenced by position (`messageDesc(file, 1, 0)` etc.), so that concurrent renumbering conflicts at merge time; `insertIndexManifest`: places it after the `fileDesc` statement
 - **`transform.ts`** — Orchestrates the base64→raw-string conversion and import rewriting
 - **`split.ts`** — `splitAfter(bytes, separator)`: equivalent to Go's `bytes.SplitAfter`
 - **`escape.ts`** — `escapeBytesAsJSString`: bytes→JS string literal escaping (like Go's `%q`); `jsStringToBytes`: reverse

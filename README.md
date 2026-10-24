@@ -43,6 +43,41 @@ The serialized `FileDescriptorProto` bytes are split at `0x0a` boundaries. In pr
 
 At runtime, a drop-in `fileDesc` replacement (exported from `protoc-gen-es-string-descriptor/runtime`) converts the raw byte strings back into the original binary and delegates to `@bufbuild/protobuf/codegenv1`.
 
+## Index manifest
+
+Generated code looks up every message, enum, service and extension by its position in the file descriptor:
+
+```ts
+export const TeamSchema: GenMessage<Team> = /*@__PURE__*/
+  messageDesc(file_example, 1);
+```
+
+Once the descriptor merges cleanly, these positions can merge into wrong values without any conflict. For example, one branch inserts `Profile` before `Team`, so `TeamSchema` becomes `messageDesc(file_example, 2)`. Another branch appends `Invoice`, also at `messageDesc(file_example, 2)`. git merges both changes, and `InvoiceSchema` then silently points at `Team`.
+
+To make such merges conflict, the plugin emits a manifest right after the `fileDesc(...)` statement, with one line per element that the generated code looks up by position:
+
+```ts
+// Index manifest: every descriptor that the generated code looks up by
+// position (messageDesc, enumDesc, serviceDesc, extDesc), one per line as
+// "<path>: <kind> <full name>". If two branches renumber the same list,
+// these lines conflict instead of merging into silently wrong indices.
+// 0: message example.v1.User
+// 1: message example.v1.Profile
+// 1.0: message example.v1.Profile.Link
+// 1.0: enum example.v1.Profile.Visibility
+// 2: message example.v1.Team
+// 0: service example.v1.TeamService
+```
+
+How to read and maintain it:
+
+- **Path**: the arguments that the generated `messageDesc` / `enumDesc` / `serviceDesc` / `extDesc` call receives after the file, joined by `.`. These are computed by `pathInFileDesc` from `@bufbuild/protobuf/codegenv2`, the same function protoc-gen-es uses. Map entry messages are not generated, so they are not listed and don't take up an index.
+- **Order**: the order in which protoc-gen-es generates the elements. Each message is followed by its nested messages, enums and extensions, then come the top-level enums, services and extensions.
+- **Why it conflicts**: inserting or removing an element renumbers every later element of the same list. When both branches change the same list, both rewrite the lines at its end, so `git merge` reports a conflict. When only one branch changes the list, the merge stays clean and that branch's numbers are correct.
+- **Opting out**: pass `index_manifest=false`, e.g. `opt: target=ts,index_manifest=false`.
+
+The manifest makes these mistakes visible at merge time; it does not prove a merge correct. Keep a CI check that regenerates the code and fails on any diff, e.g. `buf generate && git diff --exit-code`.
+
 ## Installation
 
 ```bash
@@ -76,7 +111,7 @@ protoc \
   your.proto
 ```
 
-All `protoc-gen-es` options (e.g. `target=ts`, `target=js+dts`, `import_extension=none`) are passed through as-is.
+All `protoc-gen-es` options (e.g. `target=ts`, `target=js+dts`, `import_extension=none`) are passed through as-is. The only option of this plugin, `index_manifest=false`, turns off the [index manifest](#index-manifest).
 
 ## Runtime
 
