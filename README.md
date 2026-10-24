@@ -146,10 +146,10 @@ All `protoc-gen-es` options (e.g. `target=ts`, `target=js+dts`, `import_extensio
 
 Generated code imports the runtime from the package root, so install `protoc-gen-es-string-descriptor` as a dependency, not only as a devDependency.
 
-- `fileDesc(tree, imports)` rebuilds the descriptor bytes with `BinaryWriter`, resolves the markers against the imports and the oneofs of each message, removes them, re-creates the synthetic oneofs, and hydrates the file as `fileDesc` from `@bufbuild/protobuf/codegenv2` does. It throws if a marker does not resolve. It also accepts the raw byte string that earlier versions of this plugin generated.
+- `fileDesc(tree, imports)` rebuilds the descriptor bytes from the nested array. Along the way, it turns the markers back into `oneof_index`, `public_dependency` and `weak_dependency`, resolving them against the oneofs of each message and the file names of `imports`, and re-creates the synthetic oneofs. The result is byte for byte what protoc-gen-es embeds, and is passed to `fileDesc` from `@bufbuild/protobuf/codegenv2` unchanged, so json names, imports and the registry are handled by protobuf-es itself. It throws if a marker does not resolve. It also accepts the raw byte string that earlier versions of this plugin generated.
 - `messageDesc`, `enumDesc`, `serviceDesc` and `extDesc` take a name relative to the package, or the path that their codegenv2 counterparts take. Names are looked up in a map that is built per file on first use; paths are passed to codegenv2. They return the same generic types (`GenMessage`, `GenEnum`, `GenService`, `GenExtension`) as codegenv2.
 
-For a 105 KB descriptor with 300 messages, hydrating takes about 2–3 ms (roughly 20%) longer than codegenv2's `fileDesc` with base64, almost all of it for rebuilding the bytes. Looking up all 300 messages by name, including building the map, takes about 0.2 ms, compared with 0.1 ms by path. Run `pnpm bench` to reproduce.
+For a 105 KB descriptor with 300 messages, hydrating takes about 3–4 ms (roughly 20–30%) longer than codegenv2's `fileDesc` with base64: about 2.3 ms to rebuild the bytes, and about 1.3 ms to encode them to base64 for codegenv2, which decodes them again. Looking up all 300 messages by name, including building the map, takes about 0.2 ms, compared with 0.1 ms by path. Run `pnpm bench` to reproduce.
 
 ## Migrating from 0.1
 

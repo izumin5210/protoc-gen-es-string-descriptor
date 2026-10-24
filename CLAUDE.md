@@ -38,15 +38,16 @@ protocGenEs.run(request)        # Run original protoc-gen-es
 
 - **`plugin.ts`** — Wraps `protocGenEs`, maps each output file to its source proto for number types (none for `.js`)
 - **`transform.ts`** — Rewrites one generated file
-- **`tree.ts`** — `toTree` / `renderTree` (bytes → nested array literal) and `fromTree` (nested array → bytes with `BinaryWriter`)
-- **`names.ts`** — `embedNames` / `restoreNames`: the name markers and synthetic oneofs, shared by plugin and runtime
+- **`tree.ts`** — `toTree` / `renderTree` (bytes → nested array literal) and `fromTree` (nested array → the bytes protoc-gen-es embeds, restoring the name markers and synthetic oneofs at the byte level)
+- **`names.ts`** — `embedNames`: replaces positions with name markers and drops synthetic oneofs (plugin only)
+- **`markers.ts`** — Field numbers of the name markers, shared by `names.ts` and `tree.ts`
 - **`escape.ts`** — `escapeBytesAsJSString`: bytes→JS string literal escaping (like Go's `%q`); `jsStringToBytes`: reverse
-- **`runtime.ts`** — `fileDesc` (nested array, or the raw byte string of 0.1) and name-or-path `messageDesc` / `enumDesc` / `serviceDesc` / `extDesc`. Exported from the package root
+- **`runtime.ts`** — `fileDesc` (nested array, or the raw byte string of 0.1), which rebuilds the bytes with `fromTree` and hydrates them with codegenv2's `fileDesc`; and name-or-path `messageDesc` / `enumDesc` / `serviceDesc` / `extDesc`. Exported from the package root
 - **`bin.ts`** — CLI entry point using `runNodeJs(plugin)` for protoc integration
 
 ## Testing
 
-- **Unit tests** (`tree.test.ts`, `names.test.ts`, `escape.test.ts`, `transform.test.ts`, `runtime.test.ts`): Direct function testing with no mocks.
+- **Unit tests** (`tree.test.ts`, `restore.test.ts`, `names.test.ts`, `escape.test.ts`, `transform.test.ts`, `runtime.test.ts`): Direct function testing with no mocks.
 - **Golden tests** (`golden/golden.test.ts`): `buf build` the protos in `golden/testdata` → run the plugin → compare with `toMatchFileSnapshot()` in `__snapshots__/`. Also evaluates the generated code next to protoc-gen-es output and compares every exported descriptor. Update snapshots with `pnpm vitest run -u`.
 - **Merge tests** (`merge/merge.test.ts`): `git merge-file` generated code of the scenarios in `merge/scenarios/` and compare with regenerated code, or expect a `tsc` error when the merged `.proto` is invalid.
 - **Number types** (`number-types.test.ts`): Type-check generated code with the `tsc` command line.
