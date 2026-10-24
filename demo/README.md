@@ -17,22 +17,33 @@ package.
 - Both are smaller than base64 after minification and compression: the
   descriptor portion of a real esbuild bundle is **−33% (A) / −37% (B) gzip**.
   The cost is a few milliseconds of hydration time.
-- A clean textual merge is not always a correct one. Generated code also
-  contains **positional references** that two branches can shift in the same
-  way: `messageDesc(file, 12)` and, inside the descriptor, the `oneof_index`
-  of proto3 `optional` fields. Such merges succeed silently but produce wrong
-  code (4 of 46 with B, 2 with A). So a merge-friendly encoding cuts down
-  manual conflict resolution, but CI still has to regenerate and compare.
+- A clean textual merge is not always a correct one. The rest of the
+  generated code looks descriptors up **by position**, as in
+  `messageDesc(file, 12)`. Two branches can shift those positions the same
+  way, and git then silently merges them into wrong code: 2 of 46 pairs
+  with A, 3 with B.
+- An **index manifest** fixes that. It is a comment block that lists every
+  positional reference, one line each, and makes such merges conflict
+  instead. In the replay it turned all 5 of those cases into conflicts and
+  did not add a conflict to any correct merge. A synthetic matrix of 1,124
+  edit pairs over every indexed list found no clean-but-wrong merge with it.
+- The only clean-but-wrong merge left is inside B's descriptor: the
+  `oneof_index` of proto3 `optional` fields. protobuf-es ignores that index at
+  runtime. CI should still regenerate and compare.
 
-| encoding | descriptor: clean and correct | descriptor: clean but wrong | whole `_pb.ts` conflicts | whole `_pb.ts` clean but wrong | bundle gzip (descriptors) | cold hydrate (median) |
+| variant | descriptor: clean and correct | whole `_pb.ts`: clean and correct | whole `_pb.ts`: conflict | whole `_pb.ts`: clean but wrong | bundle gzip (descriptors) | cold hydrate (median) |
 | --- | --- | --- | --- | --- | --- | --- |
 | base64 (protoc-gen-es) | 0 / 46 | 0 | 46 | 0 | 115.7 KiB | 97.7 ms |
-| Option A | 33 / 46 | 0 | 15 | 2 | 77.9 KiB | 106.8 ms (94.5 ms direct) |
-| Option B | 44 / 46 | 1 | 7 | 4 | 72.9 KiB | 109.3 ms (97.6 ms direct) |
+| Option A | 33 / 46 | 29 | 15 | 2 | 77.9 KiB | 106.8 ms (94.5 ms direct) |
+| Option A + manifest | 33 / 46 | 29 | 17 | **0** | ≈ A | ≈ A |
+| Option B | 44 / 46 | 35 | 7 | 4 | 72.9 KiB | 109.3 ms (97.6 ms direct) |
+| Option B + manifest | 44 / 46 | 35 | 10 | **1** (`oneof_index`) | ≈ B | ≈ B |
 
 The sections below explain each number. Everything uses public data only:
 [googleapis/googleapis](https://github.com/googleapis/googleapis) at
 `4792db7b61d0` plus the small hand-written protos in `conflict-demo/`.
+Sizes and load times were not re-measured for the manifest variants: they
+add comments only, which minifiers drop.
 
 ## The three encodings
 
@@ -94,16 +105,17 @@ for A).
 
 ## Readable demo: what conflicts and why
 
-`conflict-demo/` has one base proto and four pairs of edits. Every pair
-merges cleanly as `.proto`. The script generates all three encodings for
-base, ours and theirs, then runs `git merge-file`.
+`conflict-demo/` has five pairs of edits. Every pair merges cleanly as
+`.proto`. The script generates every variant for base, ours and theirs, then
+runs `git merge-file` on the `fileDesc(…)` expression and on the whole file.
 
-| scenario | base64 | Option A | Option B |
-| --- | --- | --- | --- |
-| same service, different RPCs added | conflict | conflict | clean |
-| same message, different fields added | conflict | conflict | clean |
-| message inserted right before a message the other side changed | conflict | conflict | clean |
-| control: different messages changed | conflict | clean | clean |
+| scenario | `fileDesc(…)`: base64 | A | B | whole `_pb.ts`: A | B | A + manifest | B + manifest |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| same service, different RPCs added | conflict | conflict | clean | conflict | clean | conflict | clean |
+| same message, different fields added | conflict | conflict | clean | conflict | clean | conflict | clean |
+| message inserted right before a message the other side changed | conflict | conflict | clean | conflict | clean | conflict | clean |
+| control: different messages changed | conflict | clean | clean | clean | clean | clean | clean |
+| one side inserts `Profile` before `Team`, the other appends `Invoice` | conflict | clean | clean | **clean but wrong** | **clean but wrong** | conflict | conflict |
 
 Every clean merge decodes to the descriptor built from the merged `.proto`.
 The Option A conflicts are all length prefixes:
@@ -146,6 +158,29 @@ With Option B, each side's change is confined to its own lines:
   ]],
 ```
 
+In the last scenario both descriptors merge correctly, but the rest of the
+file does not. `InvoiceSchema` is `messageDesc(file, 2)` on theirs, and it
+stays 2 although ours moved `Team` to 2:
+
+```diff
+# merged without the manifest (- expected, + merged)
+ export const InvoiceSchema: GenMessage<Invoice> = /*@__PURE__*/
+-  messageDesc(file_example_v1_library, 3);
++  messageDesc(file_example_v1_library, 2);
+```
+
+With the manifest, the same merge conflicts:
+
+```js
+<<<<<<< ours
+// 1: message example.v1.Profile
+// 2: message example.v1.Team
+=======
+// 1: message example.v1.Team
+// 2: message example.v1.Invoice
+>>>>>>> theirs
+```
+
 All hunks and diffs: [`results/conflict-demo.md`](results/conflict-demo.md).
 
 ## Replay on googleapis history
@@ -162,32 +197,33 @@ commit pairs (C1, C2) touching each file:
    C2 already rebased cleanly onto C1^.
 3. `buf build --exclude-source-info` each side. All four sides use C2's
    imports, so only the replayed file differs between them.
-4. Run protoc-gen-es, derive A and B, and merge two things with
-   `git merge-file`: the `fileDesc(…)` expression alone, and the whole
-   generated `_pb.ts`.
+4. Run protoc-gen-es, derive A and B with and without the index manifest,
+   and merge two things with `git merge-file`: the `fileDesc(…)` expression
+   alone, and the whole generated `_pb.ts`.
 5. For every clean merge, decode the result and compare it with the
    descriptor built from the merged `.proto`. For the whole file, compare it
    with the file generated from the merged `.proto`.
 
 **Results.** Of 115 pairs, 30 did not rebase and 85 were replayed. In 39 of
 those, one side did not change the descriptor (e.g. a comment-only commit),
-and every encoding merges trivially. The other 46 pairs:
+and every variant merges trivially. The other 46 pairs:
 
-| file | encoding | clean | conflict | clean but wrong | whole `_pb.ts`: conflict | whole `_pb.ts`: clean but wrong |
+| variant | `fileDesc(…)`: clean | conflict | clean but wrong | whole `_pb.ts`: clean | conflict | clean but wrong |
 | --- | --- | --- | --- | --- | --- | --- |
-| cluster_service.proto | base64 | 0 | 17 | 0 | 17 | 0 |
-| | Option A | 15 | 2 | 0 | 3 | 0 |
-| | Option B | 16 | 0 | 1 | 2 | 1 |
-| pubsub.proto | base64 | 0 | 15 | 0 | 15 | 0 |
-| | Option A | 10 | 5 | 0 | 6 | 2 |
-| | Option B | 14 | 1 | 0 | 2 | 3 |
-| cloud_deploy.proto | base64 | 0 | 14 | 0 | 14 | 0 |
-| | Option A | 8 | 6 | 0 | 6 | 0 |
-| | Option B | 14 | 0 | 0 | 3 | 0 |
-| **total** | base64 | 0 | 46 | 0 | 46 | 0 |
-| | Option A | 33 | 13 | 0 | 15 | 2 |
-| | Option B | 44 | 1 | 1 | 7 | 4 |
+| base64 | 0 | 46 | 0 | 0 | 46 | 0 |
+| Option A | 33 | 13 | 0 | 29 | 15 | 2 |
+| Option A + manifest | 33 | 13 | 0 | 29 | 17 | 0 |
+| Option B | 44 | 1 | 1 | 35 | 7 | 4 |
+| Option B + manifest | 44 | 1 | 1 | 35 | 10 | 1 |
 
+What the manifest changed in the whole-file merges:
+
+| | correct clean merge → conflict (cost) | wrong clean merge → conflict | still clean but wrong |
+| --- | --- | --- | --- |
+| Option A | 0 | 2 | 0 |
+| Option B | 0 | 3 | 1 (`oneof_index`, inside the descriptor) |
+
+Per-file tables: [`results/replay/summary.md`](results/replay/summary.md).
 Per-pair records with commit SHAs: [`results/replay/`](results/replay/).
 
 **The cases Option B does not handle:**
@@ -210,8 +246,84 @@ Per-pair records with commit SHAs: [`results/replay/`](results/replay/).
   - When both insert before the same index, both rewrite `N` to `N + 1`.
     Git accepts identical changes, and the merged file silently points at the
     wrong message (correct: `N + 2`).
-  - This is independent of the descriptor encoding, so a proposal has to
-    address it too, e.g. by referring to elements by name.
+  - This is independent of the descriptor encoding. The index manifest below
+    turns these cases into conflicts.
+
+The `oneof_index` case is harmless in protobuf-es: in `@bufbuild/protobuf`
+2.11.0, `findOneof` in `dist/esm/registry.js` (lines 780–790) is the only
+reader of `oneof_index`. It returns before using the index when
+`proto3_optional` is set (line 784), and field presence comes from
+`proto3_optional` alone (line 804). Other readers of the embedded
+`FileDescriptorProto`, e.g. gRPC server reflection, would still see an
+invalid descriptor.
+
+## Index manifest: making index shifts conflict
+
+The manifest is a comment block right after the `fileDesc(…)` statement. It
+has one block per list that generated code indexes into, and one line per
+element with the same path that protoc-gen-es passes to the call
+(`pathInFileDesc` from `@bufbuild/protobuf/codegenv2`):
+
+```ts
+// Index manifest: every descriptor that the generated code looks up by
+// position (messageDesc, enumDesc, serviceDesc, extDesc), one block per
+// list and one line per element as "<path>: <kind> <full name>". If two
+// branches renumber the same list, these lines conflict instead of
+// merging into silently wrong indices.
+// top-level messages:
+// 0: message example.v1.User
+// 1: message example.v1.Profile
+// 2: message example.v1.Team
+// messages nested in example.v1.Profile:
+// 1.0: message example.v1.Profile.Link
+// services:
+// 0: service example.v1.TeamService
+```
+
+- **Why it conflicts.** Inserting or removing an element renumbers every
+  later element of the same list, and moving a message renumbers the paths of
+  everything nested in it. When both sides do that to the same list, both
+  rewrite the end of its block, so git cannot merge them.
+- **Why the header lines.** git also conflicts on changes that merely touch
+  adjacent lines. Without them, a flat list cost 42 (A) and 66 (B) correct
+  merges in the matrix below, all at the boundary between two independent
+  lists, e.g. the last message and the first enum. With them, it cost 0.
+
+The demo's [`src/manifest.ts`](src/manifest.ts) mirrors the wrapper feature
+that emits the manifest.
+
+**Synthetic matrix.** [`scripts/shift-matrix.ts`](scripts/shift-matrix.ts)
+builds a schema with 3 elements in each of the 7 lists that generated code
+indexes into: top-level and nested messages, enums and extensions, and
+services. Each side applies one of 5 edits to one list: insert at the front,
+in the middle or at the end; delete the first or the last element. Of the
+1,225 ordered pairs, 101 conflict as `.proto` and are excluded. The whole
+generated `_pb.ts` is compared with the file generated from the merged
+schema.
+
+| pairs | variant | clean | conflict | clean but wrong |
+| --- | --- | --- | --- | --- |
+| same list (98) | Option A | 0 | 72 | 26 |
+| | Option B | 0 | 42 | 56 |
+| | Option A + manifest | 0 | 98 | **0** |
+| | Option B + manifest | 0 | 98 | **0** |
+| different lists (1,026) | Option A | 766 | 260 | 0 |
+| | Option B | 916 | 92 | 18 |
+| | Option A + manifest | 766 | 260 | **0** |
+| | Option B + manifest | 916 | 110 | **0** |
+
+- Every edit pair on the same list needs a fix: no variant merges any of
+  them correctly. The manifest makes all 98 conflict, and A and B without it
+  merge 26 and 56 of them clean but wrong.
+- The 18 different-list cases where B is wrong are nested ones. One side
+  moves the parent message, e.g. inserts a message before it; the other
+  appends to the parent's nested messages, enums or extensions. The appended
+  call keeps the parent's old index. The manifest catches all 18 (the parent's
+  move rewrites every nested path), and A conflicts on them anyway because
+  of length prefixes.
+- The manifest adds no conflict to any correct clean merge.
+
+Details: [`results/shift-matrix.md`](results/shift-matrix.md), per pair: [`results/shift-matrix.tsv`](results/shift-matrix.tsv).
 
 ## Bundle size with real bundlers
 
@@ -293,6 +405,11 @@ Converting the literals of all 137 files into bytes, warm (tinybench, mean):
 - Whole-file "clean but wrong" is an exact text comparison with the file
   regenerated from the merged `.proto`. Every case found was a positional
   index, but the check would also flag harmless differences.
+- The synthetic matrix covers single edits per side on lists of 3 elements.
+  It does not cover a side that changes several lists at once, or renames and
+  moves. The manifest's guarantee rests on git conflicting on overlapping or
+  adjacent changes, which holds for `git merge-file` defaults but is not
+  promised by every merge tool.
 - Bundle sizes come from one API package. The descriptor share of a real
   application's bundle depends on how much else it ships.
 - Load times are from one shared Linux VM. Browsers and other engines were
@@ -304,9 +421,10 @@ Converting the literals of all 137 files into bytes, warm (tinybench, mean):
 
 ```sh
 pnpm install
-pnpm --filter demo test           # Option B round trips and runtime checks
+pnpm --filter demo test           # Option B round trips, runtime and manifest checks
 pnpm --filter demo conflict-demo  # results/conflict-demo.md
 pnpm --filter demo replay         # results/replay/ (clones googleapis, ~7 min)
+pnpm --filter demo shift-matrix   # results/shift-matrix.{md,tsv} (~1.5 min)
 pnpm --filter demo bundle-size    # results/bundle-size.{md,json}
 pnpm --filter demo load-bench     # results/load-bench.{md,json}
 ```
