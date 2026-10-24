@@ -2,7 +2,10 @@
  * Replay consecutive commit pairs of frequently edited googleapis files as if
  * they had been made concurrently, and merge the generated descriptors.
  *
- * Usage: pnpm --filter demo replay [pairs per file, default 40]
+ * Usage: pnpm --filter demo replay [set, default "default"] [pairs per file, default 40]
+ *
+ * Sets: "default" (results/replay/) and "aiplatform"
+ * (results/replay-aiplatform/).
  */
 import { createHash } from "node:crypto";
 import { mkdirSync, rmSync, writeFileSync } from "node:fs";
@@ -25,21 +28,38 @@ import {
   materialize,
   showFile,
 } from "../src/googleapis.js";
+import { protodescAvailable } from "../src/protodesc.js";
 import { type MergeOutcome, replayPair } from "../src/replay-pair.js";
 import { bufBuild, mergeFile } from "../src/tools.js";
 
-const TARGETS = [
-  "google/container/v1/cluster_service.proto",
-  "google/pubsub/v1/pubsub.proto",
-  "google/cloud/deploy/v1/cloud_deploy.proto",
-];
-const PAIRS = Number(process.argv[2] ?? 40);
-const resultsDir = join(import.meta.dirname, "..", "results", "replay");
+const SETS: Record<string, { dir: string; targets: string[] }> = {
+  default: {
+    dir: "replay",
+    targets: [
+      "google/container/v1/cluster_service.proto",
+      "google/pubsub/v1/pubsub.proto",
+      "google/cloud/deploy/v1/cloud_deploy.proto",
+    ],
+  },
+  aiplatform: {
+    dir: "replay-aiplatform",
+    targets: [
+      "google/cloud/aiplatform/v1/prediction_service.proto",
+      "google/cloud/aiplatform/v1/content.proto",
+      "google/cloud/aiplatform/v1/tool.proto",
+    ],
+  },
+};
+const SET = SETS[process.argv[2] ?? "default"];
+if (SET === undefined) {
+  throw new Error(`unknown set ${process.argv[2]}`);
+}
+const PAIRS = Number(process.argv[3] ?? 40);
+const resultsDir = join(import.meta.dirname, "..", "results", SET.dir);
 
 type PairRecord = {
   c1: string;
   c2: string;
-  subjects: [string, string];
 } & (
   | { status: "rebase-conflict" | "semantic-conflict" | "no-base" }
   | { status: "build-failure"; error: string }
@@ -80,10 +100,7 @@ function embedded(image: Uint8Array, path: string): Uint8Array {
 }
 
 function replay(path: string, c1: string, c2: string): PairRecord {
-  const subjects = [c1, c2].map((c) =>
-    git(repo, "log", "-1", "--format=%s", c).trim(),
-  ) as [string, string];
-  const record = { c1, c2, subjects };
+  const record = { c1, c2 };
   const base = showFile(repo, `${c1}^`, path);
   if (base === undefined) {
     return { ...record, status: "no-base" };
@@ -156,6 +173,10 @@ function perVariant(subset: Replayed[]) {
           fileWrongOutsideDescriptor: n((o) => o.fileWrong?.rest === true),
           // Wrong descriptors that protobuf-go loads without complaint.
           wrongDescriptorGoAccepts: n((o) => o.protodesc === "ok"),
+          correct: n((o) => o.verdict === "correct"),
+          equivalent: n((o) => o.verdictDetail === "equivalent"),
+          wrong: n((o) => o.verdict === "wrong"),
+          error: n((o) => o.verdict === "error"),
         },
       ];
     }),
@@ -169,7 +190,11 @@ function perVariant(subset: Replayed[]) {
       | "fileConflict"
       | "fileCleanButWrong"
       | "fileWrongOutsideDescriptor"
-      | "wrongDescriptorGoAccepts",
+      | "wrongDescriptorGoAccepts"
+      | "correct"
+      | "equivalent"
+      | "wrong"
+      | "error",
       number
     >
   >;
@@ -224,10 +249,41 @@ function summarize(records: PairRecord[]) {
   };
 }
 
+/** One TSV row per pair: `fileDesc(…)` alone / whole file per variant. */
+function row(path: string, r: PairRecord): string {
+  const cells =
+    r.status === "replayed"
+      ? VARIANTS.map((v) => {
+          const o = r.variants[v];
+          const expr =
+            o.conflicts > 0 ? "conflict" : o.correct ? "clean" : "wrong";
+          const go =
+            o.protodesc === undefined
+              ? ""
+              : o.protodesc === "ok"
+                ? " (Go accepts)"
+                : " (Go rejects)";
+          // A correct merge that is not byte-identical to the regenerated file.
+          const equivalent =
+            o.verdictDetail === "equivalent" ? " (equivalent)" : "";
+          return `${expr}/${o.verdict}${equivalent}${go}`;
+        })
+      : VARIANTS.map(() => "");
+  const status =
+    r.status === "replayed" && r.trivial
+      ? "replayed, one side unchanged"
+      : r.status;
+  return [path, r.c1.slice(0, 12), r.c2.slice(0, 12), status, ...cells].join(
+    "\t",
+  );
+}
+
+rmSync(resultsDir, { recursive: true, force: true });
 mkdirSync(resultsDir, { recursive: true });
 const summaries: Record<string, ReturnType<typeof summarize>> = {};
 const allRecords: PairRecord[] = [];
-for (const path of TARGETS) {
+const rows = [["file", "C1", "C2", "status", ...VARIANTS].join("\t")];
+for (const path of SET.targets) {
   const commits = git(repo, "rev-list", GOOGLEAPIS_REV, "--", path)
     .trim()
     .split("\n")
@@ -237,51 +293,60 @@ for (const path of TARGETS) {
   for (let i = 0; i + 1 < commits.length; i++) {
     const record = replay(path, commits[i], commits[i + 1]);
     records.push(record);
-    const detail =
-      record.status === "replayed"
-        ? VARIANTS.map(
-            (v) =>
-              `${v}=${record.variants[v].conflicts}/${record.variants[v].fileConflicts}`,
-          ).join(" ")
-        : "";
-    console.error(
-      `${path} ${i + 1}/${commits.length - 1} ${record.status} ${detail}`,
-    );
+    rows.push(row(path, record));
+    console.error(`${path} ${i + 1}/${commits.length - 1} ${rows.at(-1)}`);
   }
   allRecords.push(...records);
   summaries[path] = summarize(records);
-  writeFileSync(
-    join(resultsDir, `${path.replaceAll("/", "_")}.json`),
-    `${JSON.stringify({ path, rev: GOOGLEAPIS_REV, records }, null, 2)}\n`,
-  );
 }
 summaries["total"] = summarize(allRecords);
+writeFileSync(join(resultsDir, "pairs.tsv"), `${rows.join("\n")}\n`);
 
 const label = (path: string) =>
   path === "total" ? "**total**" : `\`${path}\``;
 const md = [
   "<!-- Generated by scripts/replay.ts -->",
   "",
-  `googleapis@${GOOGLEAPIS_REV.slice(0, 12)}, the last ${PAIRS} consecutive commit pairs per file.`,
+  `googleapis@${GOOGLEAPIS_REV.slice(0, 12)}, the last ${PAIRS} consecutive commit pairs per file. Per-pair results: [\`pairs.tsv\`](pairs.tsv), as \`fileDesc(…)\` alone / whole file.`,
   "",
-  "| file | pairs | C2 does not rebase onto C1^ | .proto conflicts | replayed | one side's descriptor unchanged |",
-  "| --- | --- | --- | --- | --- | --- |",
+  "| file | pairs | C2 does not rebase onto C1^ | .proto conflicts | build failures | replayed | one side's descriptor unchanged |",
+  "| --- | --- | --- | --- | --- | --- | --- |",
   ...Object.entries(summaries).map(
     ([path, s]) =>
-      `| ${label(path)} | ${s.pairs} | ${s.rebaseConflict + s.noBase} | ${s.semanticConflict} | ${s.replayed} | ${s.trivial} |`,
+      `| ${label(path)} | ${s.pairs} | ${s.rebaseConflict + s.noBase} | ${s.semanticConflict} | ${s.buildFailure} | ${s.replayed} | ${s.trivial} |`,
   ),
   "",
-  "Replayed pairs where both sides changed the descriptor. The manifest variants",
-  "embed the same descriptor as A and B, so their `fileDesc(…)` columns match.",
+  "Whole `_pb.ts`, all replayed pairs. *Error* means that the TypeScript",
+  "compiler or loading the descriptor fails; *silently wrong* means neither",
+  "does, but the result differs from the file generated from the merged",
+  "`.proto`.",
+  "",
+  "| file | variant | correct | of which not byte-identical | conflict | silently wrong | error |",
+  "| --- | --- | --- | --- | --- | --- | --- |",
+  ...Object.entries(summaries).flatMap(([path, s]) =>
+    VARIANTS.map((v) => {
+      const c = s.all[v];
+      return `| ${label(path)} | ${VARIANT_LABELS[v]} | ${c.correct} | ${c.equivalent} | ${c.fileConflict} | ${c.wrong} | ${c.error} |`;
+    }),
+  ),
+  "",
+  "Replayed pairs where both sides changed the descriptor. Variants that embed",
+  "the same descriptor have the same `fileDesc(…)` columns.",
   "",
   "| file | variant | `fileDesc(…)`: clean | conflict | clean but wrong | whole `_pb.ts`: clean | conflict | clean but wrong | of which outside the descriptor | wrong descriptors protobuf-go accepts |",
   "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
   ...Object.entries(summaries).flatMap(([path, s]) =>
     VARIANTS.map((v) => {
       const c = s.nonTrivial[v];
-      return `| ${label(path)} | ${VARIANT_LABELS[v]} | ${c.clean} | ${c.conflict} | ${c.cleanButWrong} | ${c.fileClean} | ${c.fileConflict} | ${c.fileCleanButWrong} | ${c.fileWrongOutsideDescriptor} | ${c.wrongDescriptorGoAccepts} |`;
+      return `| ${label(path)} | ${VARIANT_LABELS[v]} | ${c.clean} | ${c.conflict} | ${c.cleanButWrong} | ${c.fileClean} | ${c.fileConflict} | ${c.fileCleanButWrong} | ${c.fileWrongOutsideDescriptor} | ${protodescAvailable() ? c.wrongDescriptorGoAccepts : "—"} |`;
     }),
   ),
+  ...(protodescAvailable()
+    ? []
+    : [
+        "",
+        "Go was not available, so wrong descriptors were not loaded with protobuf-go.",
+      ]),
   "",
   "What the manifest changes in whole-file merges (same pairs):",
   "",
@@ -297,6 +362,6 @@ const md = [
 writeFileSync(join(resultsDir, "summary.md"), `${md.join("\n")}\n`);
 writeFileSync(
   join(resultsDir, "summary.json"),
-  `${JSON.stringify({ rev: GOOGLEAPIS_REV, pairsPerFile: PAIRS, summaries }, null, 2)}\n`,
+  `${JSON.stringify({ rev: GOOGLEAPIS_REV, pairsPerFile: PAIRS, total: summaries["total"] }, null, 2)}\n`,
 );
-console.log(JSON.stringify(summaries["total"], null, 2));
+console.log(md.join("\n"));
