@@ -6,7 +6,7 @@ import {
   type FileDescriptorProto,
   FileDescriptorProtoSchema,
 } from "@bufbuild/protobuf/wkt";
-import { embedNames, restoreNames } from "./names.js";
+import { embedNames } from "./names.js";
 import {
   evaluateTree,
   fromTree,
@@ -127,15 +127,7 @@ function assertRestorable(
   tree: TreeItem[],
   dependency: readonly string[],
 ): void {
-  const restored = fromBinary(
-    FileDescriptorProtoSchema,
-    fromTree(evaluateTree(tree)),
-  );
-  restored.dependency = [...dependency];
-  restoreNames(restored);
-  // protoc-gen-es leaves the imports out of the embedded descriptor.
-  restored.dependency = [];
-  const actual = toBinary(FileDescriptorProtoSchema, restored);
+  const actual = fromTree(evaluateTree(tree), dependency);
   if (
     actual.length !== bytes.length ||
     actual.some((byte, i) => byte !== bytes[i])

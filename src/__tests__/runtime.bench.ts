@@ -1,4 +1,4 @@
-import { clone, fromBinary, toBinary } from "@bufbuild/protobuf";
+import { clone, toBinary } from "@bufbuild/protobuf";
 import {
   messageDesc as messageDescByPath,
   fileDesc as originalFileDesc,
@@ -8,7 +8,7 @@ import { nestedTypes } from "@bufbuild/protobuf/reflect";
 import { base64Encode } from "@bufbuild/protobuf/wire";
 import { FileDescriptorProtoSchema } from "@bufbuild/protobuf/wkt";
 import { bench, describe } from "vitest";
-import { embedNames, restoreNames } from "../names.js";
+import { embedNames } from "../names.js";
 import { fileDesc, messageDesc } from "../runtime.js";
 import { evaluateTree, fromTree, toTree } from "../tree.js";
 import { bufBuildFiles } from "./helpers.js";
@@ -66,21 +66,14 @@ describe(`fileDesc (${bytes.length} bytes, 300 messages)`, () => {
   bench("fileDesc(tree, imports)", () => {
     fileDesc(tree, []);
   });
-  bench("fileDesc(tree, imports) via toBinary + base64 into codegenv2", () => {
-    const file = fromBinary(FileDescriptorProtoSchema, fromTree(tree));
-    restoreNames(file);
-    originalFileDesc(
-      base64Encode(toBinary(FileDescriptorProtoSchema, file), "std_raw"),
-    );
-  });
 });
 
 describe("steps of fileDesc(tree, imports)", () => {
-  bench("fromTree", () => {
+  bench("fromTree, restoring markers and synthetic oneofs", () => {
     fromTree(tree);
   });
-  bench("fromTree + fromBinary + restoreNames", () => {
-    restoreNames(fromBinary(FileDescriptorProtoSchema, fromTree(tree)));
+  bench("base64Encode", () => {
+    base64Encode(bytes, "std_raw");
   });
 });
 

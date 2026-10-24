@@ -1,11 +1,11 @@
-import { clone, create, toBinary } from "@bufbuild/protobuf";
+import { create } from "@bufbuild/protobuf";
 import { BinaryWriter, WireType } from "@bufbuild/protobuf/wire";
 import {
   type FileDescriptorProto,
   FileDescriptorProtoSchema,
 } from "@bufbuild/protobuf/wkt";
 import { describe, expect, it } from "vitest";
-import { embedNames, restoreNames } from "../names.js";
+import { embedNames } from "../names.js";
 
 const dependency = ["a.proto", "b.proto", "c.proto"];
 
@@ -79,79 +79,6 @@ describe("embedNames", () => {
     f.messageType[0].field[1].oneofIndex = 0;
     expect(() => embedNames(f, dependency)).toThrow(
       "synthetic oneof before a real one in M",
-    );
-  });
-});
-
-describe("restoreNames", () => {
-  const embedded = () => {
-    const f = file();
-    embedNames(f, dependency);
-    f.dependency = [...dependency];
-    return f;
-  };
-
-  it("restores what embedNames replaced", () => {
-    const original = file();
-    original.dependency = [...dependency];
-    const f = embedded();
-    restoreNames(f);
-    expect(f.$unknown).toBeUndefined();
-    expect(toBinary(FileDescriptorProtoSchema, f)).toEqual(
-      toBinary(FileDescriptorProtoSchema, original),
-    );
-  });
-
-  it("keeps other unknown fields", () => {
-    const f = embedded();
-    const other = marker(100, "x");
-    f.$unknown = [other, ...f.$unknown!];
-    restoreNames(f);
-    expect(f.$unknown).toEqual([other]);
-  });
-
-  it("prefixes synthetic oneof names with X while they collide", () => {
-    const f = create(FileDescriptorProtoSchema, {
-      messageType: [
-        {
-          name: "M",
-          field: [
-            { name: "_v", number: 1 },
-            { name: "v", number: 2, proto3Optional: true },
-            { name: "_w", number: 3, proto3Optional: true },
-          ],
-          oneofDecl: [{ name: "X_v" }],
-        },
-      ],
-    });
-    restoreNames(f);
-    expect(f.messageType[0].oneofDecl.map((o) => o.name)).toEqual([
-      "X_v",
-      "XX_v",
-      "X_w",
-    ]);
-  });
-
-  it("throws for a oneof that is not in the message", () => {
-    const f = embedded();
-    f.messageType[0].oneofDecl = [];
-    expect(() => restoreNames(f)).toThrow(
-      "unresolved oneof member M.a -> kind",
-    );
-  });
-
-  it("throws for a field in several oneofs", () => {
-    const f = embedded();
-    const field = f.messageType[0].field[0];
-    field.$unknown = [...field.$unknown!, marker(536870911, "kind")];
-    expect(() => restoreNames(f)).toThrow("M.a is in several oneofs");
-  });
-
-  it("throws for an import that is not imported", () => {
-    const f = clone(FileDescriptorProtoSchema, embedded());
-    f.dependency = ["a.proto"];
-    expect(() => restoreNames(f)).toThrow(
-      "m.proto: unresolved public import c.proto",
     );
   });
 });

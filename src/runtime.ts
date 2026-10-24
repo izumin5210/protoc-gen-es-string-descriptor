@@ -1,14 +1,11 @@
-import {
-  createFileRegistry,
-  type DescEnum,
-  type DescExtension,
-  type DescFile,
-  type DescMessage,
-  type DescService,
-  fromBinary,
-  isFieldSet,
-  type JsonValue,
-  type Message,
+import type {
+  DescEnum,
+  DescExtension,
+  DescFile,
+  DescMessage,
+  DescService,
+  JsonValue,
+  Message,
 } from "@bufbuild/protobuf";
 import {
   enumDesc as enumDescByPath,
@@ -19,58 +16,40 @@ import {
   type GenService,
   type GenServiceMethods,
   messageDesc as messageDescByPath,
+  fileDesc as originalFileDesc,
   serviceDesc as serviceDescByPath,
 } from "@bufbuild/protobuf/codegenv2";
-import { nestedTypes, protoCamelCase } from "@bufbuild/protobuf/reflect";
-import {
-  type DescriptorProto,
-  FieldDescriptorProtoSchema,
-  FileDescriptorProtoSchema,
-} from "@bufbuild/protobuf/wkt";
+import { nestedTypes } from "@bufbuild/protobuf/reflect";
+import { base64Encode } from "@bufbuild/protobuf/wire";
 import { jsStringToBytes } from "./escape.js";
-import { restoreNames } from "./names.js";
 import { type DescTree, fromTree } from "./tree.js";
 
 export type { DescTree };
 
 /**
- * Hydrate a file descriptor, like `fileDesc` from
+ * Hydrate a file descriptor with `fileDesc` from
  * `@bufbuild/protobuf/codegenv2`.
  *
  * - `desc` is a {@link DescTree}, or the raw byte string that earlier
  *   versions of this plugin emitted. In a {@link DescTree}, real oneof
  *   members and public / weak imports are marked by name, and synthetic
- *   oneofs of proto3 `optional` fields are left out; both are restored here.
+ *   oneofs of proto3 `optional` fields are left out; both are restored while
+ *   the bytes are rebuilt, so that codegenv2 gets exactly the bytes that
+ *   protoc-gen-es embeds.
  * - `imports` are the files this file imports, in import order.
  */
 export function fileDesc(
   desc: string | DescTree,
   imports: DescFile[] = [],
 ): DescFile {
-  const root =
+  const bytes =
     typeof desc === "string"
-      ? fromBinary(FileDescriptorProtoSchema, jsStringToBytes(desc))
-      : fromBinary(FileDescriptorProtoSchema, fromTree(desc));
-  root.messageType.forEach(restoreJsonNames);
-  root.dependency = imports.map((f) => f.proto.name);
-  if (typeof desc !== "string") {
-    restoreNames(root);
-  }
-  // What `fileDesc` from `@bufbuild/protobuf/codegenv2` does after decoding
-  // base64, without encoding the bytes to base64 first.
-  const registry = createFileRegistry(root, (name) =>
-    imports.find((f) => f.proto.name === name),
-  );
-  return registry.getFile(root.name)!;
-}
-
-function restoreJsonNames(message: DescriptorProto): void {
-  for (const field of message.field) {
-    if (!isFieldSet(field, FieldDescriptorProtoSchema.field.jsonName)) {
-      field.jsonName = protoCamelCase(field.name);
-    }
-  }
-  message.nestedType.forEach(restoreJsonNames);
+      ? jsStringToBytes(desc)
+      : fromTree(
+          desc,
+          imports.map((f) => f.proto.name),
+        );
+  return originalFileDesc(base64Encode(bytes, "std_raw"), imports);
 }
 
 type AnyDesc = DescMessage | DescEnum | DescService | DescExtension;
