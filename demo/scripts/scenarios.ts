@@ -52,6 +52,8 @@ const DESCRIPTIONS: Record<string, string> = {
   "17-map-vs-nested":
     "One side adds a map field; the other adds a nested message to the same message",
   "18-imports-separated": "Both sides add different imports",
+  "19-oneof-members-in-two-messages":
+    "Both sides add a member to the oneof of neighbouring messages",
 };
 
 const SYMBOLS: Record<Verdict, string> = {

@@ -16,17 +16,17 @@
 
 Whole generated `_pb.ts`, compared with the file generated from the merged .proto:
 
-| scenario | base64 | String literal | String literal + manifest | Nested array | Nested array + index manifest | Nested array + manifest | Nested array + index manifest + number types | Nested array + names | Nested array + names + number types |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| same-service-different-rpcs | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
-| same-message-different-fields | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
-| message-inserted-next-to-changed-message | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
-| control-different-messages | conflict | clean | clean | clean | clean | clean | clean | clean | clean |
-| index-shift-insert-vs-append | conflict | **clean but wrong** (generated code) | conflict | **clean but wrong** (generated code) | conflict | conflict | conflict | clean | clean |
-| oneof-index-insert-vs-append | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | clean | clean | clean |
-| oneof-index-insert-vs-append-separated | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | clean | clean | clean |
-| same-size-field-edits | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | clean | clean | clean | clean | clean | clean |
-| public-import-vs-inserted-import | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | conflict | clean | clean |
+| scenario | base64 | String literal | String literal + manifest | Nested array | Nested array + index manifest | Nested array + manifest | Nested array + index manifest + number types | Nested array + name table + number types | Nested array + names | Nested array + names + number types |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| same-service-different-rpcs | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean | clean |
+| same-message-different-fields | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean | clean |
+| message-inserted-next-to-changed-message | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean | clean |
+| control-different-messages | conflict | clean | clean | clean | clean | clean | clean | clean | clean | clean |
+| index-shift-insert-vs-append | conflict | **clean but wrong** (generated code) | conflict | **clean but wrong** (generated code) | conflict | conflict | conflict | clean | clean | clean |
+| oneof-index-insert-vs-append | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | clean | clean | clean | clean |
+| oneof-index-insert-vs-append-separated | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | clean | clean | clean | clean |
+| same-size-field-edits | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | clean | clean | clean | clean | clean | clean | clean |
+| public-import-vs-inserted-import | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | conflict | clean | clean | clean |
 
 ### same-service-different-rpcs
 

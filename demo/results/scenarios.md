@@ -3,28 +3,29 @@
 - *error*: TypeScript reports an error, or loading the descriptor throws.
 - *silently wrong*: no error, but the result differs from the file generated from the merged `.proto`.
 
-| Scenario | base64 | String literal | String literal + manifest | Nested array | Nested array + index manifest | Nested array + manifest | Nested array + index manifest + number types | Nested array + names | Nested array + names + number types |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| ***Merged `.proto` is valid (ideal: correct)*** |  |  |  |  |  |  |  |  |  |
-| One side inserts a message in the middle; the other appends one | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct |
-| Both sides add top-level enums at different positions | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct |
-| Both sides add `optional` fields to one message (adjacent) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add `optional` fields to one message (a plain field in between) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add `optional` fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add same-size fields to one message (far apart) | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
-| One side makes an import public; the other inserts an import before it | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct |
-| One side inserts a oneof before an existing one; the other adds a member to the existing one | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct |
-| Both sides add fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add RPCs to one service (far apart) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add nested messages to different parents | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct |
-| One side adds a map field; the other adds a nested message to the same message | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict |
-| Both sides add different imports | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
-| ***Merged `.proto` is invalid (ideal: conflict or error)*** |  |  |  |  |  |  |  |  |  |
-| Both sides add a field with the same number | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ❌ **silently wrong** | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
-| Both sides add an enum value with the same number | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ❌ **silently wrong** | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
-| Both sides add a field with the same name | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
-| One side renames a message; the other references the old name | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
-| Both sides add a message with the same name | ⚪ conflict | ⚠️ error | ⚪ conflict | ⚠️ error | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚠️ error | ⚠️ error |
+| Scenario | base64 | String literal | String literal + manifest | Nested array | Nested array + index manifest | Nested array + manifest | Nested array + index manifest + number types | Nested array + name table + number types | Nested array + names | Nested array + names + number types |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| ***Merged `.proto` is valid (ideal: correct)*** |  |  |  |  |  |  |  |  |  |  |
+| One side inserts a message in the middle; the other appends one | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add top-level enums at different positions | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add `optional` fields to one message (adjacent) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add `optional` fields to one message (a plain field in between) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add `optional` fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add same-size fields to one message (far apart) | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| One side makes an import public; the other inserts an import before it | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| One side inserts a oneof before an existing one; the other adds a member to the existing one | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add RPCs to one service (far apart) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add nested messages to different parents | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| One side adds a map field; the other adds a nested message to the same message | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict |
+| Both sides add different imports | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add a member to the oneof of neighbouring messages | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ⚪ conflict | ✅ correct | ✅ correct |
+| ***Merged `.proto` is invalid (ideal: conflict or error)*** |  |  |  |  |  |  |  |  |  |  |
+| Both sides add a field with the same number | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ❌ **silently wrong** | ⚠️ error | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
+| Both sides add an enum value with the same number | ⚪ conflict | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ❌ **silently wrong** | ⚠️ error | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
+| Both sides add a field with the same name | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
+| One side renames a message; the other references the old name | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
+| Both sides add a message with the same name | ⚪ conflict | ⚠️ error | ⚪ conflict | ⚠️ error | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error |
 
 ### 01-index-shift
 
@@ -55,6 +56,7 @@ One side inserts a message in the middle; the other appends one
 - Nested array + index manifest: ⚪ conflict
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ⚪ conflict
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -87,6 +89,7 @@ Both sides add top-level enums at different positions
 - Nested array + index manifest: ⚪ conflict
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ⚪ conflict
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -113,6 +116,7 @@ Both sides add `optional` fields to one message (adjacent)
 - Nested array + index manifest: ❌ **silently wrong**
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ✅ correct
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -139,6 +143,7 @@ Both sides add `optional` fields to one message (a plain field in between)
 - Nested array + index manifest: ❌ **silently wrong**
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ✅ correct
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -165,6 +170,7 @@ Both sides add `optional` fields to one message (far apart)
 - Nested array + index manifest: ⚪ conflict
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ✅ correct
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -191,6 +197,7 @@ Both sides add same-size fields to one message (far apart)
 - Nested array + index manifest: ✅ correct
 - Nested array + manifest: ✅ correct
 - Nested array + index manifest + number types: ✅ correct
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -219,6 +226,7 @@ The merged `.proto` does not compile: message example.v1.User: fields bio and ag
 - Nested array + index manifest: ❌ **silently wrong**
 - Nested array + manifest: ❌ **silently wrong**
 - Nested array + index manifest + number types: ⚠️ error (TS2300: Duplicate identifier '3'.)
+- Nested array + name table + number types: ⚠️ error (TS2300: Duplicate identifier '3'.)
 - Nested array + names: ❌ **silently wrong**
 - Nested array + names + number types: ⚠️ error (TS2300: Duplicate identifier '3'.)
 
@@ -247,6 +255,7 @@ The merged `.proto` does not compile: enum example.v1.Role: values ROLE_GUEST an
 - Nested array + index manifest: ❌ **silently wrong**
 - Nested array + manifest: ❌ **silently wrong**
 - Nested array + index manifest + number types: ⚠️ error (TS2300: Duplicate identifier '2'.)
+- Nested array + name table + number types: ⚠️ error (TS2300: Duplicate identifier '2'.)
 - Nested array + names: ❌ **silently wrong**
 - Nested array + names + number types: ⚠️ error (TS2300: Duplicate identifier '2'.)
 
@@ -275,6 +284,7 @@ The merged `.proto` does not compile: symbol "example.v1.User.bio" already defin
 - Nested array + index manifest: ⚠️ error (TS2300: Duplicate identifier 'bio'.)
 - Nested array + manifest: ⚠️ error (TS2300: Duplicate identifier 'bio'.)
 - Nested array + index manifest + number types: ⚠️ error (TS2300: Duplicate identifier 'bio'.)
+- Nested array + name table + number types: ⚠️ error (TS2300: Duplicate identifier 'bio'.)
 - Nested array + names: ⚠️ error (TS2300: Duplicate identifier 'bio'.)
 - Nested array + names + number types: ⚠️ error (TS2300: Duplicate identifier 'bio'.)
 
@@ -305,6 +315,7 @@ The merged `.proto` does not compile: field example.v1.Team.owner: unknown type 
 - Nested array + index manifest: ⚠️ error (TS2304: Cannot find name 'User'.)
 - Nested array + manifest: ⚠️ error (TS2304: Cannot find name 'User'.)
 - Nested array + index manifest + number types: ⚠️ error (TS2304: Cannot find name 'User'.)
+- Nested array + name table + number types: ⚠️ error (TS2304: Cannot find name 'User'.)
 - Nested array + names: ⚠️ error (TS2304: Cannot find name 'User'.)
 - Nested array + names + number types: ⚠️ error (TS2304: Cannot find name 'User'.)
 
@@ -339,6 +350,7 @@ The merged `.proto` does not compile: symbol "example.v1.Org" already defined at
 - Nested array + index manifest: ⚪ conflict
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ⚪ conflict
+- Nested array + name table + number types: ⚠️ error (TS2300: Duplicate identifier '_numbers_example_v1_Org'.)
 - Nested array + names: ⚠️ error (TS2300: Duplicate identifier 'Org'.)
 - Nested array + names + number types: ⚠️ error (TS2300: Duplicate identifier '_numbers_example_v1_Org'.)
 
@@ -370,6 +382,7 @@ One side makes an import public; the other inserts an import before it
 - Nested array + index manifest: ❌ **silently wrong**
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ⚪ conflict
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -398,6 +411,7 @@ One side inserts a oneof before an existing one; the other adds a member to the 
 - Nested array + index manifest: ❌ **silently wrong**
 - Nested array + manifest: ❌ **silently wrong**
 - Nested array + index manifest + number types: ⚪ conflict
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -424,6 +438,7 @@ Both sides add fields to one message (far apart)
 - Nested array + index manifest: ✅ correct
 - Nested array + manifest: ✅ correct
 - Nested array + index manifest + number types: ✅ correct
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -450,6 +465,7 @@ Both sides add RPCs to one service (far apart)
 - Nested array + index manifest: ✅ correct
 - Nested array + manifest: ✅ correct
 - Nested array + index manifest + number types: ✅ correct
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -481,6 +497,7 @@ Both sides add nested messages to different parents
 - Nested array + index manifest: ⚪ conflict
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ⚪ conflict
+- Nested array + name table + number types: ✅ correct
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct
 
@@ -509,6 +526,7 @@ One side adds a map field; the other adds a nested message to the same message
 - Nested array + index manifest: ⚪ conflict
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ⚪ conflict
+- Nested array + name table + number types: ⚪ conflict
 - Nested array + names: ⚪ conflict
 - Nested array + names + number types: ⚪ conflict
 
@@ -544,5 +562,34 @@ Both sides add different imports
 - Nested array + index manifest: ⚪ conflict
 - Nested array + manifest: ⚪ conflict
 - Nested array + index manifest + number types: ✅ correct
+- Nested array + name table + number types: ✅ correct
+- Nested array + names: ✅ correct
+- Nested array + names + number types: ✅ correct
+
+### 19-oneof-members-in-two-messages
+
+Both sides add a member to the oneof of neighbouring messages
+
+```diff
+# ours
+@@ -7,2 +7,3 @@ message Request {
+     string topic = 2;
++    string subscription = 3;
+   }
+# theirs
+@@ -13,2 +13,3 @@ message Response {
+   oneof result {
++    string error = 3;
+     string message = 2;
+```
+
+- base64: ⚪ conflict
+- String literal: ⚪ conflict
+- String literal + manifest: ⚪ conflict
+- Nested array: ✅ correct
+- Nested array + index manifest: ✅ correct
+- Nested array + manifest: ✅ correct
+- Nested array + index manifest + number types: ✅ correct
+- Nested array + name table + number types: ⚪ conflict
 - Nested array + names: ✅ correct
 - Nested array + names + number types: ✅ correct

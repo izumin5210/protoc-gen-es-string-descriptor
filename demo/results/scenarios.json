@@ -9,6 +9,7 @@
       "b-index-manifest": "conflict",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "conflict",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -24,6 +25,7 @@
       "b-index-manifest": "conflict",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "conflict",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -39,6 +41,7 @@
       "b-index-manifest": "wrong",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "correct",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -54,6 +57,7 @@
       "b-index-manifest": "wrong",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "correct",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -69,6 +73,7 @@
       "b-index-manifest": "conflict",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "correct",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -84,6 +89,7 @@
       "b-index-manifest": "correct",
       "b-manifest": "correct",
       "b-index-manifest-numbers": "correct",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -100,11 +106,13 @@
       "b-index-manifest": "wrong",
       "b-manifest": "wrong",
       "b-index-manifest-numbers": "error",
+      "b-name-table-numbers": "error",
       "b-names": "wrong",
       "b-names-numbers": "error"
     },
     "details": {
       "b-index-manifest-numbers": "TS2300: Duplicate identifier '3'.",
+      "b-name-table-numbers": "TS2300: Duplicate identifier '3'.",
       "b-names-numbers": "TS2300: Duplicate identifier '3'."
     }
   },
@@ -119,11 +127,13 @@
       "b-index-manifest": "wrong",
       "b-manifest": "wrong",
       "b-index-manifest-numbers": "error",
+      "b-name-table-numbers": "error",
       "b-names": "wrong",
       "b-names-numbers": "error"
     },
     "details": {
       "b-index-manifest-numbers": "TS2300: Duplicate identifier '2'.",
+      "b-name-table-numbers": "TS2300: Duplicate identifier '2'.",
       "b-names-numbers": "TS2300: Duplicate identifier '2'."
     }
   },
@@ -138,6 +148,7 @@
       "b-index-manifest": "error",
       "b-manifest": "error",
       "b-index-manifest-numbers": "error",
+      "b-name-table-numbers": "error",
       "b-names": "error",
       "b-names-numbers": "error"
     },
@@ -146,6 +157,7 @@
       "b-index-manifest": "TS2300: Duplicate identifier 'bio'.",
       "b-manifest": "TS2300: Duplicate identifier 'bio'.",
       "b-index-manifest-numbers": "TS2300: Duplicate identifier 'bio'.",
+      "b-name-table-numbers": "TS2300: Duplicate identifier 'bio'.",
       "b-names": "TS2300: Duplicate identifier 'bio'.",
       "b-names-numbers": "TS2300: Duplicate identifier 'bio'."
     }
@@ -161,6 +173,7 @@
       "b-index-manifest": "error",
       "b-manifest": "error",
       "b-index-manifest-numbers": "error",
+      "b-name-table-numbers": "error",
       "b-names": "error",
       "b-names-numbers": "error"
     },
@@ -171,6 +184,7 @@
       "b-index-manifest": "TS2304: Cannot find name 'User'.",
       "b-manifest": "TS2304: Cannot find name 'User'.",
       "b-index-manifest-numbers": "TS2304: Cannot find name 'User'.",
+      "b-name-table-numbers": "TS2304: Cannot find name 'User'.",
       "b-names": "TS2304: Cannot find name 'User'.",
       "b-names-numbers": "TS2304: Cannot find name 'User'."
     }
@@ -186,12 +200,14 @@
       "b-index-manifest": "conflict",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "conflict",
+      "b-name-table-numbers": "error",
       "b-names": "error",
       "b-names-numbers": "error"
     },
     "details": {
       "a": "TS2300: Duplicate identifier 'Org'.",
       "b": "TS2300: Duplicate identifier 'Org'.",
+      "b-name-table-numbers": "TS2300: Duplicate identifier '_numbers_example_v1_Org'.",
       "b-names": "TS2300: Duplicate identifier 'Org'.",
       "b-names-numbers": "TS2300: Duplicate identifier '_numbers_example_v1_Org'."
     }
@@ -206,6 +222,7 @@
       "b-index-manifest": "wrong",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "conflict",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -221,6 +238,7 @@
       "b-index-manifest": "wrong",
       "b-manifest": "wrong",
       "b-index-manifest-numbers": "conflict",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -236,6 +254,7 @@
       "b-index-manifest": "correct",
       "b-manifest": "correct",
       "b-index-manifest-numbers": "correct",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -251,6 +270,7 @@
       "b-index-manifest": "correct",
       "b-manifest": "correct",
       "b-index-manifest-numbers": "correct",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -266,6 +286,7 @@
       "b-index-manifest": "conflict",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "conflict",
+      "b-name-table-numbers": "correct",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
@@ -281,6 +302,7 @@
       "b-index-manifest": "conflict",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "conflict",
+      "b-name-table-numbers": "conflict",
       "b-names": "conflict",
       "b-names-numbers": "conflict"
     },
@@ -296,6 +318,23 @@
       "b-index-manifest": "conflict",
       "b-manifest": "conflict",
       "b-index-manifest-numbers": "correct",
+      "b-name-table-numbers": "correct",
+      "b-names": "correct",
+      "b-names-numbers": "correct"
+    },
+    "details": {}
+  },
+  {
+    "scenario": "19-oneof-members-in-two-messages",
+    "verdicts": {
+      "base64": "conflict",
+      "a": "conflict",
+      "a-manifest": "conflict",
+      "b": "correct",
+      "b-index-manifest": "correct",
+      "b-manifest": "correct",
+      "b-index-manifest-numbers": "correct",
+      "b-name-table-numbers": "conflict",
       "b-names": "correct",
       "b-names-numbers": "correct"
     },
