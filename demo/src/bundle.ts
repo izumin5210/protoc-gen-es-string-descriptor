@@ -14,8 +14,8 @@ import {
 import {
   cloneGoogleapis,
   GOOGLEAPIS_REV,
+  git,
   materialize,
-  showFile,
 } from "./googleapis.js";
 import { bufBuild } from "./tools.js";
 
@@ -42,39 +42,55 @@ const runtimes = {
 };
 
 /**
- * Generate JS for every file of {@link BUNDLE_PACKAGE} and its imports
- * (except well-known types, which @bufbuild/protobuf ships).
+ * Generate code for every file of {@link BUNDLE_PACKAGE} and its imports
+ * (except well-known types, which @bufbuild/protobuf ships). `recursive`
+ * includes its subpackages, e.g. `schema/`.
  */
-export function generateBundleInputs(): GeneratedFile[] {
+export function generateBundleInputs({
+  recursive = false,
+  parameter = "target=js,import_extension=js",
+} = {}): GeneratedFile[] {
+  return withPackageProtos(recursive, (root, files) =>
+    generate(bufBuild(root, BUNDLE_PACKAGE), files, parameter),
+  );
+}
+
+/**
+ * Lay out {@link BUNDLE_PACKAGE} with its transitive imports at the pinned
+ * revision, and call `use` with the root and the non-WKT files.
+ */
+export function withPackageProtos<T>(
+  recursive: boolean,
+  use: (root: string, files: string[]) => T,
+): T {
   const repo = cloneGoogleapis();
-  const protos = listProtos(repo);
+  const protos = listProtos(repo, recursive);
   // One synthetic file that imports the whole package lets `materialize`
   // collect the transitive closure at the pinned revision.
   const entry = protos.map((p) => `import "${p}";`).join("\n");
   const { root } = materialize(repo, GOOGLEAPIS_REV, "entry.proto", entry);
   try {
     rmSync(join(root, "entry.proto"));
-    const image = bufBuild(root, BUNDLE_PACKAGE);
     const files = listFiles(root).filter(
       (f) => f.endsWith(".proto") && !f.startsWith("google/protobuf/"),
     );
-    return generate(image, files, "target=js,import_extension=js");
+    return use(root, files);
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
 }
 
-function listProtos(repo: string): string[] {
-  const out = showFile(repo, GOOGLEAPIS_REV, BUNDLE_PACKAGE);
-  if (out === undefined) {
-    throw new Error(`${BUNDLE_PACKAGE} not found`);
-  }
-  // `git show rev:dir` prints a tree listing headed by "tree rev:dir".
-  return out
+function listProtos(repo: string, recursive: boolean): string[] {
+  return git(
+    repo,
+    "ls-tree",
+    ...(recursive ? ["-r"] : []),
+    "--name-only",
+    GOOGLEAPIS_REV,
+    `${BUNDLE_PACKAGE}/`,
+  )
     .split("\n")
-    .slice(1)
-    .filter((name) => name.endsWith(".proto"))
-    .map((name) => `${BUNDLE_PACKAGE}/${name}`);
+    .filter((name) => name.endsWith(".proto"));
 }
 
 function listFiles(root: string, dir = root): string[] {

@@ -44,6 +44,16 @@ type AnyDesc = DescMessage | DescEnum | DescService | DescExtension;
 
 const byName = new WeakMap<DescFile, Map<string, AnyDesc>>();
 
+/** Every element of a file by its name relative to the package. */
+export function elementsByName(file: DescFile): Map<string, AnyDesc> {
+  const prefix = file.proto.package === "" ? "" : `${file.proto.package}.`;
+  const map = new Map<string, AnyDesc>();
+  for (const desc of nestedTypes(file)) {
+    map.set(desc.typeName.slice(prefix.length), desc);
+  }
+  return map;
+}
+
 /**
  * Look an element up by its name relative to the package, e.g.
  * "Outer.Inner", from a map built on first use per file.
@@ -55,11 +65,7 @@ function lookup<K extends AnyDesc["kind"]>(
 ): Extract<AnyDesc, { kind: K }> {
   let map = byName.get(file);
   if (map === undefined) {
-    const prefix = file.proto.package === "" ? "" : `${file.proto.package}.`;
-    map = new Map();
-    for (const desc of nestedTypes(file)) {
-      map.set(desc.typeName.slice(prefix.length), desc);
-    }
+    map = elementsByName(file);
     byName.set(file, map);
   }
   const desc = map.get(name);

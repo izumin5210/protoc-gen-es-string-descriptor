@@ -10,6 +10,8 @@
     "replay": "tsx scripts/replay.ts",
     "shift-matrix": "tsx scripts/shift-matrix.ts",
     "bundle-size": "tsx scripts/bundle-size.ts",
+    "file-sizes": "tsx scripts/file-sizes.ts",
+    "name-lookup": "node --expose-gc --import tsx scripts/name-lookup.ts",
     "load-bench": "tsx scripts/load-bench.ts"
   },
   "devDependencies": {
