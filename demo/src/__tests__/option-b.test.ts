@@ -48,7 +48,11 @@ describe("toTree / fromTree", () => {
     const [file] = generate(image, ["example/v1/kitchen_sink.proto"]);
     // (redact) is field 50001 of FieldOptions, i.e. tag 0x8a 0xb5 0x18.
     expect(file.content.b).toContain(
-      '["B", ["\\x8a\\xb5\\x18\\x07\\x00\\n\\"\\\\ \\xc3\\xa9"]],',
+      [
+        '   ["B", [',
+        '    "\\x8a\\xb5\\x18\\x07\\x00\\n\\"\\\\ \\xc3\\xa9",',
+        "   ]],",
+      ].join("\n"),
     );
   });
 });
