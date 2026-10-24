@@ -27,7 +27,7 @@ describe("target=ts", () => {
 
 describe("target=js+dts", () => {
   it.each(
-    generate(protos, ["simple.proto"], {
+    generate(protos, ["simple.proto", "oneof.proto"], {
       parameter: "target=js+dts",
     }),
   )("$name matches the snapshot", async ({ name, content }) => {
