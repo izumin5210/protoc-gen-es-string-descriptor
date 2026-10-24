@@ -19,9 +19,11 @@ import {
 import {
   extractDescriptorExpr,
   parseDescriptorArg,
+  parseFileDescCall,
 } from "../src/descriptor-expr.js";
 import { ENCODINGS, type Encoding } from "../src/generate.js";
 import { GOOGLEAPIS_REV } from "../src/googleapis.js";
+import { fromNamedTree } from "../src/names/decode.js";
 import { type DescTree, fromTree } from "../src/option-b/runtime.js";
 
 const RUNS = Number(process.argv[2] ?? 30);
@@ -99,6 +101,24 @@ const args = Object.fromEntries(
   ]),
 ) as Record<Encoding, (string | DescTree)[]>;
 
+// The names variant also needs the imported file names for its markers.
+const fileNames = new Map(
+  files.map((f) => [
+    /^export const (file_\w+)/m.exec(f.content.base64)?.[1],
+    f.name.replace(/_pb\.js$/, ".proto"),
+  ]),
+);
+const named = files.map((f) => {
+  const call = parseFileDescCall(
+    extractDescriptorExpr(f.content["b-names-numbers"]),
+    "names",
+  );
+  return {
+    tree: call.arg as DescTree,
+    importNames: call.imports.map((id) => fileNames.get(id) ?? id),
+  };
+});
+
 function rawToBytes(raw: string): Uint8Array {
   const bytes = new Uint8Array(raw.length);
   for (let i = 0; i < raw.length; i++) {
@@ -125,6 +145,13 @@ bench
   .add("Nested array: as shipped (+ base64 round trip)", () => {
     for (const t of args.b)
       base64Decode(base64Encode(fromTree(t as DescTree), "std_raw"));
+  })
+  .add("Nested array + names: fromNamedTree", () => {
+    for (const { tree, importNames } of named) fromNamedTree(tree, importNames);
+  })
+  .add("Nested array + names: as shipped (+ base64 round trip)", () => {
+    for (const { tree, importNames } of named)
+      base64Decode(base64Encode(fromNamedTree(tree, importNames), "std_raw"));
   });
 await bench.run();
 
