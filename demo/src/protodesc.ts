@@ -61,7 +61,9 @@ export function protodescCheck(
     if (result.status !== 0) {
       throw new Error(`protodesc-check failed: ${result.stderr}`);
     }
-    return result.stdout.trim();
+    // protobuf-go randomly swaps spaces in error messages for U+00A0 per
+    // build, to keep callers from matching on them.
+    return result.stdout.trim().replaceAll("\u00a0", " ");
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
