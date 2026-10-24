@@ -25,6 +25,7 @@ import {
 } from "../src/descriptor-expr.js";
 import {
   ENCODINGS,
+  formatOf,
   generate,
   VARIANT_LABELS as LABELS,
   VARIANTS,
@@ -237,8 +238,15 @@ for (const scenario of scenarios) {
       }
       continue;
     }
-    if (outcome.fileCorrect) {
+    if (outcome.verdict === "correct") {
       fileSummary[scenario][variant] = "clean";
+      continue;
+    }
+    if (outcome.verdict === "error") {
+      fileSummary[scenario][variant] = "error";
+      details.push(
+        `- **${LABELS[variant]}**: clean, but fails: \`${outcome.verdictDetail}\``,
+      );
       continue;
     }
     const inDescriptor = outcome.fileWrong?.descriptor === true;
@@ -260,7 +268,7 @@ for (const scenario of scenarios) {
     if (!inDescriptor) {
       continue;
     }
-    const encoding = variant.split("-")[0] as "a" | "b";
+    const encoding = formatOf(variant);
     const merged = decodeDescriptorExpr(
       extractDescriptorExpr(outcome.fileMerged),
       encoding,

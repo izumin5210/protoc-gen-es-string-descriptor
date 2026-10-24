@@ -2,31 +2,31 @@
 
 `fileDesc(…)` alone:
 
-| scenario | base64 | Option A | Option B |
+| scenario | base64 | String literal | Nested array |
 | --- | --- | --- | --- |
 | same-service-different-rpcs | conflict | conflict | clean |
 | same-message-different-fields | conflict | conflict | clean |
 | message-inserted-next-to-changed-message | conflict | conflict | clean |
 | control-different-messages | conflict | clean | clean |
 | index-shift-insert-vs-append | conflict | clean | clean |
-| oneof-index-insert-vs-append | conflict | conflict | conflict |
+| oneof-index-insert-vs-append | conflict | conflict | **clean but wrong** |
 | oneof-index-insert-vs-append-separated | conflict | conflict | **clean but wrong** |
 | same-size-field-edits | conflict | **clean but wrong** | clean |
 | public-import-vs-inserted-import | conflict | conflict | **clean but wrong** |
 
-Whole generated `_pb.ts`, compared with the file generated from the merged .proto; wrong descriptors are also loaded with protobuf-go's `protodesc.NewFiles`:
+Whole generated `_pb.ts`, compared with the file generated from the merged .proto:
 
-| scenario | base64 | Option A | Option A + manifest | Option B | Option B + index manifest | Option B + manifest |
-| --- | --- | --- | --- | --- | --- | --- |
-| same-service-different-rpcs | conflict | conflict | conflict | clean | clean | clean |
-| same-message-different-fields | conflict | conflict | conflict | clean | clean | clean |
-| message-inserted-next-to-changed-message | conflict | conflict | conflict | clean | clean | clean |
-| control-different-messages | conflict | clean | clean | clean | clean | clean |
-| index-shift-insert-vs-append | conflict | **clean but wrong** (generated code) | conflict | **clean but wrong** (generated code) | conflict | conflict |
-| oneof-index-insert-vs-append | conflict | conflict | conflict | conflict | conflict | conflict |
-| oneof-index-insert-vs-append-separated | conflict | conflict | conflict | **clean but wrong** (descriptor; protobuf-go rejects it) | **clean but wrong** (descriptor; protobuf-go rejects it) | conflict |
-| same-size-field-edits | conflict | **clean but wrong** (descriptor; protobuf-go rejects it) | **clean but wrong** (descriptor; protobuf-go rejects it) | clean | clean | clean |
-| public-import-vs-inserted-import | conflict | conflict | conflict | **clean but wrong** (descriptor; protobuf-go accepts it) | **clean but wrong** (descriptor; protobuf-go accepts it) | conflict |
+| scenario | base64 | String literal | String literal + manifest | Nested array | Nested array + index manifest | Nested array + manifest | Nested array + index manifest + number types | Nested array + names | Nested array + names + number types |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| same-service-different-rpcs | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
+| same-message-different-fields | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
+| message-inserted-next-to-changed-message | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
+| control-different-messages | conflict | clean | clean | clean | clean | clean | clean | clean | clean |
+| index-shift-insert-vs-append | conflict | **clean but wrong** (generated code) | conflict | **clean but wrong** (generated code) | conflict | conflict | conflict | clean | clean |
+| oneof-index-insert-vs-append | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | clean | clean | clean |
+| oneof-index-insert-vs-append-separated | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | clean | clean | clean |
+| same-size-field-edits | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | clean | clean | clean | clean | clean | clean |
+| public-import-vs-inserted-import | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | conflict | clean | clean |
 
 ### same-service-different-rpcs
 
@@ -52,7 +52,7 @@ Whole generated `_pb.ts`, compared with the file generated from the merged .prot
   fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEiRwoEQm9vax…
   >>>>>>> theirs
   ```
-- **Option A**: 1 conflict(s)
+- **String literal**: 1 conflict(s)
 
   ```js
   <<<<<<< ours
@@ -61,11 +61,11 @@ Whole generated `_pb.ts`, compared with the file generated from the merged .prot
       "\x04name\x18\x01 \x01(\t2\x8e\x02\n" +
   >>>>>>> theirs
   ```
-- **Option B**: clean, decodes to the descriptor of the merged .proto
+- **Nested array**: clean, decodes to the descriptor of the merged .proto
 
   ```diff
   # ours
-  @@ -53,2 +53,7 @@ fileDesc([
+  @@ -88,2 +88,7 @@ fileDesc([
      ]],
   +  ["\x12", [
   +   "\n\nUpdateBook",
@@ -74,7 +74,7 @@ Whole generated `_pb.ts`, compared with the file generated from the merged .prot
   +  ]],
      ["\x12", [
   # theirs
-  @@ -63,2 +63,7 @@ fileDesc([
+  @@ -98,2 +98,7 @@ fileDesc([
      ]],
   +  ["\x12", [
   +   "\n\bGetShelf",
@@ -108,7 +108,7 @@ Whole generated `_pb.ts`, compared with the file generated from the merged .prot
   fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEiWQoEQm9vax…
   >>>>>>> theirs
   ```
-- **Option A**: 1 conflict(s)
+- **String literal**: 1 conflict(s)
 
   ```js
   <<<<<<< ours
@@ -117,18 +117,24 @@ Whole generated `_pb.ts`, compared with the file generated from the merged .prot
       "example.v1\"Y\n" +
   >>>>>>> theirs
   ```
-- **Option B**: clean, decodes to the descriptor of the merged .proto
+- **Nested array**: clean, decodes to the descriptor of the merged .proto
 
   ```diff
   # ours
-  @@ -6,2 +6,3 @@ fileDesc([
-     ["\x12", ["\n\x04name\x18\x01 \x01(\t"]],
-  +  ["\x12", ["\n\x04isbn\x18\x05 \x01(\t"]],
-     ["\x12", ["\n\x05title\x18\x02 \x01(\t"]],
+  @@ -9,2 +9,6 @@ fileDesc([
+     ]],
+  +  ["\x12", [
+  +   "\n\x04isbn",
+  +   "\x18\x05 \x01(\t",
+  +  ]],
+     ["\x12", [
   # theirs
-  @@ -9,2 +9,3 @@ fileDesc([
-     ["\x12", ["\n\npage_count\x18\x04 \x01(\x05"]],
-  +  ["\x12", ["\n\blanguage\x18\x06 \x01(\t"]],
+  @@ -21,2 +21,6 @@ fileDesc([
+     ]],
+  +  ["\x12", [
+  +   "\n\blanguage",
+  +   "\x18\x06 \x01(\t",
+  +  ]],
     ]],
   ```
 
@@ -159,7 +165,7 @@ Whole generated `_pb.ts`, compared with the file generated from the merged .prot
   fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEiRwoEQm9vax…
   >>>>>>> theirs
   ```
-- **Option A**: 1 conflict(s)
+- **String literal**: 1 conflict(s)
 
   ```js
   <<<<<<< ours
@@ -170,21 +176,27 @@ Whole generated `_pb.ts`, compared with the file generated from the merged .prot
       "page_count\x18\x04 \x01(\x05\"6\n" +
   >>>>>>> theirs
   ```
-- **Option B**: clean, decodes to the descriptor of the merged .proto
+- **Nested array**: clean, decodes to the descriptor of the merged .proto
 
   ```diff
   # ours
-  @@ -10,2 +10,6 @@ fileDesc([
+  @@ -22,2 +22,9 @@ fileDesc([
     ]],
   + ["\"", [
   +  "\n\x06Author",
-  +  ["\x12", ["\n\x04name\x18\x01 \x01(\t"]],
+  +  ["\x12", [
+  +   "\n\x04name",
+  +   "\x18\x01 \x01(\t",
+  +  ]],
   + ]],
     ["\"", [
   # theirs
-  @@ -14,2 +14,3 @@ fileDesc([
-     ["\x12", ["\n\x05theme\x18\x02 \x01(\t"]],
-  +  ["\x12", ["\n\blocation\x18\x03 \x01(\t"]],
+  @@ -32,2 +32,6 @@ fileDesc([
+     ]],
+  +  ["\x12", [
+  +   "\n\blocation",
+  +   "\x18\x03 \x01(\t",
+  +  ]],
     ]],
   ```
 
@@ -212,19 +224,25 @@ Whole generated `_pb.ts`, compared with the file generated from the merged .prot
   fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEiRwoEQm9vax…
   >>>>>>> theirs
   ```
-- **Option A**: clean, decodes to the descriptor of the merged .proto
-- **Option B**: clean, decodes to the descriptor of the merged .proto
+- **String literal**: clean, decodes to the descriptor of the merged .proto
+- **Nested array**: clean, decodes to the descriptor of the merged .proto
 
   ```diff
   # ours
-  @@ -9,2 +9,3 @@ fileDesc([
-     ["\x12", ["\n\npage_count\x18\x04 \x01(\x05"]],
-  +  ["\x12", ["\n\x04isbn\x18\x05 \x01(\t"]],
+  @@ -21,2 +21,6 @@ fileDesc([
+     ]],
+  +  ["\x12", [
+  +   "\n\x04isbn",
+  +   "\x18\x05 \x01(\t",
+  +  ]],
     ]],
   # theirs
-  @@ -23,2 +23,3 @@ fileDesc([
-     ["\x12", ["\n\tpage_size\x18\x02 \x01(\x05"]],
-  +  ["\x12", ["\n\npage_token\x18\x03 \x01(\t"]],
+  @@ -50,2 +50,6 @@ fileDesc([
+     ]],
+  +  ["\x12", [
+  +   "\n\npage_token",
+  +   "\x18\x03 \x01(\t",
+  +  ]],
     ]],
   ```
 
@@ -257,38 +275,44 @@ Whole generated `_pb.ts`, compared with the file generated from the merged .prot
   fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEiFAoEVXNlch…
   >>>>>>> theirs
   ```
-- **Option A**: clean, decodes to the descriptor of the merged .proto
-- **Option B**: clean, decodes to the descriptor of the merged .proto
+- **String literal**: clean, decodes to the descriptor of the merged .proto
+- **Nested array**: clean, decodes to the descriptor of the merged .proto
 
   ```diff
   # ours
-  @@ -7,2 +7,6 @@ fileDesc([
+  @@ -10,2 +10,9 @@ fileDesc([
     ]],
   + ["\"", [
   +  "\n\x07Profile",
-  +  ["\x12", ["\n\x03bio\x18\x01 \x01(\t"]],
+  +  ["\x12", [
+  +   "\n\x03bio",
+  +   "\x18\x01 \x01(\t",
+  +  ]],
   + ]],
     ["\"", [
   # theirs
-  @@ -11,2 +11,6 @@ fileDesc([
+  @@ -17,2 +17,9 @@ fileDesc([
     ]],
   + ["\"", [
   +  "\n\x07Invoice",
-  +  ["\x12", ["\n\x06amount\x18\x01 \x01(\x03"]],
+  +  ["\x12", [
+  +   "\n\x06amount",
+  +   "\x18\x01 \x01(\x03",
+  +  ]],
   + ]],
     "b\x06proto3",
   ```
 
 Whole `_pb.ts`:
 
-- **Option A**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+- **String literal**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
 
   ```diff
   @@ -93 +93 @@ export const InvoiceSchema: GenMessage<Invoice> = /*@__PURE__*/
   -  messageDesc(file_example_v1_library, 3);
   +  messageDesc(file_example_v1_library, 2);
   ```
-- **Option A + manifest**: conflicts in the manifest
+- **String literal + manifest**: conflicts in the manifest
 
   ```js
   <<<<<<< ours
@@ -299,14 +323,14 @@ Whole `_pb.ts`:
   // 2: message example.v1.Invoice
   >>>>>>> theirs
   ```
-- **Option B**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+- **Nested array**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
 
   ```diff
-  @@ -103 +103 @@ export const InvoiceSchema: GenMessage<Invoice> = /*@__PURE__*/
+  @@ -115 +115 @@ export const InvoiceSchema: GenMessage<Invoice> = /*@__PURE__*/
   -  messageDesc(file_example_v1_library, 3);
   +  messageDesc(file_example_v1_library, 2);
   ```
-- **Option B + index manifest**: conflicts in the manifest
+- **Nested array + index manifest**: conflicts in the manifest
 
   ```js
   <<<<<<< ours
@@ -317,7 +341,18 @@ Whole `_pb.ts`:
   // 2: message example.v1.Invoice
   >>>>>>> theirs
   ```
-- **Option B + manifest**: conflicts in the manifest
+- **Nested array + manifest**: conflicts in the manifest
+
+  ```js
+  <<<<<<< ours
+  // 1: message example.v1.Profile
+  // 2: message example.v1.Team
+  =======
+  // 1: message example.v1.Team
+  // 2: message example.v1.Invoice
+  >>>>>>> theirs
+  ```
+- **Nested array + index manifest + number types**: conflicts in the manifest
 
   ```js
   <<<<<<< ours
@@ -353,7 +388,7 @@ Whole `_pb.ts`:
   fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEicgoEVXNlch…
   >>>>>>> theirs
   ```
-- **Option A**: 1 conflict(s)
+- **String literal**: 1 conflict(s)
 
   ```js
   <<<<<<< ours
@@ -380,21 +415,11 @@ Whole `_pb.ts`:
       "\x06_phoneb\x06proto3\xd2\xf6\x03\x04\b\x00\x18\x00");
   >>>>>>> theirs
   ```
-- **Option B**: 1 conflict(s)
-
-  ```js
-  <<<<<<< ours
-    ["\x12", ["\n\x03bio\x18\x04 \x01(\tH\x01\x88\x01\x01"]],
-    ["\x12", ["\n\x05email\x18\x03 \x01(\tH\x02\x88\x01\x01"]],
-  =======
-    ["\x12", ["\n\x05email\x18\x03 \x01(\tH\x01\x88\x01\x01"]],
-    ["\x12", ["\n\x05phone\x18\x05 \x01(\tH\x02\x88\x01\x01"]],
-  >>>>>>> theirs
-  ```
+- **Nested array**: clean, but decodes to a different descriptor than the merged .proto's (see below)
 
 Whole `_pb.ts`:
 
-- **Option A + manifest**: conflicts in the manifest
+- **String literal + manifest**: conflicts in the manifest
 
   ```js
   <<<<<<< ours
@@ -405,7 +430,37 @@ Whole `_pb.ts`:
   // 2: _phone
   >>>>>>> theirs
   ```
-- **Option B + manifest**: conflicts in the manifest
+- **Nested array**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+
+  ```diff
+  @@ -37 +37 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
+  -   "\x18\x05 \x01(\tH\x03\x88\x01\x01",
+  +   "\x18\x05 \x01(\tH\x02\x88\x01\x01",
+  ```
+
+  protobuf-es loads the merged descriptor as (`-` expected, `+` merged):
+
+  ```diff
+   (no difference)
+  ```
+
+  `toJsonString(create(messageDesc(file, 0), {"id":"1","phone":"555"}))`: expected `{"id":"1","phone":"555"}`, merged `{"id":"1","phone":"555"}`
+- **Nested array + index manifest**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+
+  ```diff
+  @@ -37 +37 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
+  -   "\x18\x05 \x01(\tH\x03\x88\x01\x01",
+  +   "\x18\x05 \x01(\tH\x02\x88\x01\x01",
+  ```
+
+  protobuf-es loads the merged descriptor as (`-` expected, `+` merged):
+
+  ```diff
+   (no difference)
+  ```
+
+  `toJsonString(create(messageDesc(file, 0), {"id":"1","phone":"555"}))`: expected `{"id":"1","phone":"555"}`, merged `{"id":"1","phone":"555"}`
+- **Nested array + manifest**: conflicts in the manifest
 
   ```js
   <<<<<<< ours
@@ -441,7 +496,7 @@ Whole `_pb.ts`:
   fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEigAEKBFVzZX…
   >>>>>>> theirs
   ```
-- **Option A**: 1 conflict(s)
+- **String literal**: 1 conflict(s)
 
   ```js
   <<<<<<< ours
@@ -470,11 +525,11 @@ Whole `_pb.ts`:
       "\x06_phoneb\x06proto3\xd2\xf6\x03\x04\b\x00\x18\x00");
   >>>>>>> theirs
   ```
-- **Option B**: clean, but decodes to a different descriptor than the merged .proto's (see below)
+- **Nested array**: clean, but decodes to a different descriptor than the merged .proto's (see below)
 
 Whole `_pb.ts`:
 
-- **Option A + manifest**: conflicts in the manifest
+- **String literal + manifest**: conflicts in the manifest
 
   ```js
   <<<<<<< ours
@@ -485,12 +540,12 @@ Whole `_pb.ts`:
   // 2: _phone
   >>>>>>> theirs
   ```
-- **Option B**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+- **Nested array**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
 
   ```diff
-  @@ -24 +24 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
-  -  ["\x12", ["\n\x05phone\x18\x06 \x01(\tH\x03\x88\x01\x01"]],
-  +  ["\x12", ["\n\x05phone\x18\x06 \x01(\tH\x02\x88\x01\x01"]],
+  @@ -41 +41 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
+  -   "\x18\x06 \x01(\tH\x03\x88\x01\x01",
+  +   "\x18\x06 \x01(\tH\x02\x88\x01\x01",
   ```
 
   protobuf-es loads the merged descriptor as (`-` expected, `+` merged):
@@ -500,14 +555,12 @@ Whole `_pb.ts`:
   ```
 
   `toJsonString(create(messageDesc(file, 0), {"id":"1","phone":"555"}))`: expected `{"id":"1","phone":"555"}`, merged `{"id":"1","phone":"555"}`
-
-  protobuf-go `protodesc.NewFiles`: `proto: message field "example.v1.User.email" under proto3 optional semantics must be within a single element oneof`
-- **Option B + index manifest**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+- **Nested array + index manifest**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
 
   ```diff
-  @@ -24 +24 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
-  -  ["\x12", ["\n\x05phone\x18\x06 \x01(\tH\x03\x88\x01\x01"]],
-  +  ["\x12", ["\n\x05phone\x18\x06 \x01(\tH\x02\x88\x01\x01"]],
+  @@ -41 +41 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
+  -   "\x18\x06 \x01(\tH\x03\x88\x01\x01",
+  +   "\x18\x06 \x01(\tH\x02\x88\x01\x01",
   ```
 
   protobuf-es loads the merged descriptor as (`-` expected, `+` merged):
@@ -517,9 +570,7 @@ Whole `_pb.ts`:
   ```
 
   `toJsonString(create(messageDesc(file, 0), {"id":"1","phone":"555"}))`: expected `{"id":"1","phone":"555"}`, merged `{"id":"1","phone":"555"}`
-
-  protobuf-go `protodesc.NewFiles`: `proto: message field "example.v1.User.email" under proto3 optional semantics must be within a single element oneof`
-- **Option B + manifest**: conflicts in the manifest
+- **Nested array + manifest**: conflicts in the manifest
 
   ```js
   <<<<<<< ours
@@ -555,25 +606,31 @@ Whole `_pb.ts`:
   fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEiPAoEVXNlch…
   >>>>>>> theirs
   ```
-- **Option A**: clean, but decodes to a different descriptor than the merged .proto's (see below)
-- **Option B**: clean, decodes to the descriptor of the merged .proto
+- **String literal**: clean, but decodes to a different descriptor than the merged .proto's (see below)
+- **Nested array**: clean, decodes to the descriptor of the merged .proto
 
   ```diff
   # ours
-  @@ -6,2 +6,3 @@ fileDesc([
-     ["\x12", ["\n\x02id\x18\x01 \x01(\t"]],
-  +  ["\x12", ["\n\x03bio\x18\x04 \x01(\t"]],
-     ["\x12", ["\n\x04name\x18\x02 \x01(\t"]],
+  @@ -9,2 +9,6 @@ fileDesc([
+     ]],
+  +  ["\x12", [
+  +   "\n\x03bio",
+  +   "\x18\x04 \x01(\t",
+  +  ]],
+     ["\x12", [
   # theirs
-  @@ -8,2 +8,3 @@ fileDesc([
-     ["\x12", ["\n\x05email\x18\x03 \x01(\t"]],
-  +  ["\x12", ["\n\x03age\x18\x05 \x01(\t"]],
+  @@ -17,2 +17,6 @@ fileDesc([
+     ]],
+  +  ["\x12", [
+  +   "\n\x03age",
+  +   "\x18\x05 \x01(\t",
+  +  ]],
     ]],
   ```
 
 Whole `_pb.ts`:
 
-- **Option A**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+- **String literal**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
 
   ```diff
   @@ -17 +17 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
@@ -590,9 +647,7 @@ Whole `_pb.ts`:
   ```
 
   `toJsonString(create(messageDesc(file, 0), {"id":"1","age":"20"}))`: expected `{"id":"1","age":"20"}`, merged `{"id":"1"}`
-
-  protobuf-go `protodesc.NewFiles`: `proto: invalid package: "\n\x03age\x18\x05 \x01(\t"`
-- **Option A + manifest**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+- **String literal + manifest**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
 
   ```diff
   @@ -17 +17 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
@@ -609,8 +664,6 @@ Whole `_pb.ts`:
   ```
 
   `toJsonString(create(messageDesc(file, 0), {"id":"1","age":"20"}))`: expected `{"id":"1","age":"20"}`, merged `{"id":"1"}`
-
-  protobuf-go `protodesc.NewFiles`: `proto: invalid package: "\n\x03age\x18\x05 \x01(\t"`
 
 ### public-import-vs-inserted-import
 
@@ -642,7 +695,7 @@ Whole `_pb.ts`:
   fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEiRQoEVXNlch…
   >>>>>>> theirs
   ```
-- **Option A**: 1 conflict(s)
+- **String literal**: 1 conflict(s)
 
   ```js
   <<<<<<< ours
@@ -652,11 +705,11 @@ Whole `_pb.ts`:
       "\x01c\x18\x03 \x01(\v2\b.dep.c.Cb\x06proto3\xd2\xf6\x03\x04\b\x00\x…
   >>>>>>> theirs
   ```
-- **Option B**: clean, but decodes to a different descriptor than the merged .proto's (see below)
+- **Nested array**: clean, but decodes to a different descriptor than the merged .proto's (see below)
 
 Whole `_pb.ts`:
 
-- **Option A + manifest**: conflicts in the manifest
+- **String literal + manifest**: conflicts in the manifest
 
   ```js
   <<<<<<< ours
@@ -668,10 +721,10 @@ Whole `_pb.ts`:
   // 2: dep/b.proto
   >>>>>>> theirs
   ```
-- **Option B**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+- **Nested array**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
 
   ```diff
-  @@ -38 +38 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
+  @@ -41 +41 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
   - "P\x02",
   + "P\x01",
   ```
@@ -681,12 +734,10 @@ Whole `_pb.ts`:
   ```diff
    (no difference)
   ```
-
-  protobuf-go `protodesc.NewFiles`: `ok`
-- **Option B + index manifest**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
+- **Nested array + index manifest**: clean, but differs from the file generated from the merged .proto (`-` expected, `+` merged)
 
   ```diff
-  @@ -38 +38 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
+  @@ -41 +41 @@ export const file_example_v1_library: GenFile = /*@__PURE__*/
   - "P\x02",
   + "P\x01",
   ```
@@ -696,9 +747,7 @@ Whole `_pb.ts`:
   ```diff
    (no difference)
   ```
-
-  protobuf-go `protodesc.NewFiles`: `ok`
-- **Option B + manifest**: conflicts in the manifest
+- **Nested array + manifest**: conflicts in the manifest
 
   ```js
   <<<<<<< ours

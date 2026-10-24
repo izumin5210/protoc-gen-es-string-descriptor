@@ -6,44 +6,44 @@
 
 | | base64 | Option A | Option B |
 | --- | --- | --- | --- |
-| files, raw | 1066.6 | 1170.9 (+10%) | 1279.1 (+20%) |
-| files, gzip | 172.1 | 126.9 (-26%) | 120.7 (-30%) |
-| files, brotli | 120.0 | 91.6 (-24%) | 86.6 (-28%) |
-| `fileDesc(…)` only, raw | 536.2 | 633.8 (+18%) | 744.1 (+39%) |
-| `fileDesc(…)` only, gzip | 118.8 | 87.2 (-27%) | 82.1 (-31%) |
-| `fileDesc(…)` only, brotli | 90.3 | 65.7 (-27%) | 60.9 (-32%) |
+| files, raw | 1066.6 | 1170.9 (+10%) | 1345.9 (+26%) |
+| files, gzip | 172.1 | 126.9 (-26%) | 121.7 (-29%) |
+| files, brotli | 120.0 | 91.6 (-24%) | 87.0 (-27%) |
+| `fileDesc(…)` only, raw | 536.2 | 633.8 (+18%) | 810.9 (+51%) |
+| `fileDesc(…)` only, gzip | 118.8 | 87.2 (-27%) | 83.4 (-30%) |
+| `fileDesc(…)` only, brotli | 90.3 | 65.7 (-27%) | 61.4 (-32%) |
 
 #### esbuild (charset=ascii)
 
 | | base64 | Option A | Option B |
 | --- | --- | --- | --- |
-| bundle, raw | 578.0 | 478.5 (-17%) | 572.3 (-1%) |
-| bundle, gzip | 134.2 | 96.6 (-28%) | 91.7 (-32%) |
-| bundle, brotli | 104.5 | 77.4 (-26%) | 72.5 (-31%) |
-| descriptors only, raw | 509.6 | 409.7 (-20%) | 503.0 (-1%) |
-| descriptors only, gzip | 115.7 | 77.9 (-33%) | 72.9 (-37%) |
-| descriptors only, brotli | 88.3 | 61.2 (-31%) | 56.0 (-37%) |
+| bundle, raw | 578.0 | 478.5 (-17%) | 584.4 (+1%) |
+| bundle, gzip | 134.2 | 96.6 (-28%) | 92.2 (-31%) |
+| bundle, brotli | 104.5 | 77.4 (-26%) | 72.8 (-30%) |
+| descriptors only, raw | 509.6 | 409.7 (-20%) | 515.1 (+1%) |
+| descriptors only, gzip | 115.7 | 77.9 (-33%) | 73.4 (-37%) |
+| descriptors only, brotli | 88.3 | 61.2 (-31%) | 56.3 (-36%) |
 
 #### esbuild (charset=utf8)
 
 | | base64 | Option A | Option B |
 | --- | --- | --- | --- |
-| bundle, raw | 578.0 | 464.9 (-20%) | 561.4 (-3%) |
-| bundle, gzip | 134.2 | 96.6 (-28%) | 91.5 (-32%) |
-| bundle, brotli | 104.5 | 77.2 (-26%) | 72.3 (-31%) |
-| descriptors only, raw | 509.6 | 396.1 (-22%) | 492.2 (-3%) |
-| descriptors only, gzip | 115.7 | 77.9 (-33%) | 72.7 (-37%) |
-| descriptors only, brotli | 88.3 | 61.0 (-31%) | 55.9 (-37%) |
+| bundle, raw | 578.0 | 464.9 (-20%) | 573.6 (-1%) |
+| bundle, gzip | 134.2 | 96.6 (-28%) | 92.1 (-31%) |
+| bundle, brotli | 104.5 | 77.2 (-26%) | 72.6 (-31%) |
+| descriptors only, raw | 509.6 | 396.1 (-22%) | 504.3 (-1%) |
+| descriptors only, gzip | 115.7 | 77.9 (-33%) | 73.3 (-37%) |
+| descriptors only, brotli | 88.3 | 61.0 (-31%) | 56.1 (-36%) |
 
 #### rollup + terser
 
 | | base64 | Option A | Option B |
 | --- | --- | --- | --- |
-| bundle, raw | 577.1 | 472.5 (-18%) | 569.2 (-1%) |
-| bundle, gzip | 133.8 | 97.0 (-28%) | 90.9 (-32%) |
+| bundle, raw | 577.1 | 472.5 (-18%) | 581.3 (+1%) |
+| bundle, gzip | 133.8 | 97.0 (-28%) | 91.4 (-32%) |
 | bundle, brotli | 104.2 | 77.3 (-26%) | 71.9 (-31%) |
-| descriptors only, raw | 509.6 | 404.6 (-21%) | 500.8 (-2%) |
-| descriptors only, gzip | 115.8 | 78.8 (-32%) | 72.5 (-37%) |
+| descriptors only, raw | 509.6 | 404.6 (-21%) | 512.9 (+1%) |
+| descriptors only, gzip | 115.8 | 78.8 (-32%) | 72.9 (-37%) |
 | descriptors only, brotli | 88.4 | 61.3 (-31%) | 55.7 (-37%) |
 
 #### How the minifiers printed the descriptor literals
@@ -54,10 +54,10 @@ Counts are taken over the whole bundle minus the stub bundle. In the sample, ⟨
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | esbuild (charset=ascii) | base64 | 0 | 0 | 0 | 0 | 0 | 0 |
 | esbuild (charset=ascii) | Option A | 0 | 7553 | 0 | 39842 | 0 | 304 |
-| esbuild (charset=ascii) | Option B | 0 | 6009 | 0 | 34665 | 0 | 15398 |
+| esbuild (charset=ascii) | Option B | 0 | 6009 | 0 | 34665 | 0 | 15510 |
 | esbuild (charset=utf8) | base64 | 0 | 0 | 0 | 0 | 0 | 0 |
 | esbuild (charset=utf8) | Option A | 0 | 606 | 0 | 39860 | 6929 | 304 |
-| esbuild (charset=utf8) | Option B | 0 | 458 | 0 | 34668 | 5548 | 15398 |
+| esbuild (charset=utf8) | Option B | 0 | 458 | 0 | 34668 | 5548 | 15510 |
 | rollup + terser | base64 | 0 | 0 | 0 | 0 | 0 | 0 |
 | rollup + terser | Option A | 0 | 0 | 0 | 38341 | 6929 | 30 |
 | rollup + terser | Option B | 0 | 0 | 0 | 33055 | 5548 | 2 |
@@ -67,11 +67,11 @@ Samples (the start of `google/api/annotations.proto`'s descriptor):
 ```
 esbuild (charset=ascii) / base64: (not readable: base64)
 esbuild (charset=ascii) / Option A: `⟨0a⟩⟨1c⟩google/api/annotations.proto⟨12⟩⟨0a⟩google.api:K⟨0a⟩⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.Met
-esbuild (charset=ascii) / Option B: `⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[":",[`⟨0a⟩⟨04⟩http`,'⟨12⟩⟨1e⟩.google
+esbuild (charset=ascii) / Option B: `⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[":",[`⟨0a⟩⟨04⟩http`,"⟨12⟩⟨1e⟩.google
 esbuild (charset=utf8) / base64: (not readable: base64)
 esbuild (charset=utf8) / Option A: `⟨0a⟩⟨1c⟩google/api/annotations.proto⟨12⟩⟨0a⟩google.api:K⟨0a⟩⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.Met
-esbuild (charset=utf8) / Option B: `⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[":",[`⟨0a⟩⟨04⟩http`,'⟨12⟩⟨1e⟩.google
+esbuild (charset=utf8) / Option B: `⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[":",[`⟨0a⟩⟨04⟩http`,"⟨12⟩⟨1e⟩.google
 rollup + terser / base64: (not readable: base64)
 rollup + terser / Option A: \n⟨1c⟩google/api/annotations.proto⟨12⟩\ngoogle.api:K\n⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.M
-rollup + terser / Option B: \n⟨1c⟩google/api/annotations.proto","⟨12⟩\ngoogle.api",[":",["\n⟨04⟩http",'⟨12⟩⟨1e⟩.goog
+rollup + terser / Option B: \n⟨1c⟩google/api/annotations.proto","⟨12⟩\ngoogle.api",[":",["\n⟨04⟩http","⟨12⟩⟨1e⟩.goog
 ```

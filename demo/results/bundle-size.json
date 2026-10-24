@@ -15,9 +15,9 @@
         "brotli": 93761
       },
       "b": {
-        "raw": 1309824,
-        "gzip": 123600,
-        "brotli": 88683
+        "raw": 1378171,
+        "gzip": 124654,
+        "brotli": 89131
       }
     },
     "descriptors": {
@@ -32,9 +32,9 @@
         "brotli": 67325
       },
       "b": {
-        "raw": 761966,
-        "gzip": 84087,
-        "brotli": 62394
+        "raw": 830313,
+        "gzip": 85370,
+        "brotli": 62899
       }
     }
   },
@@ -84,14 +84,14 @@
       },
       "b": {
         "bundle": {
-          "raw": 586025,
-          "gzip": 93918,
-          "brotli": 74252
+          "raw": 598448,
+          "gzip": 94438,
+          "brotli": 74503
         },
         "descriptors": {
-          "raw": 515075,
-          "gzip": 74653,
-          "brotli": 57385
+          "raw": 527498,
+          "gzip": 75173,
+          "brotli": 57636
         },
         "literals": {
           "stringConcats": 0,
@@ -99,9 +99,9 @@
           "unicodeEscapes": 0,
           "rawControlChars": 34665,
           "rawNonAscii": 0,
-          "backticks": 15398
+          "backticks": 15510
         },
-        "sample": "`⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[\":\",[`⟨0a⟩⟨04⟩http`,'⟨12⟩⟨1e⟩.google"
+        "sample": "`⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[\":\",[`⟨0a⟩⟨04⟩http`,\"⟨12⟩⟨1e⟩.google"
       }
     },
     "esbuild (charset=utf8)": {
@@ -149,14 +149,14 @@
       },
       "b": {
         "bundle": {
-          "raw": 574920,
-          "gzip": 93694,
-          "brotli": 74072
+          "raw": 587343,
+          "gzip": 94339,
+          "brotli": 74349
         },
         "descriptors": {
-          "raw": 503970,
-          "gzip": 74429,
-          "brotli": 57205
+          "raw": 516393,
+          "gzip": 75074,
+          "brotli": 57482
         },
         "literals": {
           "stringConcats": 0,
@@ -164,9 +164,9 @@
           "unicodeEscapes": 0,
           "rawControlChars": 34668,
           "rawNonAscii": 5548,
-          "backticks": 15398
+          "backticks": 15510
         },
-        "sample": "`⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[\":\",[`⟨0a⟩⟨04⟩http`,'⟨12⟩⟨1e⟩.google"
+        "sample": "`⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[\":\",[`⟨0a⟩⟨04⟩http`,\"⟨12⟩⟨1e⟩.google"
       }
     },
     "rollup + terser": {
@@ -214,14 +214,14 @@
       },
       "b": {
         "bundle": {
-          "raw": 582865,
-          "gzip": 93086,
-          "brotli": 73582
+          "raw": 595291,
+          "gzip": 93556,
+          "brotli": 73602
         },
         "descriptors": {
-          "raw": 512832,
-          "gzip": 74218,
-          "brotli": 57049
+          "raw": 525258,
+          "gzip": 74688,
+          "brotli": 57069
         },
         "literals": {
           "stringConcats": 0,
@@ -231,7 +231,7 @@
           "rawNonAscii": 5548,
           "backticks": 2
         },
-        "sample": "\\n⟨1c⟩google/api/annotations.proto\",\"⟨12⟩\\ngoogle.api\",[\":\",[\"\\n⟨04⟩http\",'⟨12⟩⟨1e⟩.goog"
+        "sample": "\\n⟨1c⟩google/api/annotations.proto\",\"⟨12⟩\\ngoogle.api\",[\":\",[\"\\n⟨04⟩http\",\"⟨12⟩⟨1e⟩.goog"
       }
     }
   }
