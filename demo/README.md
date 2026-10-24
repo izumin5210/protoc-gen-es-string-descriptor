@@ -5,7 +5,8 @@ This directory holds the evidence for a feature request to
 in a form that survives concurrent edits. It is not part of the published
 package.
 
-**Proposal: nested array + names + number types.**
+**Proposal: nested array + names + number types**, as implemented in the
+plugin by [#14](https://github.com/izumin5210/protoc-gen-es-string-descriptor/pull/14).
 
 1. **Nested array.** The descriptor is embedded as nested arrays without
    length prefixes: `[tag, [children]]` for sub-messages, raw byte strings
@@ -15,8 +16,8 @@ package.
      `serviceDesc` and `extDesc`.
    - Synthetic oneofs of proto3 `optional` fields are left out and
      re-created on load.
-   - Members of real oneofs, and public and weak imports, are listed by
-     name.
+   - Members of real oneofs, and public and weak imports, are marked by
+     name inline, as unknown fields with reserved numbers.
 3. **One import per line** in the imports array.
 4. **Number types.** A type keyed by field or value number per message and
    enum, so that a duplicate number fails type checking with TS2300.
@@ -25,24 +26,27 @@ package.
 
 - **Replay of real history.** On 91 pairs of
   `google/cloud/aiplatform/v1` commits, base64 conflicted in 55 and the
-  proposal in 1. The proposal merged none of them wrongly. Every encoding
-  that keeps positions either merged some pairs into silently wrong code
-  (string literal 2, nested array 5) or conflicted far more often (index
-  manifest + number types: 8).
-- **18 minimal scenarios.**
-  - The proposal merges 12 of the 13 valid cases correctly, and the other
+  proposal in 1. On 85 pairs of three other files, base64 conflicted in 46
+  and the proposal in 3. The proposal merged none of them wrongly. Every
+  encoding that keeps positions either merged some pairs into silently
+  wrong code (string literal 2 + 2, nested array 5 + 4) or conflicted more
+  often (index manifest + number types: 8 + 13).
+- **19 minimal scenarios.**
+  - The proposal merges 13 of the 14 valid cases correctly, and the other
     one conflicts.
   - All 5 cases whose merged `.proto` is invalid end in an error, from
     TypeScript or from loading the descriptor.
   - The nested array alone is silently wrong in 8 cases.
-- **Size.** Per generated file, the proposal is +6% minified and −29%
-  gzipped compared with base64.
-- **Lookup by name.** Resolving all 1,376 messages of 181 descriptors by
-  name takes about 1 ms, including building the per-file maps (about
-  110 KiB, compared with 4.0 MiB for the registry).
-- **What names cost.** All oneof members and public imports of a file sit
-  in one table. Two unrelated additions can therefore become adjacent there
-  and conflict (1 of 85 replayed pairs on other files).
+- **Synthetic matrix.** Of 8,272 pairs of single edits, the proposal merges
+  none wrongly and conflicts in 80.
+- **Inline markers instead of a name table** remove 8 of the matrix's 88
+  conflicts and 4 of the older replay's 7.
+- **Size and speed.** Per generated file, the proposal is +5% minified and
+  −29% gzipped compared with base64. Hydrating 137 files through
+  codegenv2's `fileDesc` takes 123 ms, against 99 ms for base64. Resolving
+  all 1,376 messages of 181 descriptors by name takes under 1 ms, including
+  building the per-file maps (about 105 KiB, compared with 4.0 MiB for the
+  registry).
 - A clean merge is still not proof of correctness, so CI should regenerate
   and compare.
 
@@ -59,6 +63,7 @@ Everything uses public data only:
 | string literal | this package: raw bytes as a string literal, split after every `0x0a`, as protoc-gen-go does |
 | nested array | sub-messages as `[tag, [children]]` without length prefixes; positions unchanged |
 | nested array + index manifest + number types | nested array without synthetic oneofs, plus a comment block that lists every position that generated code uses and the members of real oneofs, numbered imports when some are public or weak, and number types |
+| nested array + name table + number types | an earlier form of the proposal: oneof members and public / weak imports in a table, as a third `fileDesc` argument |
 | nested array + names | the proposal without number types |
 | **nested array + names + number types** | **the proposal** |
 
@@ -133,6 +138,15 @@ Code: [`src/option-b/`](src/option-b/).
 
 ## The proposal: names + number types
 
+The plugin implements this encoding in
+[#14](https://github.com/izumin5210/protoc-gen-es-string-descriptor/pull/14).
+The demo's variant mirrors its code
+([`src/names/inline.ts`](src/names/inline.ts),
+[`src/names/inline-transform.ts`](src/names/inline-transform.ts),
+[`src/names/runtime.ts`](src/names/runtime.ts)), and its output is
+byte-identical to the plugin's for all 173 generated files of
+`google/cloud/aiplatform/v1`, apart from the runtime's module name.
+
 Generated for a message `Event` with a oneof `kind { dep.A click = 2; }`,
 an import of `dep/a.proto` and a public import of `dep/b.proto` (comments
 added):
@@ -154,6 +168,7 @@ export const file_example_v1_event: GenFile = /*@__PURE__*/
    "\n\x05click",
    "\x18\x02 \x01(\v",        // number, label, type; no oneof_index
    "2\x06.dep.A",
+   "\xfa\xff\xff\xff\x0f\x04kind",      // field 536870911: oneof "kind"
   ]],
   ["B", [
    "\n\x04kind",
@@ -161,14 +176,12 @@ export const file_example_v1_event: GenFile = /*@__PURE__*/
  ]],
  "b\x06proto3",
  "\xd2\xf6\x03\x04\b\x00\x18\x00",
+ "\xf2\xff\xff\xff\x0f\vdep/b.proto",  // field 536870910: public import
 ], [
-  file_dep_a,                  // one import per line
-  file_dep_b,
-], [
-  ["oneof", "Event.click", "kind"],
-  ["public", file_dep_b],
+ file_dep_a,                   // one import per line
+ file_dep_b,
 ]);
-type _numbers_example_v1_Event = {
+export type _numbers_example_v1_Event = {
   1: "id";
   2: "click";
 };
@@ -184,18 +197,30 @@ export const EventSchema: GenMessage<Event> = /*@__PURE__*/
 - **Synthetic oneofs** are dropped from the descriptor. On load they are
   re-created the way protoc names them: after the real oneofs, in field
   order, as `_<field>`, prefixed with `X` while that name is taken.
-- **Real oneof members** are listed as `["oneof", "Msg.field", "oneof"]`
+- **Real oneof members** carry the oneof's name in unknown field 536870911
   instead of `oneof_index`.
-- **Public and weak imports** are listed as references to the imported
-  file objects, so the runtime finds them in the imports array by identity.
-- **Number types** are emitted per message and per enum, except for map
+- **Public and weak imports** are unknown fields 536870910 and 536870909 of
+  the file, with the imported file's name. The runtime resolves them against
+  `dependency`, which it sets from the imports array.
+- **The markers are unknown fields with the largest field numbers.**
+  `FieldDescriptorProto` and `FileDescriptorProto` declare no extension
+  ranges, so these numbers never carry real data. Each marker has a line of
+  its own, also after a run of scalars, so its line does not depend on the
+  field before it. The same goes for every other length-delimited unknown
+  field, such as option extensions.
+- **Number types** are exported per message and per enum, except for map
   entries and enums with `allow_alias`. A duplicate number fails type
   checking with `TS2300: Duplicate identifier '3'`. They are erased in
-  JavaScript. The tests check this with the real `tsc`.
+  JavaScript. The tests check this with the real `tsc`. The demo emits them
+  for `target=ts`; the plugin also puts them in `.d.ts` files.
 
-Code: [`src/names/`](src/names/). The runtime
-[`src/names/runtime.ts`](src/names/runtime.ts) restores the descriptor with
-[`src/names/restore.ts`](src/names/restore.ts) and then hydrates it as usual.
+An earlier form of the proposal, **nested array + name table + number
+types**, kept the oneof members and public / weak imports in a third
+`fileDesc` argument, `[["oneof", "Event.click", "kind"], ["public",
+file_dep_b]]`. The demo keeps it for comparison
+([`src/names/table.ts`](src/names/table.ts)). One table per file makes
+unrelated additions adjacent: both sides adding a oneof member to
+neighbouring messages conflicts there, but not inline (scenario 19).
 
 **Why each part.** Generated code and the embedded descriptor refer to
 elements by position:
@@ -215,26 +240,22 @@ TypeScript (`TS2304: Cannot find name`).
 
 **What it costs.**
 
-- *Conflicts in the name table.* All oneof members and public imports of a
-  file are in one table. If both sides add a oneof to different messages,
-  their entries can land next to each other and conflict, whereas the
-  nested array keeps `oneof_index` inside each field. This happened in 1 of
-  85 replayed pairs of the other files (pubsub `8a4cc94afcb9` /
-  `64ecfebceee5`).
+- *Number types.* Their blocks for neighbouring lists are adjacent, e.g. a
+  message's nested enums and its nested messages, so editing the end of one
+  and the start of the other conflicts: 24 of 8,272 pairs in the synthetic
+  matrix.
 - *A map field next to a nested message.* Map entries are nested types in
   the descriptor, so one side adding a map field and the other adding a
   nested message to the same message makes two adjacent additions. That
   conflicts in every variant.
-- *Size.* Names are longer than indices, and the name table adds a line per
-  oneof member: +6% minified per file compared with both base64 and the
-  nested array.
+- *Size.* Names are longer than indices: +5% minified per file compared
+  with base64, +4% compared with the nested array.
 - *Type checking.* The number types help only if generated code is
-  type-checked. With `target=js+dts` they would live in `.d.ts` files, which
-  `skipLibCheck` skips; the demo emits them for `target=ts` only.
+  type-checked. In `.d.ts` files, `skipLibCheck` skips them.
 
 ## Scenario catalogue
 
-[`scenarios/`](scenarios/) has 18 minimal pairs of concurrent edits whose
+[`scenarios/`](scenarios/) has 19 minimal pairs of concurrent edits whose
 `.proto` merges cleanly. For each, the script generates every variant for
 base, ours and theirs, merges the whole `_pb.ts` with `git merge-file`, and
 judges the result as a user would see it:
@@ -246,28 +267,29 @@ judges the result as a user would see it:
   descriptor with protobuf-es throws;
 - *silently wrong*: neither, but the result differs.
 
-| Scenario | base64 | string literal | nested array | nested array + index manifest + number types | nested array + names | **nested array + names + number types** |
-| --- | --- | --- | --- | --- | --- | --- |
-| ***Merged `.proto` is valid (ideal: correct)*** | | | | | | |
-| One side inserts a message in the middle; the other appends one | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct |
-| Both sides add top-level enums at different positions | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct |
-| Both sides add `optional` fields to one message (adjacent) | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add `optional` fields to one message (a plain field in between) | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add `optional` fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add same-size fields to one message (far apart) | ⚪ conflict | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
-| One side makes an import public; the other inserts an import before it | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct |
-| One side inserts a oneof before an existing one; the other adds a member to the existing one | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct |
-| Both sides add fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add RPCs to one service (far apart) | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
-| Both sides add nested messages to different parents | ⚪ conflict | ⚪ conflict | ✅ correct | ⚪ conflict | ✅ correct | ✅ correct |
-| One side adds a map field; the other adds a nested message to the same message | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict |
-| Both sides add different imports | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
-| ***Merged `.proto` is invalid (ideal: conflict or error)*** | | | | | | |
-| Both sides add a field with the same number | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
-| Both sides add an enum value with the same number | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
-| Both sides add a field with the same name | ⚪ conflict | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
-| One side renames a message; the other references the old name | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
-| Both sides add a message with the same name | ⚪ conflict | ⚠️ error | ⚠️ error | ⚪ conflict | ⚠️ error | ⚠️ error |
+| Scenario | base64 | string literal | nested array | nested array + index manifest + number types | nested array + name table + number types | nested array + names | **nested array + names + number types** |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| ***Merged `.proto` is valid (ideal: correct)*** | | | | | | | |
+| One side inserts a message in the middle; the other appends one | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add top-level enums at different positions | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add `optional` fields to one message (adjacent) | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add `optional` fields to one message (a plain field in between) | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add `optional` fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add same-size fields to one message (far apart) | ⚪ conflict | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| One side makes an import public; the other inserts an import before it | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| One side inserts a oneof before an existing one; the other adds a member to the existing one | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add RPCs to one service (far apart) | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add nested messages to different parents | ⚪ conflict | ⚪ conflict | ✅ correct | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| One side adds a map field; the other adds a nested message to the same message | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict |
+| Both sides add different imports | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add a member to the oneof of neighbouring messages | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ⚪ conflict | ✅ correct | ✅ correct |
+| ***Merged `.proto` is invalid (ideal: conflict or error)*** | | | | | | | |
+| Both sides add a field with the same number | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚠️ error | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
+| Both sides add an enum value with the same number | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚠️ error | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
+| Both sides add a field with the same name | ⚪ conflict | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
+| One side renames a message; the other references the old name | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
+| Both sides add a message with the same name | ⚪ conflict | ⚠️ error | ⚠️ error | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error |
 
 - **Duplicate numbers** are the reason for the number types. Without them,
   protobuf-es loads a message with two fields numbered 3, and nothing
@@ -275,6 +297,8 @@ judges the result as a user would see it:
 - **Duplicate names** were already errors: generated code declares a
   property, an enum member or an export per name, and TypeScript rejects
   duplicates.
+- **Neighbouring oneof members** (the last valid case) conflict only with
+  the name table, where both additions are listed next to each other.
 - **Every variant that keeps positions** merges at least one valid case
   silently wrong or conflicts on it.
 
@@ -290,17 +314,17 @@ and every variant merges them the same way: the index shift (01), `optional`
 fields adjacent (03) and separated (04), same-size fields (06) and the public
 import (12).
 
-| scenario | base64 | string literal | string literal + manifest | nested array | nested array + index manifest | nested array + manifest | nested array + index manifest + number types | nested array + names | nested array + names + number types |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| same service, different RPCs added | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
-| same message, different fields added | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
-| message inserted right before a message the other side changed | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
-| control: different messages changed | conflict | clean | clean | clean | clean | clean | clean | clean | clean |
-| `Profile` inserted before `Team` / `Invoice` appended | conflict | **wrong** (code) | conflict | **wrong** (code) | conflict | conflict | conflict | clean | clean |
-| optional `bio` inserted / optional `phone` appended right after | conflict | conflict | conflict | **wrong** (descriptor) | **wrong** (descriptor) | conflict | clean | clean | clean |
-| the same, with a plain field between `email` and `phone` | conflict | conflict | conflict | **wrong** (descriptor) | **wrong** (descriptor) | conflict | clean | clean | clean |
-| `bio` inserted / `age` appended, same byte size | conflict | **wrong** (descriptor) | **wrong** (descriptor) | clean | clean | clean | clean | clean | clean |
-| import made public / import inserted before it | conflict | conflict | conflict | **wrong** (descriptor) | **wrong** (descriptor) | conflict | conflict | clean | clean |
+| scenario | base64 | string literal | string literal + manifest | nested array | nested array + index manifest | nested array + manifest | nested array + index manifest + number types | nested array + name table + number types | nested array + names | nested array + names + number types |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| same service, different RPCs added | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean | clean |
+| same message, different fields added | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean | clean |
+| message inserted right before a message the other side changed | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean | clean |
+| control: different messages changed | conflict | clean | clean | clean | clean | clean | clean | clean | clean | clean |
+| `Profile` inserted before `Team` / `Invoice` appended | conflict | **clean but wrong** (generated code) | conflict | **clean but wrong** (generated code) | conflict | conflict | conflict | clean | clean | clean |
+| optional `bio` inserted / optional `phone` appended right after | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | clean | clean | clean | clean |
+| the same, with a plain field between `email` and `phone` | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | clean | clean | clean | clean |
+| `bio` inserted / `age` appended, same byte size | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | clean | clean | clean | clean | clean | clean | clean |
+| import made public / import inserted before it | conflict | conflict | conflict | **clean but wrong** (descriptor) | **clean but wrong** (descriptor) | conflict | conflict | clean | clean | clean |
 
 Every "clean" result above is byte-identical to the regenerated file.
 
@@ -341,7 +365,7 @@ The proposal has no synthetic oneofs to shift.
 (`public_dependency` = 1). Theirs inserts `dep/c.proto` first, so `b` moves
 to 2. Only theirs changes the imports array, so the nested array merges, and
 `public_dependency` now points at `dep/a.proto`. Both protobuf-es and
-protobuf-go accept it. The proposal records `["public", file_dep_b]`.
+protobuf-go accept it. The proposal marks `dep/b.proto` as public by name.
 
 ### String literal: same-size edits to one message
 
@@ -397,6 +421,7 @@ side does not change the generated file at all.
 | string literal | 64 | 25 | **2** | 0 |
 | nested array | 84 | 2 | **5** | 0 |
 | nested array + index manifest + number types | 83 | 8 | 0 | 0 |
+| nested array + name table + number types | 90 | 1 | 0 | 0 |
 | nested array + names | 90 | 1 | 0 | 0 |
 | **nested array + names + number types** | 90 | 1 | 0 | 0 |
 
@@ -419,15 +444,25 @@ side does not change the generated file at all.
 | string literal | 68 | 15 | **2** | 0 |
 | nested array | 72 | 9 | **4** | 0 |
 | nested array + index manifest + number types | 72 | 13 | 0 | 0 |
-| nested array + names | 78 | 7 | 0 | 0 |
-| **nested array + names + number types** | 78 | 7 | 0 | 0 |
+| nested array + name table + number types | 78 | 7 | 0 | 0 |
+| nested array + names | 82 | 3 | 0 | 0 |
+| **nested array + names + number types** | 82 | 3 | 0 | 0 |
 
 - **The nested array's 4 wrong merges** are 3 index shifts in generated code
   and 1 `oneof_index` (cluster_service `f0a78c77d2` / `449133156d`: both
   sides added a proto3 `optional` field to `ClusterUpdate`).
-- **The proposal** is correct in 7 pairs where the nested array conflicts or
-  is wrong. It conflicts in 1 pair where the nested array is correct: the
-  name table case above.
+- **The proposal** is correct in 10 pairs where the nested array conflicts
+  or is wrong, and its 3 conflicts also conflict with the nested array.
+- **Inline markers instead of the name table** remove 4 conflicts:
+  - 2 pairs where both sides add oneof members, which the name table lists
+    next to each other (pubsub `8a4cc94afcb9` / `64ecfebceee5`, deploy
+    `80460eb1f855` / `4805138ac788`);
+  - 2 pairs where one side changes `go_package` and the other adds a
+    `google.api.resource_definition` file option (deploy `f252e11bdab8` /
+    `d02e58244db5` and the next pair). The option extensions are unknown
+    fields; the proposal puts each on a line of its own, while the name
+    table variant, like the plain nested array, keeps them on one line
+    after `go_package`.
 
 Per-file tables, the earlier manifest variants and `fileDesc(…)` merged
 alone: [`results/replay-aiplatform/summary.md`](results/replay-aiplatform/summary.md),
@@ -461,13 +496,17 @@ is judged as in the scenario catalogue.
 | string literal | 5,848 | 2,333 | 24 | 55 | 12 |
 | nested array | 7,660 | 416 | 0 | 148 | 48 |
 | nested array + index manifest + number types | 7,736 | 536 | 0 | 0 | 0 |
-| nested array + names | 8,208 | 64 | 0 | 0 | 0 |
-| **nested array + names + number types** | 8,184 | 88 | 0 | **0** | **0** |
+| nested array + name table + number types | 8,184 | 88 | 0 | 0 | 0 |
+| nested array + names | 8,216 | 56 | 0 | 0 | 0 |
+| **nested array + names + number types** | 8,192 | 80 | 0 | **0** | **0** |
 
-- **The proposal merges no pair wrongly**, and conflicts in 88.
-- **Its number types cost 24 of those conflicts.** The type blocks of
-  neighbouring lists are adjacent, e.g. a message's nested enums and its
-  nested messages, so editing the end of one and the start of the other
+- **The proposal merges no pair wrongly**, and conflicts in 80.
+- **Inline markers remove 8 of the name table's 88 conflicts.** In all 8,
+  one side makes an import public and the other edits the last oneof
+  member: the name table lists those two entries next to each other.
+- **The number types cost 24 conflicts.** The type blocks of neighbouring
+  lists are adjacent, e.g. a message's nested enums and its nested
+  messages, so editing the end of one and the start of the other
   conflicts.
 - **The string literal's same-size edits** are the 12 wrong descriptors and
   the 24 errors: the orphaned bytes either still parse, or make loading
@@ -477,7 +516,8 @@ is judged as in the scenario catalogue.
   index shifts.
 
 The earlier manifest variants, per-size tables and every pair where a
-variant is wrong or a manifest or the number types change the outcome:
+variant is wrong, a manifest or the number types change the outcome, or the
+name table and the inline markers differ:
 [`results/shift-matrix.md`](results/shift-matrix.md),
 [`results/shift-matrix.tsv`](results/shift-matrix.tsv).
 
@@ -494,8 +534,9 @@ level 9 per file.
 | string literal | 1,306.0 (+5%) | 265.7 (−23%) | 689.7 (−13%) | 195.1 (−29%) |
 | nested array | 1,382.9 (+11%) | 257.1 (−26%) | 796.7 (+1%) | 194.9 (−29%) |
 | nested array + index manifest + number types | 1,374.0 (+11%) | 256.1 (−26%) | 789.9 (±0%) | 193.6 (−30%) |
-| nested array + names | 1,424.5 (+15%) | 261.3 (−25%) | 841.5 (+6%) | 196.5 (−29%) |
-| **nested array + names + number types** | 1,424.5 (+15%) | 261.3 (−25%) | 841.5 (+6%) | 196.5 (−29%) |
+| nested array + name table + number types | 1,425.4 (+15%) | 262.0 (−24%) | 842.3 (+7%) | 197.2 (−29%) |
+| nested array + names | 1,416.4 (+14%) | 259.7 (−25%) | 832.4 (+5%) | 194.8 (−29%) |
+| **nested array + names + number types** | 1,416.4 (+14%) | 259.7 (−25%) | 832.4 (+5%) | 194.8 (−29%) |
 
 - The first column removes comments, number types, indentation and line
   breaks, and keeps the other TypeScript types. Comments are only removed
@@ -543,8 +584,8 @@ demo runtime's map per file:
 
 | | time (median of 11) | memory |
 | --- | --- | --- |
-| by index, `messageDesc(file, 2, 0)` | 0.11 ms | — |
-| by name, building the maps first | 0.92 ms | 114 KiB for 1,565 elements |
+| by index, `messageDesc(file, 2, 0)` | 0.17 ms | — |
+| by name, building the maps first | 0.64 ms | 105 KiB for 1,565 elements |
 | for comparison: the registry | — | 4.0 MiB, plus 3.7 MiB for the parsed descriptors it keeps |
 
 The times vary by about ±0.2 ms between runs.
@@ -565,22 +606,33 @@ decoder.
 
 | | import median | import p90 | hydrate median | hydrate p90 |
 | --- | --- | --- | --- | --- |
-| base64 | 104.1 ms | 113.4 ms | 97.2 ms | 106.4 ms |
-| string literal (shipped runtime) | 115.7 ms | 125.5 ms | 107.1 ms | 117.2 ms |
-| string literal (direct) | 104.7 ms | 111.3 ms | 96.0 ms | 102.5 ms |
-| nested array (shipped runtime) | 125.8 ms | 132.9 ms | 109.3 ms | 116.3 ms |
-| nested array (direct) | 115.9 ms | 121.4 ms | 99.5 ms | 106.0 ms |
+| base64 | 105.6 ms | 115.1 ms | 98.7 ms | 108.2 ms |
+| string literal (shipped runtime) | 117.1 ms | 125.0 ms | 108.0 ms | 116.5 ms |
+| string literal (direct) | 105.0 ms | 111.3 ms | 96.5 ms | 102.7 ms |
+| nested array (shipped runtime) | 126.0 ms | 133.8 ms | 108.8 ms | 116.8 ms |
+| nested array (direct) | 115.3 ms | 123.5 ms | 99.0 ms | 107.4 ms |
+| **nested array + names + number types** | 139.3 ms | 151.3 ms | 123.3 ms | 134.6 ms |
 
 - Hydration time is dominated by `fromBinary` and building the registry,
   which are the same for every encoding. Implemented natively, the nested
   array hydrates as fast as base64; the differences are within run-to-run
   noise.
+- **The names runtime** resolves the markers and re-creates the synthetic
+  oneofs while it rebuilds the bytes from the nested array
+  ([`src/names/decode.ts`](src/names/decode.ts)), looking only into file,
+  message, field and oneof descriptors. It then passes the bytes as base64
+  to `fileDesc` from `@bufbuild/protobuf/codegenv2`, so hydration is
+  exactly upstream's. That costs about 25 ms more than base64 cold:
+  - about 10 ms for the base64 round trip, which "nested array (shipped
+    runtime)" also pays;
+  - about 15 ms for the extra pass over the tree for the markers (3 ms
+    warm) and for the lookups by name.
+- An earlier version of the names runtime parsed the rebuilt bytes,
+  restored the names on the parsed descriptor and built the registry from
+  it, without base64. It hydrated in 101 ms.
 - The nested array's import time is about 16 ms above its hydrate time,
   compared with 7 ms for base64. The extra time goes into parsing the array
   literals.
-- The names variants were not measured. Their runtime re-creates the
-  synthetic oneofs and name entries on the parsed descriptor, which an
-  upstream implementation would do before building the registry.
 
 Warm conversion and full tables: [`results/load-bench.md`](results/load-bench.md).
 
@@ -597,8 +649,6 @@ Warm conversion and full tables: [`results/load-bench.md`](results/load-bench.md
   harmless differences. Every case found was a real change of meaning.
 - The matrix covers single edits per side on short lists. It does not cover
   a side that edits several lists at once, renames, or moves.
-- The runtime for names restores the descriptor with `fromBinary` /
-  `toBinary` before hydrating it. Its load time has not been measured.
 - Go was not available when the results were last regenerated, so wrong
   descriptors were not loaded with protobuf-go this time. The protobuf-go
   messages quoted above are from earlier runs of the same cases.
