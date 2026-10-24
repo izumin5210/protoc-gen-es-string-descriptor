@@ -12,7 +12,12 @@ import {
   decodeDescriptorExpr,
   extractDescriptorExpr,
 } from "../src/descriptor-expr.js";
-import { generate, VARIANTS, type Variant } from "../src/generate.js";
+import {
+  generate,
+  VARIANT_LABELS,
+  VARIANTS,
+  type Variant,
+} from "../src/generate.js";
 import {
   cloneGoogleapis,
   GOOGLEAPIS_REV,
@@ -149,6 +154,8 @@ function perVariant(subset: Replayed[]) {
           fileCleanButWrong: n((o) => o.fileConflicts === 0 && !o.fileCorrect),
           // Wrong outside the descriptor, i.e. in messageDesc(file, N) & co.
           fileWrongOutsideDescriptor: n((o) => o.fileWrong?.rest === true),
+          // Wrong descriptors that protobuf-go loads without complaint.
+          wrongDescriptorGoAccepts: n((o) => o.protodesc === "ok"),
         },
       ];
     }),
@@ -161,41 +168,39 @@ function perVariant(subset: Replayed[]) {
       | "fileClean"
       | "fileConflict"
       | "fileCleanButWrong"
-      | "fileWrongOutsideDescriptor",
+      | "fileWrongOutsideDescriptor"
+      | "wrongDescriptorGoAccepts",
       number
     >
   >;
 }
 
-/** What adding the manifest did to the whole-file merges of A and B. */
+const MANIFEST_PAIRS = [
+  ["a", "a-manifest"],
+  ["b", "b-index-manifest"],
+  ["b", "b-manifest"],
+] as const;
+
+/** What adding a manifest did to the whole-file merges. */
 function manifestEffect(subset: Replayed[]) {
-  return Object.fromEntries(
-    (["a", "b"] as const).map((e) => {
-      const n = (
-        pred: (without: RecordedOutcome, withM: RecordedOutcome) => boolean,
-      ) =>
-        subset.filter((r) => pred(r.variants[e], r.variants[`${e}-manifest`]))
-          .length;
-      return [
-        e,
-        {
-          // Cost: a correct clean merge that now needs manual resolution.
-          correctToConflict: n(
-            (w, m) => !!w.fileCorrect && m.fileConflicts > 0,
-          ),
-          // Benefit: a silently wrong merge that now conflicts.
-          wrongToConflict: n(
-            (w, m) =>
-              w.fileConflicts === 0 && !w.fileCorrect && m.fileConflicts > 0,
-          ),
-          stillWrong: n((_, m) => m.fileConflicts === 0 && !m.fileCorrect),
-        },
-      ];
-    }),
-  ) as Record<
-    "a" | "b",
-    { correctToConflict: number; wrongToConflict: number; stillWrong: number }
-  >;
+  return MANIFEST_PAIRS.map(([without, withM]) => {
+    const n = (
+      pred: (without: RecordedOutcome, withM: RecordedOutcome) => boolean,
+    ) =>
+      subset.filter((r) => pred(r.variants[without], r.variants[withM])).length;
+    return {
+      without,
+      with: withM,
+      // Cost: a correct clean merge that now needs manual resolution.
+      correctToConflict: n((w, m) => !!w.fileCorrect && m.fileConflicts > 0),
+      // Benefit: a silently wrong merge that now conflicts.
+      wrongToConflict: n(
+        (w, m) =>
+          w.fileConflicts === 0 && !w.fileCorrect && m.fileConflicts > 0,
+      ),
+      stillWrong: n((_, m) => m.fileConflicts === 0 && !m.fileCorrect),
+    };
+  });
 }
 
 function summarize(records: PairRecord[]) {
@@ -252,13 +257,6 @@ for (const path of TARGETS) {
 }
 summaries["total"] = summarize(allRecords);
 
-const LABELS = {
-  base64: "base64",
-  a: "Option A",
-  b: "Option B",
-  "a-manifest": "Option A + manifest",
-  "b-manifest": "Option B + manifest",
-} as const;
 const label = (path: string) =>
   path === "total" ? "**total**" : `\`${path}\``;
 const md = [
@@ -276,24 +274,24 @@ const md = [
   "Replayed pairs where both sides changed the descriptor. The manifest variants",
   "embed the same descriptor as A and B, so their `fileDesc(…)` columns match.",
   "",
-  "| file | variant | `fileDesc(…)`: clean | conflict | clean but wrong | whole `_pb.ts`: clean | conflict | clean but wrong | of which outside the descriptor |",
-  "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
+  "| file | variant | `fileDesc(…)`: clean | conflict | clean but wrong | whole `_pb.ts`: clean | conflict | clean but wrong | of which outside the descriptor | wrong descriptors protobuf-go accepts |",
+  "| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |",
   ...Object.entries(summaries).flatMap(([path, s]) =>
     VARIANTS.map((v) => {
       const c = s.nonTrivial[v];
-      return `| ${label(path)} | ${LABELS[v]} | ${c.clean} | ${c.conflict} | ${c.cleanButWrong} | ${c.fileClean} | ${c.fileConflict} | ${c.fileCleanButWrong} | ${c.fileWrongOutsideDescriptor} |`;
+      return `| ${label(path)} | ${VARIANT_LABELS[v]} | ${c.clean} | ${c.conflict} | ${c.cleanButWrong} | ${c.fileClean} | ${c.fileConflict} | ${c.fileCleanButWrong} | ${c.fileWrongOutsideDescriptor} | ${c.wrongDescriptorGoAccepts} |`;
     }),
   ),
   "",
   "What the manifest changes in whole-file merges (same pairs):",
   "",
-  "| file | encoding | correct clean merge → conflict (cost) | wrong clean merge → conflict (benefit) | still clean but wrong |",
+  "| file | without → with | correct clean merge → conflict (cost) | wrong clean merge → conflict (benefit) | still clean but wrong |",
   "| --- | --- | --- | --- | --- |",
   ...Object.entries(summaries).flatMap(([path, s]) =>
-    (["a", "b"] as const).map((e) => {
-      const m = s.manifestEffect[e];
-      return `| ${label(path)} | ${LABELS[e]} | ${m.correctToConflict} | ${m.wrongToConflict} | ${m.stillWrong} |`;
-    }),
+    s.manifestEffect.map(
+      (m) =>
+        `| ${label(path)} | ${VARIANT_LABELS[m.without]} → ${VARIANT_LABELS[m.with]} | ${m.correctToConflict} | ${m.wrongToConflict} | ${m.stillWrong} |`,
+    ),
   ),
 ];
 writeFileSync(join(resultsDir, "summary.md"), `${md.join("\n")}\n`);

@@ -24,13 +24,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -75,13 +81,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -114,12 +126,17 @@
           "fileConflicts": 91,
           "correct": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 94,
+          "correct": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 91,
           "correct": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 94,
           "correct": true
@@ -187,13 +204,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -227,13 +250,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -285,13 +314,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -325,13 +360,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -365,13 +406,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -405,13 +452,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -445,13 +498,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -494,13 +553,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -532,6 +597,10 @@
           "conflicts": 2,
           "fileConflicts": 2
         },
+        "a-manifest": {
+          "conflicts": 2,
+          "fileConflicts": 3
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -540,13 +609,10 @@
           "fileWrong": {
             "descriptor": true,
             "rest": false
-          }
+          },
+          "protodesc": "proto: message field \"google.container.v1.ClusterUpdate.desired_in_transit_encryption_config\" under proto3 optional semantics must be within a single element oneof"
         },
-        "a-manifest": {
-          "conflicts": 2,
-          "fileConflicts": 2
-        },
-        "b-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": false,
@@ -554,7 +620,14 @@
           "fileWrong": {
             "descriptor": true,
             "rest": false
-          }
+          },
+          "protodesc": "proto: message field \"google.container.v1.ClusterUpdate.desired_in_transit_encryption_config\" under proto3 optional semantics must be within a single element oneof"
+        },
+        "b-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 1,
+          "correct": false,
+          "protodesc": "proto: message field \"google.container.v1.ClusterUpdate.desired_in_transit_encryption_config\" under proto3 optional semantics must be within a single element oneof"
         }
       }
     },
@@ -578,13 +651,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -620,13 +699,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -662,13 +747,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -702,13 +793,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -751,13 +848,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -791,13 +894,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -831,13 +940,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -871,13 +986,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -922,13 +1043,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -964,13 +1091,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -1006,13 +1139,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -1057,13 +1196,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -1099,13 +1244,19 @@
           "correct": true,
           "fileCorrect": true
         },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
           "fileCorrect": true
         },
-        "a-manifest": {
+        "b-index-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -1164,18 +1315,23 @@
           "conflicts": 2,
           "fileConflicts": 28
         },
+        "a-manifest": {
+          "conflicts": 2,
+          "fileConflicts": 34
+        },
         "b": {
           "conflicts": 0,
           "fileConflicts": 26,
           "correct": true
         },
-        "a-manifest": {
-          "conflicts": 2,
-          "fileConflicts": 32
+        "b-index-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 30,
+          "correct": true
         },
         "b-manifest": {
           "conflicts": 0,
-          "fileConflicts": 30,
+          "fileConflicts": 32,
           "correct": true
         }
       }

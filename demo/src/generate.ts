@@ -12,12 +12,33 @@ import { transformFileContentToTree } from "./option-b/transform.js";
 export const ENCODINGS = ["base64", "a", "b"] as const;
 export type Encoding = (typeof ENCODINGS)[number];
 
-/** Encodings plus the index manifest variants, compared when merging. */
-export const VARIANTS = [...ENCODINGS, "a-manifest", "b-manifest"] as const;
+/**
+ * Encodings plus manifest variants, compared when merging. "index manifest"
+ * lists only what generated code looks up by position (the wrapper feature);
+ * "manifest" also lists imports and oneofs, which the descriptor refers to
+ * by position (the upstream proposal).
+ */
+export const VARIANTS = [
+  "base64",
+  "a",
+  "a-manifest",
+  "b",
+  "b-index-manifest",
+  "b-manifest",
+] as const;
 export type Variant = (typeof VARIANTS)[number];
 
+export const VARIANT_LABELS: Record<Variant, string> = {
+  base64: "base64",
+  a: "Option A",
+  "a-manifest": "Option A + manifest",
+  b: "Option B",
+  "b-index-manifest": "Option B + index manifest",
+  "b-manifest": "Option B + manifest",
+};
+
 export function encodingOf(variant: Variant): Encoding {
-  return variant.replace("-manifest", "") as Encoding;
+  return variant.split("-")[0] as Encoding;
 }
 
 export const OPTION_B_RUNTIME = "option-b-runtime";
@@ -68,15 +89,17 @@ export function generateFromProtos(
         `${name.replace(/\.proto$/, "")}_pb`,
     );
     const desc = source === undefined ? undefined : registry.getFile(source);
-    const manifest = desc === undefined ? [] : indexManifest(desc);
+    const manifest = (descriptorIndices: boolean) =>
+      desc === undefined ? [] : indexManifest(desc, { descriptorIndices });
     return {
       name: file.name,
       content: {
         base64: file.content,
         a,
+        "a-manifest": insertIndexManifest(a, manifest(true)),
         b,
-        "a-manifest": insertIndexManifest(a, manifest),
-        "b-manifest": insertIndexManifest(b, manifest),
+        "b-index-manifest": insertIndexManifest(b, manifest(false)),
+        "b-manifest": insertIndexManifest(b, manifest(true)),
       },
     };
   });

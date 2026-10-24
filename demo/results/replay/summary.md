@@ -12,38 +12,46 @@ googleapis@4792db7b61d0, the last 40 consecutive commit pairs per file.
 Replayed pairs where both sides changed the descriptor. The manifest variants
 embed the same descriptor as A and B, so their `fileDesc(…)` columns match.
 
-| file | variant | `fileDesc(…)`: clean | conflict | clean but wrong | whole `_pb.ts`: clean | conflict | clean but wrong | of which outside the descriptor |
-| --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| `google/container/v1/cluster_service.proto` | base64 | 0 | 17 | 0 | 0 | 17 | 0 | 0 |
-| `google/container/v1/cluster_service.proto` | Option A | 15 | 2 | 0 | 14 | 3 | 0 | 0 |
-| `google/container/v1/cluster_service.proto` | Option B | 16 | 0 | 1 | 14 | 2 | 1 | 0 |
-| `google/container/v1/cluster_service.proto` | Option A + manifest | 15 | 2 | 0 | 14 | 3 | 0 | 0 |
-| `google/container/v1/cluster_service.proto` | Option B + manifest | 16 | 0 | 1 | 14 | 2 | 1 | 0 |
-| `google/pubsub/v1/pubsub.proto` | base64 | 0 | 15 | 0 | 0 | 15 | 0 | 0 |
-| `google/pubsub/v1/pubsub.proto` | Option A | 10 | 5 | 0 | 7 | 6 | 2 | 2 |
-| `google/pubsub/v1/pubsub.proto` | Option B | 14 | 1 | 0 | 10 | 2 | 3 | 3 |
-| `google/pubsub/v1/pubsub.proto` | Option A + manifest | 10 | 5 | 0 | 7 | 8 | 0 | 0 |
-| `google/pubsub/v1/pubsub.proto` | Option B + manifest | 14 | 1 | 0 | 10 | 5 | 0 | 0 |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | base64 | 0 | 14 | 0 | 0 | 14 | 0 | 0 |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Option A | 8 | 6 | 0 | 8 | 6 | 0 | 0 |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Option B | 14 | 0 | 0 | 11 | 3 | 0 | 0 |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Option A + manifest | 8 | 6 | 0 | 8 | 6 | 0 | 0 |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Option B + manifest | 14 | 0 | 0 | 11 | 3 | 0 | 0 |
-| **total** | base64 | 0 | 46 | 0 | 0 | 46 | 0 | 0 |
-| **total** | Option A | 33 | 13 | 0 | 29 | 15 | 2 | 2 |
-| **total** | Option B | 44 | 1 | 1 | 35 | 7 | 4 | 3 |
-| **total** | Option A + manifest | 33 | 13 | 0 | 29 | 17 | 0 | 0 |
-| **total** | Option B + manifest | 44 | 1 | 1 | 35 | 10 | 1 | 0 |
+| file | variant | `fileDesc(…)`: clean | conflict | clean but wrong | whole `_pb.ts`: clean | conflict | clean but wrong | of which outside the descriptor | wrong descriptors protobuf-go accepts |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| `google/container/v1/cluster_service.proto` | base64 | 0 | 17 | 0 | 0 | 17 | 0 | 0 | 0 |
+| `google/container/v1/cluster_service.proto` | Option A | 15 | 2 | 0 | 14 | 3 | 0 | 0 | 0 |
+| `google/container/v1/cluster_service.proto` | Option A + manifest | 15 | 2 | 0 | 14 | 3 | 0 | 0 | 0 |
+| `google/container/v1/cluster_service.proto` | Option B | 16 | 0 | 1 | 14 | 2 | 1 | 0 | 0 |
+| `google/container/v1/cluster_service.proto` | Option B + index manifest | 16 | 0 | 1 | 14 | 2 | 1 | 0 | 0 |
+| `google/container/v1/cluster_service.proto` | Option B + manifest | 16 | 0 | 1 | 14 | 3 | 0 | 0 | 0 |
+| `google/pubsub/v1/pubsub.proto` | base64 | 0 | 15 | 0 | 0 | 15 | 0 | 0 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Option A | 10 | 5 | 0 | 7 | 6 | 2 | 2 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Option A + manifest | 10 | 5 | 0 | 7 | 8 | 0 | 0 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Option B | 14 | 1 | 0 | 10 | 2 | 3 | 3 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Option B + index manifest | 14 | 1 | 0 | 10 | 5 | 0 | 0 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Option B + manifest | 14 | 1 | 0 | 10 | 5 | 0 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | base64 | 0 | 14 | 0 | 0 | 14 | 0 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Option A | 8 | 6 | 0 | 8 | 6 | 0 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Option A + manifest | 8 | 6 | 0 | 8 | 6 | 0 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Option B | 14 | 0 | 0 | 11 | 3 | 0 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Option B + index manifest | 14 | 0 | 0 | 11 | 3 | 0 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Option B + manifest | 14 | 0 | 0 | 11 | 3 | 0 | 0 | 0 |
+| **total** | base64 | 0 | 46 | 0 | 0 | 46 | 0 | 0 | 0 |
+| **total** | Option A | 33 | 13 | 0 | 29 | 15 | 2 | 2 | 0 |
+| **total** | Option A + manifest | 33 | 13 | 0 | 29 | 17 | 0 | 0 | 0 |
+| **total** | Option B | 44 | 1 | 1 | 35 | 7 | 4 | 3 | 0 |
+| **total** | Option B + index manifest | 44 | 1 | 1 | 35 | 10 | 1 | 0 | 0 |
+| **total** | Option B + manifest | 44 | 1 | 1 | 35 | 11 | 0 | 0 | 0 |
 
 What the manifest changes in whole-file merges (same pairs):
 
-| file | encoding | correct clean merge → conflict (cost) | wrong clean merge → conflict (benefit) | still clean but wrong |
+| file | without → with | correct clean merge → conflict (cost) | wrong clean merge → conflict (benefit) | still clean but wrong |
 | --- | --- | --- | --- | --- |
-| `google/container/v1/cluster_service.proto` | Option A | 0 | 0 | 0 |
-| `google/container/v1/cluster_service.proto` | Option B | 0 | 0 | 1 |
-| `google/pubsub/v1/pubsub.proto` | Option A | 0 | 2 | 0 |
-| `google/pubsub/v1/pubsub.proto` | Option B | 0 | 3 | 0 |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Option A | 0 | 0 | 0 |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Option B | 0 | 0 | 0 |
-| **total** | Option A | 0 | 2 | 0 |
-| **total** | Option B | 0 | 3 | 1 |
+| `google/container/v1/cluster_service.proto` | Option A → Option A + manifest | 0 | 0 | 0 |
+| `google/container/v1/cluster_service.proto` | Option B → Option B + index manifest | 0 | 0 | 1 |
+| `google/container/v1/cluster_service.proto` | Option B → Option B + manifest | 0 | 1 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Option A → Option A + manifest | 0 | 2 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Option B → Option B + index manifest | 0 | 3 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Option B → Option B + manifest | 0 | 3 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Option A → Option A + manifest | 0 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Option B → Option B + index manifest | 0 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Option B → Option B + manifest | 0 | 0 | 0 |
+| **total** | Option A → Option A + manifest | 0 | 2 | 0 |
+| **total** | Option B → Option B + index manifest | 0 | 3 | 1 |
+| **total** | Option B → Option B + manifest | 0 | 4 | 0 |
