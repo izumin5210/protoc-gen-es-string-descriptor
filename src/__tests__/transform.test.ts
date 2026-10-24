@@ -230,11 +230,34 @@ fileDesc([
     );
   });
 
+  it("rewrites only the calls that protoc-gen-es generates", () => {
+    const call = "messageDesc(file_m, 9)";
+    const file = create(FileDescriptorProtoSchema, {
+      name: "e.proto",
+      messageType: [
+        { name: "M", field: [{ name: "f", number: 1, defaultValue: call }] },
+      ],
+    });
+    const code = `/**\n * ${call}\n */\n${fileDescCall(file, "")}`;
+    expect(transformFileContent(code)).toContain(call);
+    expect(transformFileContent(code)).toContain(`\n * ${call}\n`);
+  });
+
+  it("names number types without an empty package", () => {
+    const file = create(FileDescriptorProtoSchema, {
+      name: "e.proto",
+      messageType: [{ name: "M" }],
+    });
+    expect(transformFileContent(fileDescCall(file, ""), file)).toContain(
+      "export type _numbers_M = {\n};\n",
+    );
+  });
+
   it("throws for a path that names no element", () => {
     const code = `${fileDescCall(
       create(FileDescriptorProtoSchema, { name: "e.proto" }),
       "",
-    )}messageDesc(file_m, 3);\n`;
+    )}  messageDesc(file_m, 3);\n`;
     expect(() => transformFileContent(code)).toThrow(
       "no element for messageDesc(file_m, 3)",
     );

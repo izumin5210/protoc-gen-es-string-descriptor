@@ -18,8 +18,9 @@ import {
 const RUNTIME_PACKAGE = "protoc-gen-es-string-descriptor";
 const FILE_DESC_RE = /fileDesc\("([A-Za-z0-9+/=]+)"(?:, \[([\w$, ]*)\])?\);\n/;
 const FILE_DECL_RE = /^export declare const [\w$]+: GenFile;\n/m;
+// Only the lines that protoc-gen-es generates, not comments or strings.
 const DESC_CALL_RE =
-  /\b(messageDesc|enumDesc|serviceDesc|extDesc)\(([\w$]+)((?:, \d+)+)\)/g;
+  /^( {2}(messageDesc|enumDesc|serviceDesc|extDesc)\([\w$]+)((?:, \d+)+)\);$/gm;
 const CODEGEN_IMPORT_RE =
   /^import \{([^}]+)\} from "@bufbuild\/protobuf\/codegenv[12]";$/m;
 const MOVED_IMPORTS = [
@@ -60,12 +61,12 @@ export function transformFileContent(
     const body =
       `${content.slice(0, match.index)}${replaced}${content.slice(match.index + statement.length)}`.replace(
         DESC_CALL_RE,
-        (call, fn: keyof typeof paths, fileVar: string, path: string) => {
+        (call, head: string, fn: keyof typeof paths, path: string) => {
           const name = paths[fn].get(path.slice(2).replaceAll(" ", ""));
           if (name === undefined) {
-            throw new Error(`no element for ${call}`);
+            throw new Error(`no element for ${call.trim()}`);
           }
-          return `${fn}(${fileVar}, ${JSON.stringify(name)})`;
+          return `${head}, ${JSON.stringify(name)});`;
         },
       );
     return moveImports(body);
@@ -184,7 +185,7 @@ function renderNumberTypes(file: FileDescriptorProto | undefined): string {
   const emit = (scope: string, entries: [number, string][]) => {
     // A nested `Outer.Inner` and a top-level `Outer_Inner` would share a
     // name; protoc-gen-es resolves the same clash with `$`.
-    let name = `_numbers_${scope}`;
+    let name = scope;
     while (taken.has(name)) {
       name += "$";
     }
@@ -219,7 +220,9 @@ function renderNumberTypes(file: FileDescriptorProto | undefined): string {
       walk(m.nestedType, name);
     }
   };
-  const scope = file.package.replaceAll(".", "_");
+  const scope = ["_numbers", ...file.package.split(".").filter(Boolean)].join(
+    "_",
+  );
   walk(file.messageType, scope);
   for (const e of file.enumType) {
     enumType(e, scope);
