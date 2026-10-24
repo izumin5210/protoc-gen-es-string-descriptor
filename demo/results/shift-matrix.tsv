@@ -1,1226 +1,203 @@
-ours list	ours edit	theirs list	theirs edit	base64	a	b	a-manifest	b-manifest
-messages	insert front	messages	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	insert front	messages	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-messages	insert front	messages	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-messages	insert front	messages	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	insert front	messages	delete last	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedMessages	insert front	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedMessages	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedMessages	append	conflict	conflict	clean but wrong	conflict	conflict
-messages	insert front	nestedMessages	delete first	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedMessages	delete last	conflict	conflict	conflict	conflict	conflict
-messages	insert front	enums	insert front	conflict	clean	clean	clean	clean
-messages	insert front	enums	insert middle	conflict	clean	clean	clean	clean
-messages	insert front	enums	append	conflict	clean	clean	clean	clean
-messages	insert front	enums	delete first	conflict	clean	clean	clean	clean
-messages	insert front	enums	delete last	conflict	clean	clean	clean	clean
-messages	insert front	nestedEnums	insert front	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedEnums	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedEnums	append	conflict	conflict	clean but wrong	conflict	conflict
-messages	insert front	nestedEnums	delete first	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedEnums	delete last	conflict	conflict	conflict	conflict	conflict
-messages	insert front	services	insert front	conflict	clean	clean	clean	clean
-messages	insert front	services	insert middle	conflict	clean	clean	clean	clean
-messages	insert front	services	append	conflict	clean	clean	clean	clean
-messages	insert front	services	delete first	conflict	clean	clean	clean	clean
-messages	insert front	services	delete last	conflict	clean	clean	clean	clean
-messages	insert front	extensions	insert front	conflict	clean	clean	clean	clean
-messages	insert front	extensions	insert middle	conflict	clean	clean	clean	clean
-messages	insert front	extensions	append	conflict	clean	clean	clean	clean
-messages	insert front	extensions	delete first	conflict	clean	clean	clean	clean
-messages	insert front	extensions	delete last	conflict	clean	clean	clean	clean
-messages	insert front	nestedExtensions	insert front	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedExtensions	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedExtensions	append	conflict	conflict	clean but wrong	conflict	conflict
-messages	insert front	nestedExtensions	delete first	conflict	conflict	conflict	conflict	conflict
-messages	insert front	nestedExtensions	delete last	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	messages	insert front	conflict	conflict	clean but wrong	conflict	conflict
-messages	insert middle	messages	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	insert middle	messages	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-messages	insert middle	messages	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	insert middle	messages	delete last	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedMessages	insert front	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedMessages	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedMessages	append	conflict	conflict	clean but wrong	conflict	conflict
-messages	insert middle	nestedMessages	delete first	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedMessages	delete last	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	enums	insert front	conflict	clean	clean	clean	clean
-messages	insert middle	enums	insert middle	conflict	clean	clean	clean	clean
-messages	insert middle	enums	append	conflict	clean	clean	clean	clean
-messages	insert middle	enums	delete first	conflict	clean	clean	clean	clean
-messages	insert middle	enums	delete last	conflict	clean	clean	clean	clean
-messages	insert middle	nestedEnums	insert front	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedEnums	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedEnums	append	conflict	conflict	clean but wrong	conflict	conflict
-messages	insert middle	nestedEnums	delete first	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedEnums	delete last	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	services	insert front	conflict	clean	clean	clean	clean
-messages	insert middle	services	insert middle	conflict	clean	clean	clean	clean
-messages	insert middle	services	append	conflict	clean	clean	clean	clean
-messages	insert middle	services	delete first	conflict	clean	clean	clean	clean
-messages	insert middle	services	delete last	conflict	clean	clean	clean	clean
-messages	insert middle	extensions	insert front	conflict	clean	clean	clean	clean
-messages	insert middle	extensions	insert middle	conflict	clean	clean	clean	clean
-messages	insert middle	extensions	append	conflict	clean	clean	clean	clean
-messages	insert middle	extensions	delete first	conflict	clean	clean	clean	clean
-messages	insert middle	extensions	delete last	conflict	clean	clean	clean	clean
-messages	insert middle	nestedExtensions	insert front	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedExtensions	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedExtensions	append	conflict	conflict	clean but wrong	conflict	conflict
-messages	insert middle	nestedExtensions	delete first	conflict	conflict	conflict	conflict	conflict
-messages	insert middle	nestedExtensions	delete last	conflict	conflict	conflict	conflict	conflict
-messages	append	messages	insert front	conflict	clean but wrong	clean but wrong	conflict	conflict
-messages	append	messages	insert middle	conflict	clean but wrong	clean but wrong	conflict	conflict
-messages	append	messages	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	append	messages	delete first	conflict	clean but wrong	clean but wrong	conflict	conflict
-messages	append	messages	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	append	nestedMessages	insert front	conflict	clean	clean	clean	clean
-messages	append	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-messages	append	nestedMessages	append	conflict	clean	clean	clean	clean
-messages	append	nestedMessages	delete first	conflict	clean	clean	clean	clean
-messages	append	nestedMessages	delete last	conflict	clean	clean	clean	clean
-messages	append	enums	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	append	enums	insert middle	conflict	clean	clean	clean	clean
-messages	append	enums	append	conflict	clean	clean	clean	clean
-messages	append	enums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	append	enums	delete last	conflict	clean	clean	clean	clean
-messages	append	nestedEnums	insert front	conflict	clean	clean	clean	clean
-messages	append	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-messages	append	nestedEnums	append	conflict	clean	clean	clean	clean
-messages	append	nestedEnums	delete first	conflict	clean	clean	clean	clean
-messages	append	nestedEnums	delete last	conflict	clean	clean	clean	clean
-messages	append	services	insert front	conflict	clean	clean	clean	clean
-messages	append	services	insert middle	conflict	clean	clean	clean	clean
-messages	append	services	append	conflict	clean	clean	clean	clean
-messages	append	services	delete first	conflict	clean	clean	clean	clean
-messages	append	services	delete last	conflict	clean	clean	clean	clean
-messages	append	extensions	insert front	conflict	clean	clean	clean	clean
-messages	append	extensions	insert middle	conflict	clean	clean	clean	clean
-messages	append	extensions	append	conflict	clean	clean	clean	clean
-messages	append	extensions	delete first	conflict	clean	clean	clean	clean
-messages	append	extensions	delete last	conflict	clean	clean	clean	clean
-messages	append	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-messages	append	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-messages	append	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-messages	append	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-messages	append	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-messages	delete first	messages	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	delete first	messages	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	delete first	messages	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-messages	delete first	messages	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	delete first	messages	delete last	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedMessages	insert front	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedMessages	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedMessages	append	conflict	conflict	clean but wrong	conflict	conflict
-messages	delete first	nestedMessages	delete first	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedMessages	delete last	conflict	conflict	conflict	conflict	conflict
-messages	delete first	enums	insert front	conflict	clean	clean	clean	clean
-messages	delete first	enums	insert middle	conflict	clean	clean	clean	clean
-messages	delete first	enums	append	conflict	clean	clean	clean	clean
-messages	delete first	enums	delete first	conflict	clean	clean	clean	clean
-messages	delete first	enums	delete last	conflict	clean	clean	clean	clean
-messages	delete first	nestedEnums	insert front	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedEnums	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedEnums	append	conflict	conflict	clean but wrong	conflict	conflict
-messages	delete first	nestedEnums	delete first	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedEnums	delete last	conflict	conflict	conflict	conflict	conflict
-messages	delete first	services	insert front	conflict	clean	clean	clean	clean
-messages	delete first	services	insert middle	conflict	clean	clean	clean	clean
-messages	delete first	services	append	conflict	clean	clean	clean	clean
-messages	delete first	services	delete first	conflict	clean	clean	clean	clean
-messages	delete first	services	delete last	conflict	clean	clean	clean	clean
-messages	delete first	extensions	insert front	conflict	clean	clean	clean	clean
-messages	delete first	extensions	insert middle	conflict	clean	clean	clean	clean
-messages	delete first	extensions	append	conflict	clean	clean	clean	clean
-messages	delete first	extensions	delete first	conflict	clean	clean	clean	clean
-messages	delete first	extensions	delete last	conflict	clean	clean	clean	clean
-messages	delete first	nestedExtensions	insert front	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedExtensions	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedExtensions	append	conflict	conflict	clean but wrong	conflict	conflict
-messages	delete first	nestedExtensions	delete first	conflict	conflict	conflict	conflict	conflict
-messages	delete first	nestedExtensions	delete last	conflict	conflict	conflict	conflict	conflict
-messages	delete last	messages	insert front	conflict	conflict	conflict	conflict	conflict
-messages	delete last	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-messages	delete last	messages	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	delete last	messages	delete first	conflict	conflict	conflict	conflict	conflict
-messages	delete last	messages	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	delete last	nestedMessages	insert front	conflict	clean	clean	clean	clean
-messages	delete last	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-messages	delete last	nestedMessages	append	conflict	clean	clean	clean	clean
-messages	delete last	nestedMessages	delete first	conflict	clean	clean	clean	clean
-messages	delete last	nestedMessages	delete last	conflict	clean	clean	clean	clean
-messages	delete last	enums	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	delete last	enums	insert middle	conflict	clean	clean	clean	clean
-messages	delete last	enums	append	conflict	clean	clean	clean	clean
-messages	delete last	enums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-messages	delete last	enums	delete last	conflict	clean	clean	clean	clean
-messages	delete last	nestedEnums	insert front	conflict	clean	clean	clean	clean
-messages	delete last	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-messages	delete last	nestedEnums	append	conflict	clean	clean	clean	clean
-messages	delete last	nestedEnums	delete first	conflict	clean	clean	clean	clean
-messages	delete last	nestedEnums	delete last	conflict	clean	clean	clean	clean
-messages	delete last	services	insert front	conflict	clean	clean	clean	clean
-messages	delete last	services	insert middle	conflict	clean	clean	clean	clean
-messages	delete last	services	append	conflict	clean	clean	clean	clean
-messages	delete last	services	delete first	conflict	clean	clean	clean	clean
-messages	delete last	services	delete last	conflict	clean	clean	clean	clean
-messages	delete last	extensions	insert front	conflict	clean	clean	clean	clean
-messages	delete last	extensions	insert middle	conflict	clean	clean	clean	clean
-messages	delete last	extensions	append	conflict	clean	clean	clean	clean
-messages	delete last	extensions	delete first	conflict	clean	clean	clean	clean
-messages	delete last	extensions	delete last	conflict	clean	clean	clean	clean
-messages	delete last	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-messages	delete last	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-messages	delete last	nestedExtensions	append	conflict	conflict	conflict	conflict	conflict
-messages	delete last	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-messages	delete last	nestedExtensions	delete last	conflict	conflict	conflict	conflict	conflict
-nestedMessages	insert front	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedMessages	insert front	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedMessages	insert front	messages	append	conflict	clean	clean	clean	clean
-nestedMessages	insert front	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedMessages	insert front	messages	delete last	conflict	clean	clean	clean	clean
-nestedMessages	insert front	nestedMessages	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	insert front	nestedMessages	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	insert front	nestedMessages	append	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	insert front	nestedMessages	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	insert front	nestedMessages	delete last	conflict	conflict	conflict	conflict	conflict
-nestedMessages	insert front	enums	insert front	conflict	clean	clean	clean	clean
-nestedMessages	insert front	enums	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	insert front	enums	append	conflict	clean	clean	clean	clean
-nestedMessages	insert front	enums	delete first	conflict	clean	clean	clean	clean
-nestedMessages	insert front	enums	delete last	conflict	clean	clean	clean	clean
-nestedMessages	insert front	nestedEnums	insert front	conflict	conflict	clean	conflict	clean
-nestedMessages	insert front	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	insert front	nestedEnums	append	conflict	conflict	clean	conflict	clean
-nestedMessages	insert front	nestedEnums	delete first	conflict	conflict	clean	conflict	clean
-nestedMessages	insert front	nestedEnums	delete last	conflict	conflict	clean	conflict	clean
-nestedMessages	insert front	services	insert front	conflict	clean	clean	clean	clean
-nestedMessages	insert front	services	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	insert front	services	append	conflict	clean	clean	clean	clean
-nestedMessages	insert front	services	delete first	conflict	clean	clean	clean	clean
-nestedMessages	insert front	services	delete last	conflict	clean	clean	clean	clean
-nestedMessages	insert front	extensions	insert front	conflict	clean	clean	clean	clean
-nestedMessages	insert front	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	insert front	extensions	append	conflict	clean	clean	clean	clean
-nestedMessages	insert front	extensions	delete first	conflict	clean	clean	clean	clean
-nestedMessages	insert front	extensions	delete last	conflict	clean	clean	clean	clean
-nestedMessages	insert front	nestedExtensions	insert front	conflict	conflict	clean	conflict	clean
-nestedMessages	insert front	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	insert front	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedMessages	insert front	nestedExtensions	delete first	conflict	conflict	clean	conflict	clean
-nestedMessages	insert front	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedMessages	insert middle	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedMessages	insert middle	messages	append	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedMessages	insert middle	messages	delete last	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	nestedMessages	insert front	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	insert middle	nestedMessages	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	insert middle	nestedMessages	append	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	insert middle	nestedMessages	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	insert middle	nestedMessages	delete last	conflict	conflict	conflict	conflict	conflict
-nestedMessages	insert middle	enums	insert front	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	enums	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	enums	append	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	enums	delete first	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	enums	delete last	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	nestedEnums	insert front	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	nestedEnums	append	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	nestedEnums	delete first	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	nestedEnums	delete last	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	services	insert front	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	services	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	services	append	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	services	delete first	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	services	delete last	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	extensions	insert front	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	extensions	append	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	extensions	delete first	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	extensions	delete last	conflict	clean	clean	clean	clean
-nestedMessages	insert middle	nestedExtensions	insert front	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	nestedExtensions	delete first	conflict	conflict	clean	conflict	clean
-nestedMessages	insert middle	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-nestedMessages	append	messages	insert front	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	append	messages	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	append	messages	append	conflict	clean	clean	clean	clean
-nestedMessages	append	messages	delete first	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	append	messages	delete last	conflict	clean	clean	clean	clean
-nestedMessages	append	nestedMessages	insert front	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	append	nestedMessages	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	append	nestedMessages	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	append	nestedMessages	delete first	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	append	nestedMessages	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	append	enums	insert front	conflict	clean	clean	clean	clean
-nestedMessages	append	enums	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	append	enums	append	conflict	clean	clean	clean	clean
-nestedMessages	append	enums	delete first	conflict	clean	clean	clean	clean
-nestedMessages	append	enums	delete last	conflict	clean	clean	clean	clean
-nestedMessages	append	nestedEnums	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	append	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	append	nestedEnums	append	conflict	conflict	clean	conflict	clean
-nestedMessages	append	nestedEnums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	append	nestedEnums	delete last	conflict	conflict	clean	conflict	clean
-nestedMessages	append	services	insert front	conflict	clean	clean	clean	clean
-nestedMessages	append	services	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	append	services	append	conflict	clean	clean	clean	clean
-nestedMessages	append	services	delete first	conflict	clean	clean	clean	clean
-nestedMessages	append	services	delete last	conflict	clean	clean	clean	clean
-nestedMessages	append	extensions	insert front	conflict	clean	clean	clean	clean
-nestedMessages	append	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	append	extensions	append	conflict	clean	clean	clean	clean
-nestedMessages	append	extensions	delete first	conflict	clean	clean	clean	clean
-nestedMessages	append	extensions	delete last	conflict	clean	clean	clean	clean
-nestedMessages	append	nestedExtensions	insert front	conflict	conflict	clean	conflict	clean
-nestedMessages	append	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	append	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedMessages	append	nestedExtensions	delete first	conflict	conflict	clean	conflict	clean
-nestedMessages	append	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete first	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete first	messages	append	conflict	clean	clean	clean	clean
-nestedMessages	delete first	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete first	messages	delete last	conflict	clean	clean	clean	clean
-nestedMessages	delete first	nestedMessages	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	delete first	nestedMessages	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	delete first	nestedMessages	append	conflict	conflict	clean but wrong	conflict	conflict
-nestedMessages	delete first	nestedMessages	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	delete first	nestedMessages	delete last	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete first	enums	insert front	conflict	clean	clean	clean	clean
-nestedMessages	delete first	enums	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	delete first	enums	append	conflict	clean	clean	clean	clean
-nestedMessages	delete first	enums	delete first	conflict	clean	clean	clean	clean
-nestedMessages	delete first	enums	delete last	conflict	clean	clean	clean	clean
-nestedMessages	delete first	nestedEnums	insert front	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	nestedEnums	append	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	nestedEnums	delete first	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	nestedEnums	delete last	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	services	insert front	conflict	clean	clean	clean	clean
-nestedMessages	delete first	services	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	delete first	services	append	conflict	clean	clean	clean	clean
-nestedMessages	delete first	services	delete first	conflict	clean	clean	clean	clean
-nestedMessages	delete first	services	delete last	conflict	clean	clean	clean	clean
-nestedMessages	delete first	extensions	insert front	conflict	clean	clean	clean	clean
-nestedMessages	delete first	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	delete first	extensions	append	conflict	clean	clean	clean	clean
-nestedMessages	delete first	extensions	delete first	conflict	clean	clean	clean	clean
-nestedMessages	delete first	extensions	delete last	conflict	clean	clean	clean	clean
-nestedMessages	delete first	nestedExtensions	insert front	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	nestedExtensions	delete first	conflict	conflict	clean	conflict	clean
-nestedMessages	delete first	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-nestedMessages	delete last	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete last	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete last	messages	append	conflict	clean	clean	clean	clean
-nestedMessages	delete last	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete last	messages	delete last	conflict	clean	clean	clean	clean
-nestedMessages	delete last	nestedMessages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete last	nestedMessages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete last	nestedMessages	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	delete last	nestedMessages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedMessages	delete last	nestedMessages	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	delete last	enums	insert front	conflict	clean	clean	clean	clean
-nestedMessages	delete last	enums	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	delete last	enums	append	conflict	clean	clean	clean	clean
-nestedMessages	delete last	enums	delete first	conflict	clean	clean	clean	clean
-nestedMessages	delete last	enums	delete last	conflict	clean	clean	clean	clean
-nestedMessages	delete last	nestedEnums	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	delete last	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	delete last	nestedEnums	append	conflict	conflict	clean	conflict	clean
-nestedMessages	delete last	nestedEnums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedMessages	delete last	nestedEnums	delete last	conflict	conflict	clean	conflict	clean
-nestedMessages	delete last	services	insert front	conflict	clean	clean	clean	clean
-nestedMessages	delete last	services	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	delete last	services	append	conflict	clean	clean	clean	clean
-nestedMessages	delete last	services	delete first	conflict	clean	clean	clean	clean
-nestedMessages	delete last	services	delete last	conflict	clean	clean	clean	clean
-nestedMessages	delete last	extensions	insert front	conflict	clean	clean	clean	clean
-nestedMessages	delete last	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedMessages	delete last	extensions	append	conflict	clean	clean	clean	clean
-nestedMessages	delete last	extensions	delete first	conflict	clean	clean	clean	clean
-nestedMessages	delete last	extensions	delete last	conflict	clean	clean	clean	clean
-nestedMessages	delete last	nestedExtensions	insert front	conflict	conflict	clean	conflict	clean
-nestedMessages	delete last	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedMessages	delete last	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedMessages	delete last	nestedExtensions	delete first	conflict	conflict	clean	conflict	clean
-nestedMessages	delete last	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-enums	insert front	messages	insert front	conflict	clean	clean	clean	clean
-enums	insert front	messages	insert middle	conflict	clean	clean	clean	clean
-enums	insert front	messages	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	insert front	messages	delete first	conflict	clean	clean	clean	clean
-enums	insert front	messages	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	insert front	nestedMessages	insert front	conflict	clean	clean	clean	clean
-enums	insert front	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-enums	insert front	nestedMessages	append	conflict	clean	clean	clean	clean
-enums	insert front	nestedMessages	delete first	conflict	clean	clean	clean	clean
-enums	insert front	nestedMessages	delete last	conflict	clean	clean	clean	clean
-enums	insert front	enums	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	insert front	enums	insert middle	conflict	clean but wrong	clean but wrong	conflict	conflict
-enums	insert front	enums	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-enums	insert front	enums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	insert front	enums	delete last	conflict	conflict	conflict	conflict	conflict
-enums	insert front	nestedEnums	insert front	conflict	clean	clean	clean	clean
-enums	insert front	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-enums	insert front	nestedEnums	append	conflict	clean	clean	clean	clean
-enums	insert front	nestedEnums	delete first	conflict	clean	clean	clean	clean
-enums	insert front	nestedEnums	delete last	conflict	clean	clean	clean	clean
-enums	insert front	services	insert front	conflict	clean	clean	clean	clean
-enums	insert front	services	insert middle	conflict	clean	clean	clean	clean
-enums	insert front	services	append	conflict	clean	clean	clean	clean
-enums	insert front	services	delete first	conflict	clean	clean	clean	clean
-enums	insert front	services	delete last	conflict	clean	clean	clean	clean
-enums	insert front	extensions	insert front	conflict	clean	clean	clean	clean
-enums	insert front	extensions	insert middle	conflict	clean	clean	clean	clean
-enums	insert front	extensions	append	conflict	clean	clean	clean	clean
-enums	insert front	extensions	delete first	conflict	clean	clean	clean	clean
-enums	insert front	extensions	delete last	conflict	clean	clean	clean	clean
-enums	insert front	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-enums	insert front	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-enums	insert front	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-enums	insert front	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-enums	insert front	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-enums	insert middle	messages	insert front	conflict	clean	clean	clean	clean
-enums	insert middle	messages	insert middle	conflict	clean	clean	clean	clean
-enums	insert middle	messages	append	conflict	clean	clean	clean	clean
-enums	insert middle	messages	delete first	conflict	clean	clean	clean	clean
-enums	insert middle	messages	delete last	conflict	clean	clean	clean	clean
-enums	insert middle	nestedMessages	insert front	conflict	clean	clean	clean	clean
-enums	insert middle	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-enums	insert middle	nestedMessages	append	conflict	clean	clean	clean	clean
-enums	insert middle	nestedMessages	delete first	conflict	clean	clean	clean	clean
-enums	insert middle	nestedMessages	delete last	conflict	clean	clean	clean	clean
-enums	insert middle	enums	insert front	conflict	clean but wrong	clean but wrong	conflict	conflict
-enums	insert middle	enums	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	insert middle	enums	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-enums	insert middle	enums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	insert middle	enums	delete last	conflict	conflict	conflict	conflict	conflict
-enums	insert middle	nestedEnums	insert front	conflict	clean	clean	clean	clean
-enums	insert middle	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-enums	insert middle	nestedEnums	append	conflict	clean	clean	clean	clean
-enums	insert middle	nestedEnums	delete first	conflict	clean	clean	clean	clean
-enums	insert middle	nestedEnums	delete last	conflict	clean	clean	clean	clean
-enums	insert middle	services	insert front	conflict	clean	clean	clean	clean
-enums	insert middle	services	insert middle	conflict	clean	clean	clean	clean
-enums	insert middle	services	append	conflict	clean	clean	clean	clean
-enums	insert middle	services	delete first	conflict	clean	clean	clean	clean
-enums	insert middle	services	delete last	conflict	clean	clean	clean	clean
-enums	insert middle	extensions	insert front	conflict	clean	clean	clean	clean
-enums	insert middle	extensions	insert middle	conflict	clean	clean	clean	clean
-enums	insert middle	extensions	append	conflict	clean	clean	clean	clean
-enums	insert middle	extensions	delete first	conflict	clean	clean	clean	clean
-enums	insert middle	extensions	delete last	conflict	clean	clean	clean	clean
-enums	insert middle	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-enums	insert middle	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-enums	insert middle	nestedExtensions	append	conflict	clean	clean	clean	clean
-enums	insert middle	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-enums	insert middle	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-enums	append	messages	insert front	conflict	clean	clean	clean	clean
-enums	append	messages	insert middle	conflict	clean	clean	clean	clean
-enums	append	messages	append	conflict	clean	clean	clean	clean
-enums	append	messages	delete first	conflict	clean	clean	clean	clean
-enums	append	messages	delete last	conflict	clean	clean	clean	clean
-enums	append	nestedMessages	insert front	conflict	clean	clean	clean	clean
-enums	append	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-enums	append	nestedMessages	append	conflict	clean	clean	clean	clean
-enums	append	nestedMessages	delete first	conflict	clean	clean	clean	clean
-enums	append	nestedMessages	delete last	conflict	clean	clean	clean	clean
-enums	append	enums	insert front	conflict	clean but wrong	clean but wrong	conflict	conflict
-enums	append	enums	insert middle	conflict	clean but wrong	clean but wrong	conflict	conflict
-enums	append	enums	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	append	enums	delete first	conflict	clean but wrong	clean but wrong	conflict	conflict
-enums	append	enums	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	append	nestedEnums	insert front	conflict	clean	clean	clean	clean
-enums	append	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-enums	append	nestedEnums	append	conflict	clean	clean	clean	clean
-enums	append	nestedEnums	delete first	conflict	clean	clean	clean	clean
-enums	append	nestedEnums	delete last	conflict	clean	clean	clean	clean
-enums	append	services	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	append	services	insert middle	conflict	conflict	clean	conflict	clean
-enums	append	services	append	conflict	clean	clean	clean	clean
-enums	append	services	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	append	services	delete last	conflict	clean	clean	clean	clean
-enums	append	extensions	insert front	conflict	clean	clean	clean	clean
-enums	append	extensions	insert middle	conflict	clean	clean	clean	clean
-enums	append	extensions	append	conflict	clean	clean	clean	clean
-enums	append	extensions	delete first	conflict	clean	clean	clean	clean
-enums	append	extensions	delete last	conflict	clean	clean	clean	clean
-enums	append	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-enums	append	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-enums	append	nestedExtensions	append	conflict	clean	clean	clean	clean
-enums	append	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-enums	append	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-enums	delete first	messages	insert front	conflict	clean	clean	clean	clean
-enums	delete first	messages	insert middle	conflict	clean	clean	clean	clean
-enums	delete first	messages	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	delete first	messages	delete first	conflict	clean	clean	clean	clean
-enums	delete first	messages	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	delete first	nestedMessages	insert front	conflict	clean	clean	clean	clean
-enums	delete first	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-enums	delete first	nestedMessages	append	conflict	clean	clean	clean	clean
-enums	delete first	nestedMessages	delete first	conflict	clean	clean	clean	clean
-enums	delete first	nestedMessages	delete last	conflict	clean	clean	clean	clean
-enums	delete first	enums	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	delete first	enums	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	delete first	enums	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-enums	delete first	enums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	delete first	enums	delete last	conflict	conflict	conflict	conflict	conflict
-enums	delete first	nestedEnums	insert front	conflict	clean	clean	clean	clean
-enums	delete first	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-enums	delete first	nestedEnums	append	conflict	clean	clean	clean	clean
-enums	delete first	nestedEnums	delete first	conflict	clean	clean	clean	clean
-enums	delete first	nestedEnums	delete last	conflict	clean	clean	clean	clean
-enums	delete first	services	insert front	conflict	clean	clean	clean	clean
-enums	delete first	services	insert middle	conflict	clean	clean	clean	clean
-enums	delete first	services	append	conflict	clean	clean	clean	clean
-enums	delete first	services	delete first	conflict	clean	clean	clean	clean
-enums	delete first	services	delete last	conflict	clean	clean	clean	clean
-enums	delete first	extensions	insert front	conflict	clean	clean	clean	clean
-enums	delete first	extensions	insert middle	conflict	clean	clean	clean	clean
-enums	delete first	extensions	append	conflict	clean	clean	clean	clean
-enums	delete first	extensions	delete first	conflict	clean	clean	clean	clean
-enums	delete first	extensions	delete last	conflict	clean	clean	clean	clean
-enums	delete first	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-enums	delete first	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-enums	delete first	nestedExtensions	append	conflict	clean	clean	clean	clean
-enums	delete first	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-enums	delete first	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-enums	delete last	messages	insert front	conflict	clean	clean	clean	clean
-enums	delete last	messages	insert middle	conflict	clean	clean	clean	clean
-enums	delete last	messages	append	conflict	clean	clean	clean	clean
-enums	delete last	messages	delete first	conflict	clean	clean	clean	clean
-enums	delete last	messages	delete last	conflict	clean	clean	clean	clean
-enums	delete last	nestedMessages	insert front	conflict	clean	clean	clean	clean
-enums	delete last	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-enums	delete last	nestedMessages	append	conflict	clean	clean	clean	clean
-enums	delete last	nestedMessages	delete first	conflict	clean	clean	clean	clean
-enums	delete last	nestedMessages	delete last	conflict	clean	clean	clean	clean
-enums	delete last	enums	insert front	conflict	conflict	conflict	conflict	conflict
-enums	delete last	enums	insert middle	conflict	conflict	conflict	conflict	conflict
-enums	delete last	enums	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	delete last	enums	delete first	conflict	conflict	conflict	conflict	conflict
-enums	delete last	enums	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	delete last	nestedEnums	insert front	conflict	clean	clean	clean	clean
-enums	delete last	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-enums	delete last	nestedEnums	append	conflict	clean	clean	clean	clean
-enums	delete last	nestedEnums	delete first	conflict	clean	clean	clean	clean
-enums	delete last	nestedEnums	delete last	conflict	clean	clean	clean	clean
-enums	delete last	services	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	delete last	services	insert middle	conflict	conflict	clean	conflict	clean
-enums	delete last	services	append	conflict	clean	clean	clean	clean
-enums	delete last	services	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-enums	delete last	services	delete last	conflict	clean	clean	clean	clean
-enums	delete last	extensions	insert front	conflict	clean	clean	clean	clean
-enums	delete last	extensions	insert middle	conflict	clean	clean	clean	clean
-enums	delete last	extensions	append	conflict	clean	clean	clean	clean
-enums	delete last	extensions	delete first	conflict	clean	clean	clean	clean
-enums	delete last	extensions	delete last	conflict	clean	clean	clean	clean
-enums	delete last	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-enums	delete last	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-enums	delete last	nestedExtensions	append	conflict	clean	clean	clean	clean
-enums	delete last	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-enums	delete last	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-nestedEnums	insert front	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedEnums	insert front	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedEnums	insert front	messages	append	conflict	clean	clean	clean	clean
-nestedEnums	insert front	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedEnums	insert front	messages	delete last	conflict	clean	clean	clean	clean
-nestedEnums	insert front	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedEnums	insert front	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	insert front	nestedMessages	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	insert front	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedEnums	insert front	nestedMessages	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	insert front	enums	insert front	conflict	clean	clean	clean	clean
-nestedEnums	insert front	enums	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	insert front	enums	append	conflict	clean	clean	clean	clean
-nestedEnums	insert front	enums	delete first	conflict	clean	clean	clean	clean
-nestedEnums	insert front	enums	delete last	conflict	clean	clean	clean	clean
-nestedEnums	insert front	nestedEnums	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	insert front	nestedEnums	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	insert front	nestedEnums	append	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	insert front	nestedEnums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	insert front	nestedEnums	delete last	conflict	conflict	conflict	conflict	conflict
-nestedEnums	insert front	services	insert front	conflict	clean	clean	clean	clean
-nestedEnums	insert front	services	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	insert front	services	append	conflict	clean	clean	clean	clean
-nestedEnums	insert front	services	delete first	conflict	clean	clean	clean	clean
-nestedEnums	insert front	services	delete last	conflict	clean	clean	clean	clean
-nestedEnums	insert front	extensions	insert front	conflict	clean	clean	clean	clean
-nestedEnums	insert front	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	insert front	extensions	append	conflict	clean	clean	clean	clean
-nestedEnums	insert front	extensions	delete first	conflict	clean	clean	clean	clean
-nestedEnums	insert front	extensions	delete last	conflict	clean	clean	clean	clean
-nestedEnums	insert front	nestedExtensions	insert front	conflict	conflict	clean	conflict	clean
-nestedEnums	insert front	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	insert front	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedEnums	insert front	nestedExtensions	delete first	conflict	conflict	clean	conflict	clean
-nestedEnums	insert front	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedEnums	insert middle	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedEnums	insert middle	messages	append	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedEnums	insert middle	messages	delete last	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	nestedMessages	append	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	nestedMessages	delete last	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	enums	insert front	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	enums	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	enums	append	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	enums	delete first	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	enums	delete last	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	nestedEnums	insert front	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	insert middle	nestedEnums	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	insert middle	nestedEnums	append	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	insert middle	nestedEnums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	insert middle	nestedEnums	delete last	conflict	conflict	conflict	conflict	conflict
-nestedEnums	insert middle	services	insert front	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	services	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	services	append	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	services	delete first	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	services	delete last	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	extensions	insert front	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	extensions	append	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	extensions	delete first	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	extensions	delete last	conflict	clean	clean	clean	clean
-nestedEnums	insert middle	nestedExtensions	insert front	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	nestedExtensions	delete first	conflict	conflict	clean	conflict	clean
-nestedEnums	insert middle	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-nestedEnums	append	messages	insert front	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	append	messages	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	append	messages	append	conflict	clean	clean	clean	clean
-nestedEnums	append	messages	delete first	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	append	messages	delete last	conflict	clean	clean	clean	clean
-nestedEnums	append	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedEnums	append	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	append	nestedMessages	append	conflict	conflict	clean	conflict	clean
-nestedEnums	append	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedEnums	append	nestedMessages	delete last	conflict	conflict	clean	conflict	clean
-nestedEnums	append	enums	insert front	conflict	clean	clean	clean	clean
-nestedEnums	append	enums	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	append	enums	append	conflict	clean	clean	clean	clean
-nestedEnums	append	enums	delete first	conflict	clean	clean	clean	clean
-nestedEnums	append	enums	delete last	conflict	clean	clean	clean	clean
-nestedEnums	append	nestedEnums	insert front	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	append	nestedEnums	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	append	nestedEnums	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	append	nestedEnums	delete first	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	append	nestedEnums	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	append	services	insert front	conflict	clean	clean	clean	clean
-nestedEnums	append	services	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	append	services	append	conflict	clean	clean	clean	clean
-nestedEnums	append	services	delete first	conflict	clean	clean	clean	clean
-nestedEnums	append	services	delete last	conflict	clean	clean	clean	clean
-nestedEnums	append	extensions	insert front	conflict	clean	clean	clean	clean
-nestedEnums	append	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	append	extensions	append	conflict	clean	clean	clean	clean
-nestedEnums	append	extensions	delete first	conflict	clean	clean	clean	clean
-nestedEnums	append	extensions	delete last	conflict	clean	clean	clean	clean
-nestedEnums	append	nestedExtensions	insert front	conflict	conflict	conflict	conflict	conflict
-nestedEnums	append	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	append	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedEnums	append	nestedExtensions	delete first	conflict	conflict	conflict	conflict	conflict
-nestedEnums	append	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-nestedEnums	delete first	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete first	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete first	messages	append	conflict	clean	clean	clean	clean
-nestedEnums	delete first	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete first	messages	delete last	conflict	clean	clean	clean	clean
-nestedEnums	delete first	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedEnums	delete first	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	delete first	nestedMessages	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	delete first	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedEnums	delete first	nestedMessages	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	delete first	enums	insert front	conflict	clean	clean	clean	clean
-nestedEnums	delete first	enums	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	delete first	enums	append	conflict	clean	clean	clean	clean
-nestedEnums	delete first	enums	delete first	conflict	clean	clean	clean	clean
-nestedEnums	delete first	enums	delete last	conflict	clean	clean	clean	clean
-nestedEnums	delete first	nestedEnums	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	delete first	nestedEnums	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	delete first	nestedEnums	append	conflict	conflict	clean but wrong	conflict	conflict
-nestedEnums	delete first	nestedEnums	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	delete first	nestedEnums	delete last	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete first	services	insert front	conflict	clean	clean	clean	clean
-nestedEnums	delete first	services	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	delete first	services	append	conflict	clean	clean	clean	clean
-nestedEnums	delete first	services	delete first	conflict	clean	clean	clean	clean
-nestedEnums	delete first	services	delete last	conflict	clean	clean	clean	clean
-nestedEnums	delete first	extensions	insert front	conflict	clean	clean	clean	clean
-nestedEnums	delete first	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	delete first	extensions	append	conflict	clean	clean	clean	clean
-nestedEnums	delete first	extensions	delete first	conflict	clean	clean	clean	clean
-nestedEnums	delete first	extensions	delete last	conflict	clean	clean	clean	clean
-nestedEnums	delete first	nestedExtensions	insert front	conflict	conflict	clean	conflict	clean
-nestedEnums	delete first	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	delete first	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedEnums	delete first	nestedExtensions	delete first	conflict	conflict	clean	conflict	clean
-nestedEnums	delete first	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-nestedEnums	delete last	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete last	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete last	messages	append	conflict	clean	clean	clean	clean
-nestedEnums	delete last	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete last	messages	delete last	conflict	clean	clean	clean	clean
-nestedEnums	delete last	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedEnums	delete last	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	delete last	nestedMessages	append	conflict	conflict	clean	conflict	clean
-nestedEnums	delete last	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedEnums	delete last	nestedMessages	delete last	conflict	conflict	clean	conflict	clean
-nestedEnums	delete last	enums	insert front	conflict	clean	clean	clean	clean
-nestedEnums	delete last	enums	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	delete last	enums	append	conflict	clean	clean	clean	clean
-nestedEnums	delete last	enums	delete first	conflict	clean	clean	clean	clean
-nestedEnums	delete last	enums	delete last	conflict	clean	clean	clean	clean
-nestedEnums	delete last	nestedEnums	insert front	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete last	nestedEnums	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete last	nestedEnums	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	delete last	nestedEnums	delete first	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete last	nestedEnums	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedEnums	delete last	services	insert front	conflict	clean	clean	clean	clean
-nestedEnums	delete last	services	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	delete last	services	append	conflict	clean	clean	clean	clean
-nestedEnums	delete last	services	delete first	conflict	clean	clean	clean	clean
-nestedEnums	delete last	services	delete last	conflict	clean	clean	clean	clean
-nestedEnums	delete last	extensions	insert front	conflict	clean	clean	clean	clean
-nestedEnums	delete last	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedEnums	delete last	extensions	append	conflict	clean	clean	clean	clean
-nestedEnums	delete last	extensions	delete first	conflict	clean	clean	clean	clean
-nestedEnums	delete last	extensions	delete last	conflict	clean	clean	clean	clean
-nestedEnums	delete last	nestedExtensions	insert front	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete last	nestedExtensions	insert middle	conflict	conflict	clean	conflict	clean
-nestedEnums	delete last	nestedExtensions	append	conflict	conflict	clean	conflict	clean
-nestedEnums	delete last	nestedExtensions	delete first	conflict	conflict	conflict	conflict	conflict
-nestedEnums	delete last	nestedExtensions	delete last	conflict	conflict	clean	conflict	clean
-services	insert front	messages	insert front	conflict	clean	clean	clean	clean
-services	insert front	messages	insert middle	conflict	clean	clean	clean	clean
-services	insert front	messages	append	conflict	clean	clean	clean	clean
-services	insert front	messages	delete first	conflict	clean	clean	clean	clean
-services	insert front	messages	delete last	conflict	clean	clean	clean	clean
-services	insert front	nestedMessages	insert front	conflict	clean	clean	clean	clean
-services	insert front	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-services	insert front	nestedMessages	append	conflict	clean	clean	clean	clean
-services	insert front	nestedMessages	delete first	conflict	clean	clean	clean	clean
-services	insert front	nestedMessages	delete last	conflict	clean	clean	clean	clean
-services	insert front	enums	insert front	conflict	clean	clean	clean	clean
-services	insert front	enums	insert middle	conflict	clean	clean	clean	clean
-services	insert front	enums	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	insert front	enums	delete first	conflict	clean	clean	clean	clean
-services	insert front	enums	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	insert front	nestedEnums	insert front	conflict	clean	clean	clean	clean
-services	insert front	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-services	insert front	nestedEnums	append	conflict	clean	clean	clean	clean
-services	insert front	nestedEnums	delete first	conflict	clean	clean	clean	clean
-services	insert front	nestedEnums	delete last	conflict	clean	clean	clean	clean
-services	insert front	services	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	insert front	services	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-services	insert front	services	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-services	insert front	services	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	insert front	services	delete last	conflict	conflict	conflict	conflict	conflict
-services	insert front	extensions	insert front	conflict	clean	clean	clean	clean
-services	insert front	extensions	insert middle	conflict	clean	clean	clean	clean
-services	insert front	extensions	append	conflict	clean	clean	clean	clean
-services	insert front	extensions	delete first	conflict	clean	clean	clean	clean
-services	insert front	extensions	delete last	conflict	clean	clean	clean	clean
-services	insert front	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-services	insert front	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-services	insert front	nestedExtensions	append	conflict	clean	clean	clean	clean
-services	insert front	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-services	insert front	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-services	insert middle	messages	insert front	conflict	clean	clean	clean	clean
-services	insert middle	messages	insert middle	conflict	clean	clean	clean	clean
-services	insert middle	messages	append	conflict	clean	clean	clean	clean
-services	insert middle	messages	delete first	conflict	clean	clean	clean	clean
-services	insert middle	messages	delete last	conflict	clean	clean	clean	clean
-services	insert middle	nestedMessages	insert front	conflict	clean	clean	clean	clean
-services	insert middle	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-services	insert middle	nestedMessages	append	conflict	clean	clean	clean	clean
-services	insert middle	nestedMessages	delete first	conflict	clean	clean	clean	clean
-services	insert middle	nestedMessages	delete last	conflict	clean	clean	clean	clean
-services	insert middle	enums	insert front	conflict	clean	clean	clean	clean
-services	insert middle	enums	insert middle	conflict	clean	clean	clean	clean
-services	insert middle	enums	append	conflict	conflict	clean	conflict	clean
-services	insert middle	enums	delete first	conflict	clean	clean	clean	clean
-services	insert middle	enums	delete last	conflict	conflict	clean	conflict	clean
-services	insert middle	nestedEnums	insert front	conflict	clean	clean	clean	clean
-services	insert middle	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-services	insert middle	nestedEnums	append	conflict	clean	clean	clean	clean
-services	insert middle	nestedEnums	delete first	conflict	clean	clean	clean	clean
-services	insert middle	nestedEnums	delete last	conflict	clean	clean	clean	clean
-services	insert middle	services	insert front	conflict	conflict	clean but wrong	conflict	conflict
-services	insert middle	services	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	insert middle	services	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-services	insert middle	services	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	insert middle	services	delete last	conflict	conflict	conflict	conflict	conflict
-services	insert middle	extensions	insert front	conflict	clean	clean	clean	clean
-services	insert middle	extensions	insert middle	conflict	clean	clean	clean	clean
-services	insert middle	extensions	append	conflict	clean	clean	clean	clean
-services	insert middle	extensions	delete first	conflict	clean	clean	clean	clean
-services	insert middle	extensions	delete last	conflict	clean	clean	clean	clean
-services	insert middle	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-services	insert middle	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-services	insert middle	nestedExtensions	append	conflict	clean	clean	clean	clean
-services	insert middle	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-services	insert middle	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-services	append	messages	insert front	conflict	clean	clean	clean	clean
-services	append	messages	insert middle	conflict	clean	clean	clean	clean
-services	append	messages	append	conflict	clean	clean	clean	clean
-services	append	messages	delete first	conflict	clean	clean	clean	clean
-services	append	messages	delete last	conflict	clean	clean	clean	clean
-services	append	nestedMessages	insert front	conflict	clean	clean	clean	clean
-services	append	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-services	append	nestedMessages	append	conflict	clean	clean	clean	clean
-services	append	nestedMessages	delete first	conflict	clean	clean	clean	clean
-services	append	nestedMessages	delete last	conflict	clean	clean	clean	clean
-services	append	enums	insert front	conflict	clean	clean	clean	clean
-services	append	enums	insert middle	conflict	clean	clean	clean	clean
-services	append	enums	append	conflict	clean	clean	clean	clean
-services	append	enums	delete first	conflict	clean	clean	clean	clean
-services	append	enums	delete last	conflict	clean	clean	clean	clean
-services	append	nestedEnums	insert front	conflict	clean	clean	clean	clean
-services	append	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-services	append	nestedEnums	append	conflict	clean	clean	clean	clean
-services	append	nestedEnums	delete first	conflict	clean	clean	clean	clean
-services	append	nestedEnums	delete last	conflict	clean	clean	clean	clean
-services	append	services	insert front	conflict	clean but wrong	clean but wrong	conflict	conflict
-services	append	services	insert middle	conflict	clean but wrong	clean but wrong	conflict	conflict
-services	append	services	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	append	services	delete first	conflict	clean but wrong	clean but wrong	conflict	conflict
-services	append	services	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	append	extensions	insert front	conflict	conflict	conflict	conflict	conflict
-services	append	extensions	insert middle	conflict	conflict	clean	conflict	clean
-services	append	extensions	append	conflict	clean	clean	clean	clean
-services	append	extensions	delete first	conflict	conflict	conflict	conflict	conflict
-services	append	extensions	delete last	conflict	clean	clean	clean	clean
-services	append	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-services	append	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-services	append	nestedExtensions	append	conflict	clean	clean	clean	clean
-services	append	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-services	append	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-services	delete first	messages	insert front	conflict	clean	clean	clean	clean
-services	delete first	messages	insert middle	conflict	clean	clean	clean	clean
-services	delete first	messages	append	conflict	clean	clean	clean	clean
-services	delete first	messages	delete first	conflict	clean	clean	clean	clean
-services	delete first	messages	delete last	conflict	clean	clean	clean	clean
-services	delete first	nestedMessages	insert front	conflict	clean	clean	clean	clean
-services	delete first	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-services	delete first	nestedMessages	append	conflict	clean	clean	clean	clean
-services	delete first	nestedMessages	delete first	conflict	clean	clean	clean	clean
-services	delete first	nestedMessages	delete last	conflict	clean	clean	clean	clean
-services	delete first	enums	insert front	conflict	clean	clean	clean	clean
-services	delete first	enums	insert middle	conflict	clean	clean	clean	clean
-services	delete first	enums	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	delete first	enums	delete first	conflict	clean	clean	clean	clean
-services	delete first	enums	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	delete first	nestedEnums	insert front	conflict	clean	clean	clean	clean
-services	delete first	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-services	delete first	nestedEnums	append	conflict	clean	clean	clean	clean
-services	delete first	nestedEnums	delete first	conflict	clean	clean	clean	clean
-services	delete first	nestedEnums	delete last	conflict	clean	clean	clean	clean
-services	delete first	services	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	delete first	services	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	delete first	services	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-services	delete first	services	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	delete first	services	delete last	conflict	conflict	conflict	conflict	conflict
-services	delete first	extensions	insert front	conflict	clean	clean	clean	clean
-services	delete first	extensions	insert middle	conflict	clean	clean	clean	clean
-services	delete first	extensions	append	conflict	clean	clean	clean	clean
-services	delete first	extensions	delete first	conflict	clean	clean	clean	clean
-services	delete first	extensions	delete last	conflict	clean	clean	clean	clean
-services	delete first	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-services	delete first	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-services	delete first	nestedExtensions	append	conflict	clean	clean	clean	clean
-services	delete first	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-services	delete first	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-services	delete last	messages	insert front	conflict	clean	clean	clean	clean
-services	delete last	messages	insert middle	conflict	clean	clean	clean	clean
-services	delete last	messages	append	conflict	clean	clean	clean	clean
-services	delete last	messages	delete first	conflict	clean	clean	clean	clean
-services	delete last	messages	delete last	conflict	clean	clean	clean	clean
-services	delete last	nestedMessages	insert front	conflict	clean	clean	clean	clean
-services	delete last	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-services	delete last	nestedMessages	append	conflict	clean	clean	clean	clean
-services	delete last	nestedMessages	delete first	conflict	clean	clean	clean	clean
-services	delete last	nestedMessages	delete last	conflict	clean	clean	clean	clean
-services	delete last	enums	insert front	conflict	clean	clean	clean	clean
-services	delete last	enums	insert middle	conflict	clean	clean	clean	clean
-services	delete last	enums	append	conflict	clean	clean	clean	clean
-services	delete last	enums	delete first	conflict	clean	clean	clean	clean
-services	delete last	enums	delete last	conflict	clean	clean	clean	clean
-services	delete last	nestedEnums	insert front	conflict	clean	clean	clean	clean
-services	delete last	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-services	delete last	nestedEnums	append	conflict	clean	clean	clean	clean
-services	delete last	nestedEnums	delete first	conflict	clean	clean	clean	clean
-services	delete last	nestedEnums	delete last	conflict	clean	clean	clean	clean
-services	delete last	services	insert front	conflict	conflict	conflict	conflict	conflict
-services	delete last	services	insert middle	conflict	conflict	conflict	conflict	conflict
-services	delete last	services	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	delete last	services	delete first	conflict	conflict	conflict	conflict	conflict
-services	delete last	services	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-services	delete last	extensions	insert front	conflict	conflict	conflict	conflict	conflict
-services	delete last	extensions	insert middle	conflict	conflict	clean	conflict	clean
-services	delete last	extensions	append	conflict	clean	clean	clean	clean
-services	delete last	extensions	delete first	conflict	conflict	conflict	conflict	conflict
-services	delete last	extensions	delete last	conflict	clean	clean	clean	clean
-services	delete last	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-services	delete last	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-services	delete last	nestedExtensions	append	conflict	clean	clean	clean	clean
-services	delete last	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-services	delete last	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-extensions	insert front	messages	insert front	conflict	clean	clean	clean	clean
-extensions	insert front	messages	insert middle	conflict	clean	clean	clean	clean
-extensions	insert front	messages	append	conflict	clean	clean	clean	clean
-extensions	insert front	messages	delete first	conflict	clean	clean	clean	clean
-extensions	insert front	messages	delete last	conflict	clean	clean	clean	clean
-extensions	insert front	nestedMessages	insert front	conflict	clean	clean	clean	clean
-extensions	insert front	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-extensions	insert front	nestedMessages	append	conflict	clean	clean	clean	clean
-extensions	insert front	nestedMessages	delete first	conflict	clean	clean	clean	clean
-extensions	insert front	nestedMessages	delete last	conflict	clean	clean	clean	clean
-extensions	insert front	enums	insert front	conflict	clean	clean	clean	clean
-extensions	insert front	enums	insert middle	conflict	clean	clean	clean	clean
-extensions	insert front	enums	append	conflict	clean	clean	clean	clean
-extensions	insert front	enums	delete first	conflict	clean	clean	clean	clean
-extensions	insert front	enums	delete last	conflict	clean	clean	clean	clean
-extensions	insert front	nestedEnums	insert front	conflict	clean	clean	clean	clean
-extensions	insert front	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-extensions	insert front	nestedEnums	append	conflict	clean	clean	clean	clean
-extensions	insert front	nestedEnums	delete first	conflict	clean	clean	clean	clean
-extensions	insert front	nestedEnums	delete last	conflict	clean	clean	clean	clean
-extensions	insert front	services	insert front	conflict	clean	clean	clean	clean
-extensions	insert front	services	insert middle	conflict	clean	clean	clean	clean
-extensions	insert front	services	append	conflict	conflict	conflict	conflict	conflict
-extensions	insert front	services	delete first	conflict	clean	clean	clean	clean
-extensions	insert front	services	delete last	conflict	conflict	conflict	conflict	conflict
-extensions	insert front	extensions	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	insert front	extensions	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-extensions	insert front	extensions	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-extensions	insert front	extensions	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	insert front	extensions	delete last	conflict	conflict	conflict	conflict	conflict
-extensions	insert front	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-extensions	insert front	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-extensions	insert front	nestedExtensions	append	conflict	clean	clean	clean	clean
-extensions	insert front	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-extensions	insert front	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-extensions	insert middle	messages	insert front	conflict	clean	clean	clean	clean
-extensions	insert middle	messages	insert middle	conflict	clean	clean	clean	clean
-extensions	insert middle	messages	append	conflict	clean	clean	clean	clean
-extensions	insert middle	messages	delete first	conflict	clean	clean	clean	clean
-extensions	insert middle	messages	delete last	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedMessages	insert front	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedMessages	append	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedMessages	delete first	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedMessages	delete last	conflict	clean	clean	clean	clean
-extensions	insert middle	enums	insert front	conflict	clean	clean	clean	clean
-extensions	insert middle	enums	insert middle	conflict	clean	clean	clean	clean
-extensions	insert middle	enums	append	conflict	clean	clean	clean	clean
-extensions	insert middle	enums	delete first	conflict	clean	clean	clean	clean
-extensions	insert middle	enums	delete last	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedEnums	insert front	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedEnums	append	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedEnums	delete first	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedEnums	delete last	conflict	clean	clean	clean	clean
-extensions	insert middle	services	insert front	conflict	clean	clean	clean	clean
-extensions	insert middle	services	insert middle	conflict	clean	clean	clean	clean
-extensions	insert middle	services	append	conflict	conflict	clean	conflict	clean
-extensions	insert middle	services	delete first	conflict	clean	clean	clean	clean
-extensions	insert middle	services	delete last	conflict	conflict	clean	conflict	clean
-extensions	insert middle	extensions	insert front	conflict	conflict	clean but wrong	conflict	conflict
-extensions	insert middle	extensions	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	insert middle	extensions	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-extensions	insert middle	extensions	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	insert middle	extensions	delete last	conflict	conflict	conflict	conflict	conflict
-extensions	insert middle	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedExtensions	append	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-extensions	insert middle	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-extensions	append	messages	insert front	conflict	clean	clean	clean	clean
-extensions	append	messages	insert middle	conflict	clean	clean	clean	clean
-extensions	append	messages	append	conflict	clean	clean	clean	clean
-extensions	append	messages	delete first	conflict	clean	clean	clean	clean
-extensions	append	messages	delete last	conflict	clean	clean	clean	clean
-extensions	append	nestedMessages	insert front	conflict	clean	clean	clean	clean
-extensions	append	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-extensions	append	nestedMessages	append	conflict	clean	clean	clean	clean
-extensions	append	nestedMessages	delete first	conflict	clean	clean	clean	clean
-extensions	append	nestedMessages	delete last	conflict	clean	clean	clean	clean
-extensions	append	enums	insert front	conflict	clean	clean	clean	clean
-extensions	append	enums	insert middle	conflict	clean	clean	clean	clean
-extensions	append	enums	append	conflict	clean	clean	clean	clean
-extensions	append	enums	delete first	conflict	clean	clean	clean	clean
-extensions	append	enums	delete last	conflict	clean	clean	clean	clean
-extensions	append	nestedEnums	insert front	conflict	clean	clean	clean	clean
-extensions	append	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-extensions	append	nestedEnums	append	conflict	clean	clean	clean	clean
-extensions	append	nestedEnums	delete first	conflict	clean	clean	clean	clean
-extensions	append	nestedEnums	delete last	conflict	clean	clean	clean	clean
-extensions	append	services	insert front	conflict	clean	clean	clean	clean
-extensions	append	services	insert middle	conflict	clean	clean	clean	clean
-extensions	append	services	append	conflict	clean	clean	clean	clean
-extensions	append	services	delete first	conflict	clean	clean	clean	clean
-extensions	append	services	delete last	conflict	clean	clean	clean	clean
-extensions	append	extensions	insert front	conflict	clean but wrong	clean but wrong	conflict	conflict
-extensions	append	extensions	insert middle	conflict	clean but wrong	clean but wrong	conflict	conflict
-extensions	append	extensions	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	append	extensions	delete first	conflict	clean but wrong	clean but wrong	conflict	conflict
-extensions	append	extensions	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	append	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-extensions	append	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-extensions	append	nestedExtensions	append	conflict	clean	clean	clean	clean
-extensions	append	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-extensions	append	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-extensions	delete first	messages	insert front	conflict	clean	clean	clean	clean
-extensions	delete first	messages	insert middle	conflict	clean	clean	clean	clean
-extensions	delete first	messages	append	conflict	clean	clean	clean	clean
-extensions	delete first	messages	delete first	conflict	clean	clean	clean	clean
-extensions	delete first	messages	delete last	conflict	clean	clean	clean	clean
-extensions	delete first	nestedMessages	insert front	conflict	clean	clean	clean	clean
-extensions	delete first	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-extensions	delete first	nestedMessages	append	conflict	clean	clean	clean	clean
-extensions	delete first	nestedMessages	delete first	conflict	clean	clean	clean	clean
-extensions	delete first	nestedMessages	delete last	conflict	clean	clean	clean	clean
-extensions	delete first	enums	insert front	conflict	clean	clean	clean	clean
-extensions	delete first	enums	insert middle	conflict	clean	clean	clean	clean
-extensions	delete first	enums	append	conflict	clean	clean	clean	clean
-extensions	delete first	enums	delete first	conflict	clean	clean	clean	clean
-extensions	delete first	enums	delete last	conflict	clean	clean	clean	clean
-extensions	delete first	nestedEnums	insert front	conflict	clean	clean	clean	clean
-extensions	delete first	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-extensions	delete first	nestedEnums	append	conflict	clean	clean	clean	clean
-extensions	delete first	nestedEnums	delete first	conflict	clean	clean	clean	clean
-extensions	delete first	nestedEnums	delete last	conflict	clean	clean	clean	clean
-extensions	delete first	services	insert front	conflict	clean	clean	clean	clean
-extensions	delete first	services	insert middle	conflict	clean	clean	clean	clean
-extensions	delete first	services	append	conflict	conflict	conflict	conflict	conflict
-extensions	delete first	services	delete first	conflict	clean	clean	clean	clean
-extensions	delete first	services	delete last	conflict	conflict	conflict	conflict	conflict
-extensions	delete first	extensions	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	delete first	extensions	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	delete first	extensions	append	conflict	clean but wrong	clean but wrong	conflict	conflict
-extensions	delete first	extensions	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	delete first	extensions	delete last	conflict	conflict	conflict	conflict	conflict
-extensions	delete first	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-extensions	delete first	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-extensions	delete first	nestedExtensions	append	conflict	clean	clean	clean	clean
-extensions	delete first	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-extensions	delete first	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-extensions	delete last	messages	insert front	conflict	clean	clean	clean	clean
-extensions	delete last	messages	insert middle	conflict	clean	clean	clean	clean
-extensions	delete last	messages	append	conflict	clean	clean	clean	clean
-extensions	delete last	messages	delete first	conflict	clean	clean	clean	clean
-extensions	delete last	messages	delete last	conflict	clean	clean	clean	clean
-extensions	delete last	nestedMessages	insert front	conflict	clean	clean	clean	clean
-extensions	delete last	nestedMessages	insert middle	conflict	clean	clean	clean	clean
-extensions	delete last	nestedMessages	append	conflict	clean	clean	clean	clean
-extensions	delete last	nestedMessages	delete first	conflict	clean	clean	clean	clean
-extensions	delete last	nestedMessages	delete last	conflict	clean	clean	clean	clean
-extensions	delete last	enums	insert front	conflict	clean	clean	clean	clean
-extensions	delete last	enums	insert middle	conflict	clean	clean	clean	clean
-extensions	delete last	enums	append	conflict	clean	clean	clean	clean
-extensions	delete last	enums	delete first	conflict	clean	clean	clean	clean
-extensions	delete last	enums	delete last	conflict	clean	clean	clean	clean
-extensions	delete last	nestedEnums	insert front	conflict	clean	clean	clean	clean
-extensions	delete last	nestedEnums	insert middle	conflict	clean	clean	clean	clean
-extensions	delete last	nestedEnums	append	conflict	clean	clean	clean	clean
-extensions	delete last	nestedEnums	delete first	conflict	clean	clean	clean	clean
-extensions	delete last	nestedEnums	delete last	conflict	clean	clean	clean	clean
-extensions	delete last	services	insert front	conflict	clean	clean	clean	clean
-extensions	delete last	services	insert middle	conflict	clean	clean	clean	clean
-extensions	delete last	services	append	conflict	clean	clean	clean	clean
-extensions	delete last	services	delete first	conflict	clean	clean	clean	clean
-extensions	delete last	services	delete last	conflict	clean	clean	clean	clean
-extensions	delete last	extensions	insert front	conflict	conflict	conflict	conflict	conflict
-extensions	delete last	extensions	insert middle	conflict	conflict	conflict	conflict	conflict
-extensions	delete last	extensions	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	delete last	extensions	delete first	conflict	conflict	conflict	conflict	conflict
-extensions	delete last	extensions	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-extensions	delete last	nestedExtensions	insert front	conflict	clean	clean	clean	clean
-extensions	delete last	nestedExtensions	insert middle	conflict	clean	clean	clean	clean
-extensions	delete last	nestedExtensions	append	conflict	clean	clean	clean	clean
-extensions	delete last	nestedExtensions	delete first	conflict	clean	clean	clean	clean
-extensions	delete last	nestedExtensions	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	insert front	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	insert front	messages	append	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	insert front	messages	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert front	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert front	nestedMessages	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert front	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert front	nestedMessages	delete last	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert front	enums	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	enums	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	enums	append	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	enums	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	enums	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	nestedEnums	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert front	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert front	nestedEnums	append	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	insert front	nestedEnums	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert front	nestedEnums	delete last	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	insert front	services	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	services	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	services	append	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	services	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	services	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	extensions	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	extensions	append	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	extensions	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	extensions	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	insert front	nestedExtensions	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	insert front	nestedExtensions	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	insert front	nestedExtensions	append	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	insert front	nestedExtensions	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	insert front	nestedExtensions	delete last	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	insert middle	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	insert middle	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	insert middle	messages	append	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	insert middle	messages	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	nestedMessages	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	nestedMessages	delete last	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	enums	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	enums	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	enums	append	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	enums	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	enums	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	nestedEnums	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	nestedEnums	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	nestedEnums	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	nestedEnums	delete last	conflict	conflict	clean	conflict	clean
-nestedExtensions	insert middle	services	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	services	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	services	append	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	services	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	services	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	extensions	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	extensions	append	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	extensions	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	extensions	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	insert middle	nestedExtensions	insert front	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	insert middle	nestedExtensions	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	insert middle	nestedExtensions	append	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	insert middle	nestedExtensions	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	insert middle	nestedExtensions	delete last	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	append	messages	insert front	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	append	messages	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	append	messages	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	messages	delete first	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	append	messages	delete last	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	append	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	nestedMessages	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	nestedMessages	delete last	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	enums	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	enums	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	append	enums	append	conflict	clean	clean	clean	clean
-nestedExtensions	append	enums	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	append	enums	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	append	nestedEnums	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	nestedEnums	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	nestedEnums	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	nestedEnums	delete last	conflict	conflict	clean	conflict	clean
-nestedExtensions	append	services	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	append	services	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	append	services	append	conflict	clean	clean	clean	clean
-nestedExtensions	append	services	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	append	services	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	append	extensions	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	append	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	append	extensions	append	conflict	clean	clean	clean	clean
-nestedExtensions	append	extensions	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	append	extensions	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	append	nestedExtensions	insert front	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	append	nestedExtensions	insert middle	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	append	nestedExtensions	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	append	nestedExtensions	delete first	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	append	nestedExtensions	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	delete first	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete first	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete first	messages	append	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete first	messages	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete first	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete first	nestedMessages	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete first	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete first	nestedMessages	delete last	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete first	enums	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	enums	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	enums	append	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	enums	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	enums	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	nestedEnums	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete first	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete first	nestedEnums	append	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete first	nestedEnums	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete first	nestedEnums	delete last	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete first	services	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	services	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	services	append	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	services	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	services	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	extensions	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	extensions	append	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	extensions	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	extensions	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	delete first	nestedExtensions	insert front	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	delete first	nestedExtensions	insert middle	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	delete first	nestedExtensions	append	conflict	conflict	clean but wrong	conflict	conflict
-nestedExtensions	delete first	nestedExtensions	delete first	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	delete first	nestedExtensions	delete last	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete last	messages	insert front	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete last	messages	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete last	messages	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	messages	delete first	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete last	messages	delete last	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete last	nestedMessages	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	nestedMessages	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	nestedMessages	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	nestedMessages	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	nestedMessages	delete last	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	enums	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	enums	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	enums	append	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	enums	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	enums	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	nestedEnums	insert front	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	nestedEnums	insert middle	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	nestedEnums	append	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	nestedEnums	delete first	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	nestedEnums	delete last	conflict	conflict	clean	conflict	clean
-nestedExtensions	delete last	services	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	services	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	services	append	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	services	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	services	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	extensions	insert front	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	extensions	insert middle	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	extensions	append	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	extensions	delete first	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	extensions	delete last	conflict	clean	clean	clean	clean
-nestedExtensions	delete last	nestedExtensions	insert front	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete last	nestedExtensions	insert middle	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete last	nestedExtensions	append	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
-nestedExtensions	delete last	nestedExtensions	delete first	conflict	conflict	conflict	conflict	conflict
-nestedExtensions	delete last	nestedExtensions	delete last	proto conflict	proto conflict	proto conflict	proto conflict	proto conflict
+size	ours list	ours edit	theirs list	theirs edit	base64	a	a-manifest	b	b-index-manifest	b-manifest
+same size	imports	insert front	imports	make public	conflict	conflict	conflict	wrong descriptor, Go accepts	wrong descriptor, Go accepts	conflict
+same size	imports	delete last	imports	make public	conflict	conflict	conflict	clean	clean	conflict
+same size	imports	make public	imports	insert front	conflict	conflict	conflict	wrong descriptor, Go accepts	wrong descriptor, Go accepts	conflict
+same size	imports	make public	imports	delete last	conflict	conflict	conflict	clean	clean	conflict
+same size	messages	insert front	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	insert front	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	messages	insert front	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	insert front	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	insert front	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	insert middle	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	insert middle	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	messages	insert middle	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	insert middle	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	insert middle	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	append	messages	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	messages	append	messages	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	messages	append	messages	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	messages	delete first	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	messages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	messages	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedMessages	insert front	nestedMessages	insert middle	conflict	wrong descriptor, Go accepts	conflict	wrong code	conflict	conflict
+same size	nestedMessages	insert front	nestedMessages	append	conflict	wrong descriptor, Go accepts	conflict	wrong code	conflict	conflict
+same size	nestedMessages	insert middle	nestedMessages	insert front	conflict	wrong descriptor, Go accepts	conflict	wrong code	conflict	conflict
+same size	nestedMessages	insert middle	nestedMessages	append	conflict	wrong descriptor, Go accepts	conflict	wrong code	conflict	conflict
+same size	nestedMessages	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedMessages	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedMessages	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedMessages	append	nestedMessages	insert front	conflict	wrong descriptor, Go accepts	conflict	wrong code	conflict	conflict
+same size	nestedMessages	append	nestedMessages	insert middle	conflict	wrong descriptor, Go accepts	conflict	wrong code	conflict	conflict
+same size	nestedMessages	append	nestedMessages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedMessages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	enums	insert front	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	enums	insert front	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	enums	insert middle	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	enums	insert middle	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	enums	append	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	enums	append	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	enums	append	enums	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	enums	delete first	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	nestedEnums	insert front	nestedEnums	insert middle	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedEnums	insert front	nestedEnums	append	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedEnums	insert middle	nestedEnums	insert front	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedEnums	insert middle	nestedEnums	append	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedEnums	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedEnums	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedEnums	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedEnums	append	nestedEnums	insert front	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedEnums	append	nestedEnums	insert middle	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedEnums	append	nestedEnums	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedEnums	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	services	insert front	services	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	services	insert front	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	services	insert middle	services	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	services	insert middle	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	services	append	services	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	services	append	services	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	services	append	services	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	services	delete first	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	extensions	insert front	extensions	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	extensions	insert front	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	extensions	insert middle	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	extensions	insert middle	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	extensions	append	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	extensions	append	extensions	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	extensions	append	extensions	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	extensions	delete first	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	insert front	nestedExtensions	insert middle	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	insert front	nestedExtensions	append	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	insert middle	nestedExtensions	insert front	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	insert middle	nestedExtensions	append	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	append	nestedExtensions	insert front	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	append	nestedExtensions	insert middle	conflict	wrong descriptor, Go rejects	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	append	nestedExtensions	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	nestedExtensions	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+same size	fields:f	insert front	fields:f	insert middle	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	fields:f	insert front	fields:f	append	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	fields:f	insert middle	fields:f	insert front	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	fields:f	insert middle	fields:f	append	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	fields:f	append	fields:f	insert front	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	fields:f	append	fields:f	insert middle	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	fields:o	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:o	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:o	append	fields:o	insert front	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:o	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:o	append	fields:o	delete first	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:o	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:o	append	fields:c	insert middle	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:o	append	fields:c	delete first	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:o	append	fields:c	delete last	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:o	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:c	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:c	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:c	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	fields:c	delete last	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+same size	enumValues	insert front	enumValues	insert middle	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	enumValues	insert front	enumValues	append	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	enumValues	insert middle	enumValues	insert front	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	enumValues	insert middle	enumValues	append	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	enumValues	append	enumValues	insert front	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	enumValues	append	enumValues	insert middle	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	methods	insert front	methods	insert middle	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	methods	insert front	methods	append	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	methods	insert middle	methods	insert front	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	methods	insert middle	methods	append	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	methods	append	methods	insert front	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+same size	methods	append	methods	insert middle	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	clean	clean	clean
+different size	imports	insert front	imports	make public	conflict	conflict	conflict	wrong descriptor, Go accepts	wrong descriptor, Go accepts	conflict
+different size	imports	delete last	imports	make public	conflict	conflict	conflict	clean	clean	conflict
+different size	imports	make public	imports	insert front	conflict	conflict	conflict	wrong descriptor, Go accepts	wrong descriptor, Go accepts	conflict
+different size	imports	make public	imports	delete last	conflict	conflict	conflict	clean	clean	conflict
+different size	messages	insert front	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	insert front	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	messages	insert front	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	insert front	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	insert front	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	insert middle	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	insert middle	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	messages	insert middle	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	insert middle	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	insert middle	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	append	messages	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	messages	append	messages	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	messages	append	messages	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	messages	delete first	messages	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	messages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	messages	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	insert front	nestedMessages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	insert front	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	insert middle	nestedMessages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	insert middle	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	append	nestedMessages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	append	nestedMessages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	append	nestedMessages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedMessages	delete first	nestedMessages	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	enums	insert front	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	enums	insert front	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	enums	insert middle	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	enums	insert middle	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	enums	append	enums	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	enums	append	enums	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	enums	append	enums	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	enums	delete first	enums	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	nestedEnums	insert front	nestedEnums	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	insert front	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	insert middle	nestedEnums	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	insert middle	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	append	nestedEnums	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	append	nestedEnums	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	append	nestedEnums	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedEnums	delete first	nestedEnums	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	services	insert front	services	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	services	insert front	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	services	insert middle	services	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	services	insert middle	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	services	append	services	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	services	append	services	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	services	append	services	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	services	delete first	services	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	extensions	insert front	extensions	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	extensions	insert front	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	extensions	insert middle	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	extensions	insert middle	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	extensions	append	extensions	insert front	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	extensions	append	extensions	insert middle	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	extensions	append	extensions	delete first	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	extensions	delete first	extensions	append	conflict	wrong code	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	insert front	nestedExtensions	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	insert front	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	insert middle	nestedExtensions	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	insert middle	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	append	messages	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	append	messages	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	append	messages	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	append	nestedExtensions	insert front	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	append	nestedExtensions	insert middle	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	append	nestedExtensions	delete first	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	nestedExtensions	delete first	nestedExtensions	append	conflict	conflict	conflict	wrong code	conflict	conflict
+different size	fields:o	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:o	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:o	append	fields:o	insert front	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:o	append	fields:o	insert middle	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:o	append	fields:o	delete first	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:o	append	fields:c	insert front	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:o	append	fields:c	insert middle	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:o	append	fields:c	delete first	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:o	append	fields:c	delete last	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:o	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:c	insert front	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:c	insert middle	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:c	delete first	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
+different size	fields:c	delete last	fields:o	append	conflict	conflict	conflict	wrong descriptor, Go rejects	wrong descriptor, Go rejects	conflict
