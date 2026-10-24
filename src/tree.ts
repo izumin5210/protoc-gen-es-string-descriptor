@@ -53,9 +53,10 @@ export function toTree(
 ): TreeItem[] {
   const items: TreeItem[] = [];
   const reader = new BinaryReader(bytes);
-  // Every known string or bytes field gets a chunk of its own, and
-  // consecutive scalars and unknown fields share one, so that a field
-  // descriptor's name and its number, label and type are on separate lines.
+  // Every string, bytes or other length-delimited field gets a chunk of its
+  // own, and consecutive scalars share one, so that a field descriptor's
+  // name, its number, label and type, and a marker of its oneof (an unknown
+  // field, see names.ts) are on separate lines.
   let run: Uint8Array[] = [];
   const flush = () => {
     if (run.length > 0) {
@@ -88,7 +89,12 @@ export function toTree(
       );
     } else {
       reader.skip(wireType, fieldNo);
-      run.push(bytes.subarray(start, reader.pos));
+      if (wireType === WireType.LengthDelimited) {
+        flush();
+        items.push(bytes.subarray(start, reader.pos));
+      } else {
+        run.push(bytes.subarray(start, reader.pos));
+      }
     }
   }
   flush();

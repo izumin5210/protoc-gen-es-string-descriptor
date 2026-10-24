@@ -16,7 +16,7 @@ describe("toTree and fromTree", () => {
     expect(fromTree(evaluateTree(toTree(bytes)))).toEqual(bytes);
   });
 
-  it("keep unknown fields raw, next to the scalars around them", () => {
+  it("keep unknown fields raw, each length-delimited one on its own", () => {
     const bytes = new BinaryWriter()
       .tag(1, WireType.LengthDelimited)
       .string("a.proto")
@@ -34,7 +34,8 @@ describe("toTree and fromTree", () => {
     expect(tree).toEqual([
       "\n\x07a.proto",
       ['"', ["\n\x01M"]],
-      "\x9a\x06\x01x\xa0\x06\x01",
+      "\x9a\x06\x01x",
+      "\xa0\x06\x01",
     ]);
     expect(fromTree(tree)).toEqual(bytes);
   });
