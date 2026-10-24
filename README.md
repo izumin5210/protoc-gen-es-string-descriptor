@@ -134,7 +134,7 @@ Generated code imports the runtime from the package root, so install `protoc-gen
 - `fileDesc(tree, imports, names)` rebuilds the descriptor bytes with `BinaryWriter`, restores the name table and the synthetic oneofs, and hydrates the file as `fileDesc` from `@bufbuild/protobuf/codegenv2` does. It also accepts the raw byte string that earlier versions of this plugin generated.
 - `messageDesc`, `enumDesc`, `serviceDesc` and `extDesc` take a name relative to the package, or the path that their codegenv2 counterparts take. Names are looked up in a map that is built per file on first use; paths are passed to codegenv2. They return the same generic types (`GenMessage`, `GenEnum`, `GenService`, `GenExtension`) as codegenv2.
 
-Loading costs about the same as base64: for a 105 KB descriptor with 300 messages, hydrating takes about as long as codegenv2's `fileDesc`, and looking up all 300 messages by name, including building the map, takes about 0.2 ms. Run `pnpm bench` to reproduce.
+For a 105 KB descriptor with 300 messages, hydrating takes about 2–3 ms (roughly 20%) longer than codegenv2's `fileDesc` with base64, almost all of it for rebuilding the bytes. Looking up all 300 messages by name, including building the map, takes about 0.2 ms, compared with 0.1 ms by path. Run `pnpm bench` to reproduce.
 
 ## Migrating from 0.1
 
