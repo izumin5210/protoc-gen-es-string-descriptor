@@ -1,0 +1,10 @@
+syntax = "proto3";
+package example.v1;
+
+import "a.proto";
+
+message User {
+  dep.a.A a = 1;
+
+  string id = 2;
+}

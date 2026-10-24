@@ -1,0 +1,31 @@
+{
+  "name": "demo",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "conflict-demo": "tsx scripts/conflict-demo.ts",
+    "scenarios": "tsx scripts/scenarios.ts",
+    "replay": "tsx scripts/replay.ts",
+    "shift-matrix": "tsx scripts/shift-matrix.ts",
+    "bundle-size": "tsx scripts/bundle-size.ts",
+    "file-sizes": "tsx scripts/file-sizes.ts",
+    "name-lookup": "node --expose-gc --import tsx scripts/name-lookup.ts",
+    "load-bench": "tsx scripts/load-bench.ts"
+  },
+  "devDependencies": {
+    "@bufbuild/buf": "^1.66.0",
+    "@bufbuild/protobuf": "^2.11.0",
+    "@bufbuild/protoc-gen-es": "^2.11.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^1.0.2",
+    "@types/node": "^26.6.5",
+    "esbuild": "^0.28.2",
+    "rollup": "^4.65.0",
+    "tinybench": "^6.2.2",
+    "tsx": "^4.23.15",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

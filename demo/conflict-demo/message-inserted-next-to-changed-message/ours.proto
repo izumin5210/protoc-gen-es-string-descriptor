@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+package example.v1;
+
+service LibraryService {
+  rpc GetBook(GetBookRequest) returns (Book);
+  rpc ListBooks(ListBooksRequest) returns (ListBooksResponse);
+  rpc DeleteBook(DeleteBookRequest) returns (Book);
+}
+
+message Book {
+  string name = 1;
+  string title = 2;
+  string author = 3;
+  int32 page_count = 4;
+}
+
+message Author {
+  string name = 1;
+}
+
+message Shelf {
+  string name = 1;
+  string theme = 2;
+}
+
+message GetBookRequest {
+  string name = 1;
+}
+
+message ListBooksRequest {
+  string parent = 1;
+  int32 page_size = 2;
+}
+
+message ListBooksResponse {
+  repeated Book books = 1;
+}
+
+message DeleteBookRequest {
+  string name = 1;
+}
+
+message UpdateBookRequest {
+  Book book = 1;
+}
+
+message GetShelfRequest {
+  string name = 1;
+}

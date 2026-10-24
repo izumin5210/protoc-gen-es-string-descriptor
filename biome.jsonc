@@ -6,7 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "includes": ["**", "!src/__tests__/golden"],
+    "includes": ["**", "!src/__tests__/golden", "!demo/results"],
     "ignoreUnknown": false
   },
   "formatter": {

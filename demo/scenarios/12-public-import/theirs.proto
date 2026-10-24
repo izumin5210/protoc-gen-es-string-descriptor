@@ -1,0 +1,13 @@
+syntax = "proto3";
+package example.v1;
+
+import "a.proto";
+import "c.proto";
+
+import "b.proto";
+
+message User {
+  dep.a.A a = 1;
+  dep.b.B b = 2;
+  dep.c.C c = 3;
+}

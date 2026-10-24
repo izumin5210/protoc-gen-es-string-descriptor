@@ -1,0 +1,9 @@
+syntax = "proto3";
+package example.v1;
+
+message User {
+  string id = 1;
+  map<string, string> labels = 3;
+
+  string name = 2;
+}

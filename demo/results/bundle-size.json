@@ -1,0 +1,238 @@
+{
+  "rev": "4792db7b61d0d1430f5bc33463bbe90254f3d5f6",
+  "package": "google/cloud/aiplatform/v1",
+  "files": 137,
+  "source": {
+    "files": {
+      "base64": {
+        "raw": 1092153,
+        "gzip": 176189,
+        "brotli": 122843
+      },
+      "a": {
+        "raw": 1198955,
+        "gzip": 129967,
+        "brotli": 93761
+      },
+      "b": {
+        "raw": 1378171,
+        "gzip": 124654,
+        "brotli": 89131
+      }
+    },
+    "descriptors": {
+      "base64": {
+        "raw": 549090,
+        "gzip": 121694,
+        "brotli": 92422
+      },
+      "a": {
+        "raw": 649042,
+        "gzip": 89254,
+        "brotli": 67325
+      },
+      "b": {
+        "raw": 830313,
+        "gzip": 85370,
+        "brotli": 62899
+      }
+    }
+  },
+  "results": {
+    "esbuild (charset=ascii)": {
+      "base64": {
+        "bundle": {
+          "raw": 591883,
+          "gzip": 137376,
+          "brotli": 107028
+        },
+        "descriptors": {
+          "raw": 521786,
+          "gzip": 118458,
+          "brotli": 90419
+        },
+        "literals": {
+          "stringConcats": 0,
+          "hexEscapes": 0,
+          "unicodeEscapes": 0,
+          "rawControlChars": 0,
+          "rawNonAscii": 0,
+          "backticks": 0
+        },
+        "sample": "(not readable: base64)"
+      },
+      "a": {
+        "bundle": {
+          "raw": 489973,
+          "gzip": 98871,
+          "brotli": 79301
+        },
+        "descriptors": {
+          "raw": 419493,
+          "gzip": 79794,
+          "brotli": 62622
+        },
+        "literals": {
+          "stringConcats": 0,
+          "hexEscapes": 7553,
+          "unicodeEscapes": 0,
+          "rawControlChars": 39842,
+          "rawNonAscii": 0,
+          "backticks": 304
+        },
+        "sample": "`⟨0a⟩⟨1c⟩google/api/annotations.proto⟨12⟩⟨0a⟩google.api:K⟨0a⟩⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.Met"
+      },
+      "b": {
+        "bundle": {
+          "raw": 598448,
+          "gzip": 94438,
+          "brotli": 74503
+        },
+        "descriptors": {
+          "raw": 527498,
+          "gzip": 75173,
+          "brotli": 57636
+        },
+        "literals": {
+          "stringConcats": 0,
+          "hexEscapes": 6009,
+          "unicodeEscapes": 0,
+          "rawControlChars": 34665,
+          "rawNonAscii": 0,
+          "backticks": 15510
+        },
+        "sample": "`⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[\":\",[`⟨0a⟩⟨04⟩http`,\"⟨12⟩⟨1e⟩.google"
+      }
+    },
+    "esbuild (charset=utf8)": {
+      "base64": {
+        "bundle": {
+          "raw": 591883,
+          "gzip": 137376,
+          "brotli": 107028
+        },
+        "descriptors": {
+          "raw": 521786,
+          "gzip": 118458,
+          "brotli": 90419
+        },
+        "literals": {
+          "stringConcats": 0,
+          "hexEscapes": 0,
+          "unicodeEscapes": 0,
+          "rawControlChars": 0,
+          "rawNonAscii": 0,
+          "backticks": 0
+        },
+        "sample": "(not readable: base64)"
+      },
+      "a": {
+        "bundle": {
+          "raw": 476061,
+          "gzip": 98895,
+          "brotli": 79097
+        },
+        "descriptors": {
+          "raw": 405581,
+          "gzip": 79818,
+          "brotli": 62418
+        },
+        "literals": {
+          "stringConcats": 0,
+          "hexEscapes": 606,
+          "unicodeEscapes": 0,
+          "rawControlChars": 39860,
+          "rawNonAscii": 6929,
+          "backticks": 304
+        },
+        "sample": "`⟨0a⟩⟨1c⟩google/api/annotations.proto⟨12⟩⟨0a⟩google.api:K⟨0a⟩⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.Met"
+      },
+      "b": {
+        "bundle": {
+          "raw": 587343,
+          "gzip": 94339,
+          "brotli": 74349
+        },
+        "descriptors": {
+          "raw": 516393,
+          "gzip": 75074,
+          "brotli": 57482
+        },
+        "literals": {
+          "stringConcats": 0,
+          "hexEscapes": 458,
+          "unicodeEscapes": 0,
+          "rawControlChars": 34668,
+          "rawNonAscii": 5548,
+          "backticks": 15510
+        },
+        "sample": "`⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[\":\",[`⟨0a⟩⟨04⟩http`,\"⟨12⟩⟨1e⟩.google"
+      }
+    },
+    "rollup + terser": {
+      "base64": {
+        "bundle": {
+          "raw": 590921,
+          "gzip": 137062,
+          "brotli": 106728
+        },
+        "descriptors": {
+          "raw": 521786,
+          "gzip": 118561,
+          "brotli": 90516
+        },
+        "literals": {
+          "stringConcats": 0,
+          "hexEscapes": 0,
+          "unicodeEscapes": 0,
+          "rawControlChars": 0,
+          "rawNonAscii": 0,
+          "backticks": 0
+        },
+        "sample": "(not readable: base64)"
+      },
+      "a": {
+        "bundle": {
+          "raw": 483822,
+          "gzip": 99369,
+          "brotli": 79180
+        },
+        "descriptors": {
+          "raw": 414260,
+          "gzip": 80680,
+          "brotli": 62787
+        },
+        "literals": {
+          "stringConcats": 0,
+          "hexEscapes": 0,
+          "unicodeEscapes": 0,
+          "rawControlChars": 38341,
+          "rawNonAscii": 6929,
+          "backticks": 30
+        },
+        "sample": "\\n⟨1c⟩google/api/annotations.proto⟨12⟩\\ngoogle.api:K\\n⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.M"
+      },
+      "b": {
+        "bundle": {
+          "raw": 595291,
+          "gzip": 93556,
+          "brotli": 73602
+        },
+        "descriptors": {
+          "raw": 525258,
+          "gzip": 74688,
+          "brotli": 57069
+        },
+        "literals": {
+          "stringConcats": 0,
+          "hexEscapes": 0,
+          "unicodeEscapes": 0,
+          "rawControlChars": 33055,
+          "rawNonAscii": 5548,
+          "backticks": 2
+        },
+        "sample": "\\n⟨1c⟩google/api/annotations.proto\",\"⟨12⟩\\ngoogle.api\",[\":\",[\"\\n⟨04⟩http\",\"⟨12⟩⟨1e⟩.goog"
+      }
+    }
+  }
+}
