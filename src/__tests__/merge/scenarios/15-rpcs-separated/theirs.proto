@@ -1,0 +1,12 @@
+syntax = "proto3";
+package example.v1;
+
+message Req {}
+message Res {}
+
+service UserService {
+  rpc Get(Req) returns (Res);
+
+  rpc List(Req) returns (Res);
+  rpc Delete(Req) returns (Res);
+}

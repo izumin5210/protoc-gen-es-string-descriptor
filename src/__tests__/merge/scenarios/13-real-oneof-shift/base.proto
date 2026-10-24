@@ -1,0 +1,12 @@
+syntax = "proto3";
+package example.v1;
+
+message Event {
+  string id = 1;
+
+  oneof kind {
+    string click = 2;
+
+    string view = 3;
+  }
+}

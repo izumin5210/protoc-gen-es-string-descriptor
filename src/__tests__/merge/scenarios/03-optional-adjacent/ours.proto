@@ -1,0 +1,10 @@
+syntax = "proto3";
+package example.v1;
+
+message User {
+  string id = 1;
+  optional string nickname = 2;
+  optional string bio = 4;
+
+  optional string email = 3;
+}
