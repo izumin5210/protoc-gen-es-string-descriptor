@@ -5,5 +5,8 @@
     "type": true
   },
   "tags": ["-lintignore"],
-  "ignore": ["src/__tests__/golden/**"]
+  "ignore": ["src/__tests__/golden/**"],
+  "vitest": {
+    "entry": ["src/**/*.{test,bench}.ts"]
+  }
 }
