@@ -5,6 +5,7 @@
  * Usage: pnpm --filter demo conflict-demo
  */
 import {
+  existsSync,
   mkdirSync,
   mkdtempSync,
   readFileSync,
@@ -14,7 +15,12 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { extractDescriptorExpr } from "../src/descriptor-expr.js";
-import { ENCODINGS, generate } from "../src/generate.js";
+import {
+  ENCODINGS,
+  generate,
+  VARIANTS,
+  type Variant,
+} from "../src/generate.js";
 import { replayPair, type Side } from "../src/replay-pair.js";
 import { bufBuild, diffText, mergeFile } from "../src/tools.js";
 
@@ -22,7 +28,13 @@ const PROTO_PATH = "example/v1/library.proto";
 const demoDir = join(import.meta.dirname, "..", "conflict-demo");
 const resultsDir = join(import.meta.dirname, "..", "results");
 
-const LABELS = { base64: "base64", a: "Option A", b: "Option B" } as const;
+const LABELS = {
+  base64: "base64",
+  a: "Option A",
+  b: "Option B",
+  "a-manifest": "Option A + manifest",
+  "b-manifest": "Option B + manifest",
+} as const;
 
 function build(proto: string): Uint8Array {
   const root = mkdtempSync(join(tmpdir(), "conflict-demo-"));
@@ -46,17 +58,31 @@ function indent(text: string): string[] {
   return text.split("\n").map((line) => `  ${line}`);
 }
 
-const base = readFileSync(join(demoDir, "base.proto"), "utf8");
+/** Hunks that touch the index manifest, i.e. the ones it adds. */
+function manifestHunks(text: string): string {
+  return [...text.matchAll(/^<<<<<<< [\s\S]*?^>>>>>>> .*$/gm)]
+    .map((m) => m[0])
+    .filter((hunk) => /^\/\/ [\d.]+: /m.test(hunk))
+    .join("\n...\n");
+}
+
+const sharedBase = readFileSync(join(demoDir, "base.proto"), "utf8");
 const scenarios = [
   "same-service-different-rpcs",
   "same-message-different-fields",
   "message-inserted-next-to-changed-message",
   "control-different-messages",
+  "index-shift-insert-vs-append",
 ];
 
 const report: string[] = [];
 const summary: Record<string, Record<string, number>> = {};
+const fileSummary: Record<string, Record<string, string>> = {};
 for (const scenario of scenarios) {
+  const baseFile = join(demoDir, scenario, "base.proto");
+  const base = existsSync(baseFile)
+    ? readFileSync(baseFile, "utf8")
+    : sharedBase;
   const ours = readFileSync(join(demoDir, scenario, "ours.proto"), "utf8");
   const theirs = readFileSync(join(demoDir, scenario, "theirs.proto"), "utf8");
   const protoMerge = mergeFile(ours, base, theirs);
@@ -114,15 +140,60 @@ for (const scenario of scenarios) {
     );
     report.push("  ```js", ...indent(conflictHunks(outcome.merged)), "  ```");
   }
+
+  fileSummary[scenario] = {};
+  const expected = (variant: Variant) =>
+    generate(images.merged, [PROTO_PATH])[0].content[variant];
+  const details: string[] = [];
+  for (const variant of VARIANTS) {
+    const outcome = outcomes[variant];
+    if (outcome.fileConflicts > 0) {
+      fileSummary[scenario][variant] = `${outcome.fileConflicts} conflict(s)`;
+      const hunks = manifestHunks(outcome.fileMerged);
+      if (variant.endsWith("-manifest") && hunks !== "") {
+        details.push(
+          `- **${LABELS[variant]}**: conflicts in the manifest`,
+          "",
+          "  ```js",
+          ...indent(hunks),
+          "  ```",
+        );
+      }
+    } else if (outcome.fileCorrect) {
+      fileSummary[scenario][variant] = "clean";
+    } else {
+      fileSummary[scenario][variant] = "**clean but wrong**";
+      details.push(
+        `- **${LABELS[variant]}**: clean, but differs from the file generated from the merged .proto (\`-\` expected, \`+\` merged)`,
+        "",
+        "  ```diff",
+        ...indent(diffText(expected(variant), outcome.fileMerged, 0)),
+        "  ```",
+      );
+    }
+  }
+  if (details.length > 0) {
+    report.push("", "Whole `_pb.ts`:", "", ...details);
+  }
   report.push("");
 }
 
 const table = [
+  "`fileDesc(…)` alone:",
+  "",
   `| scenario | ${ENCODINGS.map((e) => LABELS[e]).join(" | ")} |`,
   `| --- | ${ENCODINGS.map(() => "---").join(" | ")} |`,
   ...scenarios.map(
     (s) =>
       `| ${s} | ${ENCODINGS.map((e) => (summary[s][e] === 0 ? "clean" : `${summary[s][e]} conflict(s)`)).join(" | ")} |`,
+  ),
+  "",
+  "Whole generated `_pb.ts`, compared with the file generated from the merged .proto:",
+  "",
+  `| scenario | ${VARIANTS.map((v) => LABELS[v]).join(" | ")} |`,
+  `| --- | ${VARIANTS.map(() => "---").join(" | ")} |`,
+  ...scenarios.map(
+    (s) => `| ${s} | ${VARIANTS.map((v) => fileSummary[s][v]).join(" | ")} |`,
   ),
 ];
 
