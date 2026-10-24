@@ -12,7 +12,7 @@ import {
   decodeDescriptorExpr,
   extractDescriptorExpr,
 } from "../src/descriptor-expr.js";
-import { ENCODINGS, type Encoding, generate } from "../src/generate.js";
+import { generate, VARIANTS, type Variant } from "../src/generate.js";
 import {
   cloneGoogleapis,
   GOOGLEAPIS_REV,
@@ -20,7 +20,7 @@ import {
   materialize,
   showFile,
 } from "../src/googleapis.js";
-import { type EncodingOutcome, replayPair } from "../src/replay-pair.js";
+import { type MergeOutcome, replayPair } from "../src/replay-pair.js";
 import { bufBuild, mergeFile } from "../src/tools.js";
 
 const TARGETS = [
@@ -42,9 +42,11 @@ type PairRecord = {
       status: "replayed";
       /** One side's descriptor equals base (e.g. a comment-only change). */
       trivial: boolean;
-      encodings: Record<Encoding, Omit<EncodingOutcome, "merged">>;
+      variants: Record<Variant, RecordedOutcome>;
     }
 );
+
+type RecordedOutcome = Omit<MergeOutcome, "merged" | "fileMerged">;
 
 const repo = cloneGoogleapis();
 const imageCache = new Map<string, Uint8Array>();
@@ -119,49 +121,90 @@ function replay(path: string, c1: string, c2: string): PairRecord {
     ...record,
     status: "replayed",
     trivial,
-    encodings: Object.fromEntries(
-      ENCODINGS.map((e) => {
-        const { merged: _, ...rest } = outcomes[e];
-        return [e, rest];
+    variants: Object.fromEntries(
+      VARIANTS.map((v) => {
+        const { merged: _, fileMerged: __, ...rest } = outcomes[v];
+        return [v, rest];
       }),
-    ) as Record<Encoding, Omit<EncodingOutcome, "merged">>,
+    ) as Record<Variant, RecordedOutcome>,
   };
 }
 
-function summarize(records: PairRecord[]) {
-  const replayed = records.filter((r) => r.status === "replayed");
-  const count = (status: PairRecord["status"]) =>
-    records.filter((r) => r.status === status).length;
-  const perEncoding = (subset: typeof replayed) =>
-    Object.fromEntries(
-      ENCODINGS.map((e) => [
+type Replayed = Extract<PairRecord, { status: "replayed" }>;
+
+function perVariant(subset: Replayed[]) {
+  return Object.fromEntries(
+    VARIANTS.map((v) => {
+      const of = (r: Replayed) => r.variants[v];
+      const n = (pred: (o: RecordedOutcome) => boolean) =>
+        subset.filter((r) => pred(of(r))).length;
+      return [
+        v,
+        {
+          clean: n((o) => o.conflicts === 0 && o.correct === true),
+          conflict: n((o) => o.conflicts > 0),
+          cleanButWrong: n((o) => o.conflicts === 0 && !o.correct),
+          fileClean: n((o) => o.fileConflicts === 0 && o.fileCorrect === true),
+          fileConflict: n((o) => o.fileConflicts > 0),
+          fileCleanButWrong: n((o) => o.fileConflicts === 0 && !o.fileCorrect),
+          // Wrong outside the descriptor, i.e. in messageDesc(file, N) & co.
+          fileWrongOutsideDescriptor: n((o) => o.fileWrong?.rest === true),
+        },
+      ];
+    }),
+  ) as Record<
+    Variant,
+    Record<
+      | "clean"
+      | "conflict"
+      | "cleanButWrong"
+      | "fileClean"
+      | "fileConflict"
+      | "fileCleanButWrong"
+      | "fileWrongOutsideDescriptor",
+      number
+    >
+  >;
+}
+
+/** What adding the manifest did to the whole-file merges of A and B. */
+function manifestEffect(subset: Replayed[]) {
+  return Object.fromEntries(
+    (["a", "b"] as const).map((e) => {
+      const n = (
+        pred: (without: RecordedOutcome, withM: RecordedOutcome) => boolean,
+      ) =>
+        subset.filter((r) => pred(r.variants[e], r.variants[`${e}-manifest`]))
+          .length;
+      return [
         e,
         {
-          clean: subset.filter(
-            (r) => r.encodings[e].conflicts === 0 && r.encodings[e].correct,
-          ).length,
-          conflict: subset.filter((r) => r.encodings[e].conflicts > 0).length,
-          cleanButWrong: subset.filter(
-            (r) => r.encodings[e].conflicts === 0 && !r.encodings[e].correct,
-          ).length,
-          fileConflict: subset.filter((r) => r.encodings[e].fileConflicts > 0)
-            .length,
-          fileCleanButWrong: subset.filter(
-            (r) =>
-              r.encodings[e].fileConflicts === 0 && !r.encodings[e].fileCorrect,
-          ).length,
+          // Cost: a correct clean merge that now needs manual resolution.
+          correctToConflict: n(
+            (w, m) => !!w.fileCorrect && m.fileConflicts > 0,
+          ),
+          // Benefit: a silently wrong merge that now conflicts.
+          wrongToConflict: n(
+            (w, m) =>
+              w.fileConflicts === 0 && !w.fileCorrect && m.fileConflicts > 0,
+          ),
+          stillWrong: n((_, m) => m.fileConflicts === 0 && !m.fileCorrect),
         },
-      ]),
-    ) as Record<
-      Encoding,
-      {
-        clean: number;
-        conflict: number;
-        cleanButWrong: number;
-        fileConflict: number;
-        fileCleanButWrong: number;
-      }
-    >;
+      ];
+    }),
+  ) as Record<
+    "a" | "b",
+    { correctToConflict: number; wrongToConflict: number; stillWrong: number }
+  >;
+}
+
+function summarize(records: PairRecord[]) {
+  const replayed = records.filter(
+    (r): r is Replayed => r.status === "replayed",
+  );
+  const nonTrivial = replayed.filter((r) => !r.trivial);
+  const count = (status: PairRecord["status"]) =>
+    records.filter((r) => r.status === status).length;
   return {
     pairs: records.length,
     noBase: count("no-base"),
@@ -169,9 +212,10 @@ function summarize(records: PairRecord[]) {
     semanticConflict: count("semantic-conflict"),
     buildFailure: count("build-failure"),
     replayed: replayed.length,
-    trivial: replayed.filter((r) => r.trivial).length,
-    all: perEncoding(replayed),
-    nonTrivial: perEncoding(replayed.filter((r) => !r.trivial)),
+    trivial: replayed.length - nonTrivial.length,
+    all: perVariant(replayed),
+    nonTrivial: perVariant(nonTrivial),
+    manifestEffect: manifestEffect(nonTrivial),
   };
 }
 
@@ -190,9 +234,10 @@ for (const path of TARGETS) {
     records.push(record);
     const detail =
       record.status === "replayed"
-        ? ENCODINGS.map((e) => `${e}=${record.encodings[e].conflicts}`).join(
-            " ",
-          )
+        ? VARIANTS.map(
+            (v) =>
+              `${v}=${record.variants[v].conflicts}/${record.variants[v].fileConflicts}`,
+          ).join(" ")
         : "";
     console.error(
       `${path} ${i + 1}/${commits.length - 1} ${record.status} ${detail}`,
@@ -207,7 +252,13 @@ for (const path of TARGETS) {
 }
 summaries["total"] = summarize(allRecords);
 
-const LABELS = { base64: "base64", a: "Option A", b: "Option B" } as const;
+const LABELS = {
+  base64: "base64",
+  a: "Option A",
+  b: "Option B",
+  "a-manifest": "Option A + manifest",
+  "b-manifest": "Option B + manifest",
+} as const;
 const label = (path: string) =>
   path === "total" ? "**total**" : `\`${path}\``;
 const md = [
@@ -222,14 +273,26 @@ const md = [
       `| ${label(path)} | ${s.pairs} | ${s.rebaseConflict + s.noBase} | ${s.semanticConflict} | ${s.replayed} | ${s.trivial} |`,
   ),
   "",
-  "Replayed pairs where both sides changed the descriptor:",
+  "Replayed pairs where both sides changed the descriptor. The manifest variants",
+  "embed the same descriptor as A and B, so their `fileDesc(…)` columns match.",
   "",
-  "| file | encoding | clean | conflict | clean but wrong | whole `_pb.ts`: conflict | whole `_pb.ts`: clean but wrong |",
-  "| --- | --- | --- | --- | --- | --- | --- |",
+  "| file | variant | `fileDesc(…)`: clean | conflict | clean but wrong | whole `_pb.ts`: clean | conflict | clean but wrong | of which outside the descriptor |",
+  "| --- | --- | --- | --- | --- | --- | --- | --- | --- |",
   ...Object.entries(summaries).flatMap(([path, s]) =>
-    ENCODINGS.map((e) => {
-      const c = s.nonTrivial[e];
-      return `| ${label(path)} | ${LABELS[e]} | ${c.clean} | ${c.conflict} | ${c.cleanButWrong} | ${c.fileConflict} | ${c.fileCleanButWrong} |`;
+    VARIANTS.map((v) => {
+      const c = s.nonTrivial[v];
+      return `| ${label(path)} | ${LABELS[v]} | ${c.clean} | ${c.conflict} | ${c.cleanButWrong} | ${c.fileClean} | ${c.fileConflict} | ${c.fileCleanButWrong} | ${c.fileWrongOutsideDescriptor} |`;
+    }),
+  ),
+  "",
+  "What the manifest changes in whole-file merges (same pairs):",
+  "",
+  "| file | encoding | correct clean merge → conflict (cost) | wrong clean merge → conflict (benefit) | still clean but wrong |",
+  "| --- | --- | --- | --- | --- |",
+  ...Object.entries(summaries).flatMap(([path, s]) =>
+    (["a", "b"] as const).map((e) => {
+      const m = s.manifestEffect[e];
+      return `| ${label(path)} | ${LABELS[e]} | ${m.correctToConflict} | ${m.wrongToConflict} | ${m.stillWrong} |`;
     }),
   ),
 ];

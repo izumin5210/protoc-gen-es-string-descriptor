@@ -11,7 +11,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -25,6 +25,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -41,7 +53,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -55,6 +67,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -71,7 +95,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -85,6 +109,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -101,7 +137,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -113,6 +149,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -129,7 +177,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -141,6 +189,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -157,7 +217,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -171,6 +231,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -187,7 +259,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -201,6 +273,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -217,7 +301,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -231,6 +315,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -247,7 +343,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -261,6 +357,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -277,7 +385,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -289,6 +397,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -314,7 +434,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -328,6 +448,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -344,7 +476,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -358,6 +490,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -374,7 +518,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -388,6 +532,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -404,7 +560,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -418,6 +574,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -434,7 +602,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -444,6 +612,16 @@
           "fileConflicts": 1
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -460,7 +638,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -470,6 +648,16 @@
           "fileConflicts": 1
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 1,
+          "fileConflicts": 1
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -486,7 +674,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -500,6 +688,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -516,7 +716,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -530,6 +730,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -546,7 +758,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -555,13 +767,31 @@
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
-          "fileCorrect": false
+          "fileCorrect": false,
+          "fileWrong": {
+            "descriptor": false,
+            "rest": true
+          }
         },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
-          "fileCorrect": false
+          "fileCorrect": false,
+          "fileWrong": {
+            "descriptor": false,
+            "rest": true
+          }
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 1,
+          "correct": true
+        },
+        "b-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 1,
+          "correct": true
         }
       }
     },
@@ -574,7 +804,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 2
@@ -586,6 +816,14 @@
         "b": {
           "conflicts": 1,
           "fileConflicts": 2
+        },
+        "a-manifest": {
+          "conflicts": 1,
+          "fileConflicts": 4
+        },
+        "b-manifest": {
+          "conflicts": 1,
+          "fileConflicts": 4
         }
       }
     },
@@ -607,7 +845,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 2
@@ -618,6 +856,16 @@
           "correct": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 1,
+          "correct": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 1,
+          "correct": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 1,
           "correct": true
@@ -642,7 +890,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -656,6 +904,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -672,7 +932,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -686,6 +946,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -702,7 +974,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -716,6 +988,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -732,7 +1016,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -746,6 +1030,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -762,7 +1058,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -774,6 +1070,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -799,7 +1107,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -811,6 +1119,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -827,7 +1147,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -839,6 +1159,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -855,7 +1187,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -865,6 +1197,16 @@
           "fileConflicts": 4
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 4,
+          "fileConflicts": 4
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -881,7 +1223,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -895,6 +1237,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -911,7 +1265,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -925,6 +1279,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -941,7 +1307,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -954,7 +1320,20 @@
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
-          "fileCorrect": false
+          "fileCorrect": false,
+          "fileWrong": {
+            "descriptor": false,
+            "rest": true
+          }
+        },
+        "a-manifest": {
+          "conflicts": 1,
+          "fileConflicts": 3
+        },
+        "b-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 2,
+          "correct": true
         }
       }
     },
@@ -967,7 +1346,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -981,6 +1360,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -997,7 +1388,7 @@
       ],
       "status": "replayed",
       "trivial": true,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 0,
           "fileConflicts": 0,
@@ -1011,6 +1402,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
@@ -1027,7 +1430,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -1036,13 +1439,31 @@
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
-          "fileCorrect": false
+          "fileCorrect": false,
+          "fileWrong": {
+            "descriptor": false,
+            "rest": true
+          }
         },
         "b": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,
-          "fileCorrect": false
+          "fileCorrect": false,
+          "fileWrong": {
+            "descriptor": false,
+            "rest": true
+          }
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 2,
+          "correct": true
+        },
+        "b-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 2,
+          "correct": true
         }
       }
     },
@@ -1055,7 +1476,7 @@
       ],
       "status": "replayed",
       "trivial": false,
-      "encodings": {
+      "variants": {
         "base64": {
           "conflicts": 1,
           "fileConflicts": 1
@@ -1067,6 +1488,18 @@
           "fileCorrect": true
         },
         "b": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "a-manifest": {
+          "conflicts": 0,
+          "fileConflicts": 0,
+          "correct": true,
+          "fileCorrect": true
+        },
+        "b-manifest": {
           "conflicts": 0,
           "fileConflicts": 0,
           "correct": true,

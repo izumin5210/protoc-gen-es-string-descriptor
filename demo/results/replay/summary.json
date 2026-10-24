@@ -15,22 +15,46 @@
           "clean": 9,
           "conflict": 17,
           "cleanButWrong": 0,
+          "fileClean": 9,
           "fileConflict": 17,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "a": {
           "clean": 24,
           "conflict": 2,
           "cleanButWrong": 0,
+          "fileClean": 23,
           "fileConflict": 3,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "b": {
           "clean": 25,
           "conflict": 0,
           "cleanButWrong": 1,
+          "fileClean": 23,
           "fileConflict": 2,
-          "fileCleanButWrong": 1
+          "fileCleanButWrong": 1,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "a-manifest": {
+          "clean": 24,
+          "conflict": 2,
+          "cleanButWrong": 0,
+          "fileClean": 23,
+          "fileConflict": 3,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "b-manifest": {
+          "clean": 25,
+          "conflict": 0,
+          "cleanButWrong": 1,
+          "fileClean": 23,
+          "fileConflict": 2,
+          "fileCleanButWrong": 1,
+          "fileWrongOutsideDescriptor": 0
         }
       },
       "nonTrivial": {
@@ -38,22 +62,58 @@
           "clean": 0,
           "conflict": 17,
           "cleanButWrong": 0,
+          "fileClean": 0,
           "fileConflict": 17,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "a": {
           "clean": 15,
           "conflict": 2,
           "cleanButWrong": 0,
+          "fileClean": 14,
           "fileConflict": 3,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "b": {
           "clean": 16,
           "conflict": 0,
           "cleanButWrong": 1,
+          "fileClean": 14,
           "fileConflict": 2,
-          "fileCleanButWrong": 1
+          "fileCleanButWrong": 1,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "a-manifest": {
+          "clean": 15,
+          "conflict": 2,
+          "cleanButWrong": 0,
+          "fileClean": 14,
+          "fileConflict": 3,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "b-manifest": {
+          "clean": 16,
+          "conflict": 0,
+          "cleanButWrong": 1,
+          "fileClean": 14,
+          "fileConflict": 2,
+          "fileCleanButWrong": 1,
+          "fileWrongOutsideDescriptor": 0
+        }
+      },
+      "manifestEffect": {
+        "a": {
+          "correctToConflict": 0,
+          "wrongToConflict": 0,
+          "stillWrong": 0
+        },
+        "b": {
+          "correctToConflict": 0,
+          "wrongToConflict": 0,
+          "stillWrong": 1
         }
       }
     },
@@ -70,22 +130,46 @@
           "clean": 21,
           "conflict": 15,
           "cleanButWrong": 0,
+          "fileClean": 21,
           "fileConflict": 15,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "a": {
           "clean": 31,
           "conflict": 5,
           "cleanButWrong": 0,
+          "fileClean": 28,
           "fileConflict": 6,
-          "fileCleanButWrong": 2
+          "fileCleanButWrong": 2,
+          "fileWrongOutsideDescriptor": 2
         },
         "b": {
           "clean": 35,
           "conflict": 1,
           "cleanButWrong": 0,
+          "fileClean": 31,
           "fileConflict": 2,
-          "fileCleanButWrong": 3
+          "fileCleanButWrong": 3,
+          "fileWrongOutsideDescriptor": 3
+        },
+        "a-manifest": {
+          "clean": 31,
+          "conflict": 5,
+          "cleanButWrong": 0,
+          "fileClean": 28,
+          "fileConflict": 8,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "b-manifest": {
+          "clean": 35,
+          "conflict": 1,
+          "cleanButWrong": 0,
+          "fileClean": 31,
+          "fileConflict": 5,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         }
       },
       "nonTrivial": {
@@ -93,22 +177,58 @@
           "clean": 0,
           "conflict": 15,
           "cleanButWrong": 0,
+          "fileClean": 0,
           "fileConflict": 15,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "a": {
           "clean": 10,
           "conflict": 5,
           "cleanButWrong": 0,
+          "fileClean": 7,
           "fileConflict": 6,
-          "fileCleanButWrong": 2
+          "fileCleanButWrong": 2,
+          "fileWrongOutsideDescriptor": 2
         },
         "b": {
           "clean": 14,
           "conflict": 1,
           "cleanButWrong": 0,
+          "fileClean": 10,
           "fileConflict": 2,
-          "fileCleanButWrong": 3
+          "fileCleanButWrong": 3,
+          "fileWrongOutsideDescriptor": 3
+        },
+        "a-manifest": {
+          "clean": 10,
+          "conflict": 5,
+          "cleanButWrong": 0,
+          "fileClean": 7,
+          "fileConflict": 8,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "b-manifest": {
+          "clean": 14,
+          "conflict": 1,
+          "cleanButWrong": 0,
+          "fileClean": 10,
+          "fileConflict": 5,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        }
+      },
+      "manifestEffect": {
+        "a": {
+          "correctToConflict": 0,
+          "wrongToConflict": 2,
+          "stillWrong": 0
+        },
+        "b": {
+          "correctToConflict": 0,
+          "wrongToConflict": 3,
+          "stillWrong": 0
         }
       }
     },
@@ -125,22 +245,46 @@
           "clean": 9,
           "conflict": 14,
           "cleanButWrong": 0,
+          "fileClean": 9,
           "fileConflict": 14,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "a": {
           "clean": 17,
           "conflict": 6,
           "cleanButWrong": 0,
+          "fileClean": 17,
           "fileConflict": 6,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "b": {
           "clean": 23,
           "conflict": 0,
           "cleanButWrong": 0,
+          "fileClean": 20,
           "fileConflict": 3,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "a-manifest": {
+          "clean": 17,
+          "conflict": 6,
+          "cleanButWrong": 0,
+          "fileClean": 17,
+          "fileConflict": 6,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "b-manifest": {
+          "clean": 23,
+          "conflict": 0,
+          "cleanButWrong": 0,
+          "fileClean": 20,
+          "fileConflict": 3,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         }
       },
       "nonTrivial": {
@@ -148,22 +292,58 @@
           "clean": 0,
           "conflict": 14,
           "cleanButWrong": 0,
+          "fileClean": 0,
           "fileConflict": 14,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "a": {
           "clean": 8,
           "conflict": 6,
           "cleanButWrong": 0,
+          "fileClean": 8,
           "fileConflict": 6,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "b": {
           "clean": 14,
           "conflict": 0,
           "cleanButWrong": 0,
+          "fileClean": 11,
           "fileConflict": 3,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "a-manifest": {
+          "clean": 8,
+          "conflict": 6,
+          "cleanButWrong": 0,
+          "fileClean": 8,
+          "fileConflict": 6,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "b-manifest": {
+          "clean": 14,
+          "conflict": 0,
+          "cleanButWrong": 0,
+          "fileClean": 11,
+          "fileConflict": 3,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        }
+      },
+      "manifestEffect": {
+        "a": {
+          "correctToConflict": 0,
+          "wrongToConflict": 0,
+          "stillWrong": 0
+        },
+        "b": {
+          "correctToConflict": 0,
+          "wrongToConflict": 0,
+          "stillWrong": 0
         }
       }
     },
@@ -180,22 +360,46 @@
           "clean": 39,
           "conflict": 46,
           "cleanButWrong": 0,
+          "fileClean": 39,
           "fileConflict": 46,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "a": {
           "clean": 72,
           "conflict": 13,
           "cleanButWrong": 0,
+          "fileClean": 68,
           "fileConflict": 15,
-          "fileCleanButWrong": 2
+          "fileCleanButWrong": 2,
+          "fileWrongOutsideDescriptor": 2
         },
         "b": {
           "clean": 83,
           "conflict": 1,
           "cleanButWrong": 1,
+          "fileClean": 74,
           "fileConflict": 7,
-          "fileCleanButWrong": 4
+          "fileCleanButWrong": 4,
+          "fileWrongOutsideDescriptor": 3
+        },
+        "a-manifest": {
+          "clean": 72,
+          "conflict": 13,
+          "cleanButWrong": 0,
+          "fileClean": 68,
+          "fileConflict": 17,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "b-manifest": {
+          "clean": 83,
+          "conflict": 1,
+          "cleanButWrong": 1,
+          "fileClean": 74,
+          "fileConflict": 10,
+          "fileCleanButWrong": 1,
+          "fileWrongOutsideDescriptor": 0
         }
       },
       "nonTrivial": {
@@ -203,22 +407,58 @@
           "clean": 0,
           "conflict": 46,
           "cleanButWrong": 0,
+          "fileClean": 0,
           "fileConflict": 46,
-          "fileCleanButWrong": 0
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
         },
         "a": {
           "clean": 33,
           "conflict": 13,
           "cleanButWrong": 0,
+          "fileClean": 29,
           "fileConflict": 15,
-          "fileCleanButWrong": 2
+          "fileCleanButWrong": 2,
+          "fileWrongOutsideDescriptor": 2
         },
         "b": {
           "clean": 44,
           "conflict": 1,
           "cleanButWrong": 1,
+          "fileClean": 35,
           "fileConflict": 7,
-          "fileCleanButWrong": 4
+          "fileCleanButWrong": 4,
+          "fileWrongOutsideDescriptor": 3
+        },
+        "a-manifest": {
+          "clean": 33,
+          "conflict": 13,
+          "cleanButWrong": 0,
+          "fileClean": 29,
+          "fileConflict": 17,
+          "fileCleanButWrong": 0,
+          "fileWrongOutsideDescriptor": 0
+        },
+        "b-manifest": {
+          "clean": 44,
+          "conflict": 1,
+          "cleanButWrong": 1,
+          "fileClean": 35,
+          "fileConflict": 10,
+          "fileCleanButWrong": 1,
+          "fileWrongOutsideDescriptor": 0
+        }
+      },
+      "manifestEffect": {
+        "a": {
+          "correctToConflict": 0,
+          "wrongToConflict": 2,
+          "stillWrong": 0
+        },
+        "b": {
+          "correctToConflict": 0,
+          "wrongToConflict": 3,
+          "stillWrong": 1
         }
       }
     }
