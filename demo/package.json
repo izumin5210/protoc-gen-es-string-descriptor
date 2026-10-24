@@ -7,6 +7,7 @@
     "typecheck": "tsc --noEmit",
     "conflict-demo": "tsx scripts/conflict-demo.ts",
     "replay": "tsx scripts/replay.ts",
+    "shift-matrix": "tsx scripts/shift-matrix.ts",
     "bundle-size": "tsx scripts/bundle-size.ts",
     "load-bench": "tsx scripts/load-bench.ts"
   },
