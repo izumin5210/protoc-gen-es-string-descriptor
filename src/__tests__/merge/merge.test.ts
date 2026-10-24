@@ -39,6 +39,9 @@ const scenarios: Record<string, Outcome> = {
   // additions end up next to each other.
   "17-map-vs-nested": "conflict",
   "18-imports-separated": "correct",
+  // Members of oneofs in neighbouring messages; a single list of oneof
+  // members for the whole file would have them next to each other.
+  "19-oneof-members-in-two-messages": "correct",
 };
 
 /** The `.proto` files of one side: `m.proto` and the shared `deps/`. */
