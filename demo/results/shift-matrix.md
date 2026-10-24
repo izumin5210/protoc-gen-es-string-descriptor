@@ -2,61 +2,75 @@
 
 Base schema: 3 elements in each of 10 lists (import, message, nested message, enum, nested enum, service, extension, nested extension, enum value, method), plus 9 fields of one message: plain, proto3 optional and real oneof fields, interleaved. Each side applies one edit (insert front, insert middle, append, delete first, delete last; fields are added and deleted per kind; imports can also be made public). Every ordered pair runs twice: with both sides adding elements of the same byte size, and of different sizes. 8712 pairs, 440 of which conflict as .proto (e.g. both append to the same list) and are excluded.
 
-Whole generated `_pb.ts`, compared with the file generated from the merged schema; wrong descriptors are loaded with protobuf-go's `protodesc.NewFiles`:
+Whole generated `_pb.ts`, compared with the file generated from the merged schema. *Clean* also counts merges that differ from it only in comments, number types or the text of `fileDesc(…)`, but decode to the same descriptor. *Error* means that the TypeScript compiler or loading the descriptor fails (Go not available: wrong descriptors were not validated):
 
 #### All 8272 replayed pairs
 
-| variant | clean | conflict | clean but wrong: code | clean but wrong: descriptor, Go rejects | clean but wrong: descriptor, Go accepts |
+| variant | clean | conflict | error | clean but wrong: code | clean but wrong: descriptor (not validated) |
 | --- | --- | --- | --- | --- | --- |
 | base64 | 0 | 8272 | 0 | 0 | 0 |
-| Option A | 5848 | 2333 | 55 | 30 | 6 |
-| Option A + manifest | 5848 | 2406 | 0 | 18 | 0 |
-| Option B | 7588 | 504 | 148 | 28 | 4 |
-| Option B + index manifest | 7588 | 652 | 0 | 28 | 4 |
-| Option B + manifest | 7584 | 688 | 0 | 0 | 0 |
+| String literal | 5848 | 2333 | 24 | 55 | 12 |
+| String literal + manifest | 5848 | 2406 | 12 | 0 | 6 |
+| Nested array | 7660 | 416 | 0 | 148 | 48 |
+| Nested array + index manifest | 7660 | 564 | 0 | 0 | 48 |
+| Nested array + manifest | 7656 | 616 | 0 | 0 | 0 |
+| Nested array + index manifest + number types | 7736 | 536 | 0 | 0 | 0 |
+| Nested array + names | 8208 | 64 | 0 | 0 | 0 |
+| Nested array + names + number types | 8184 | 88 | 0 | 0 | 0 |
 
 #### same size (4136)
 
-| variant | clean | conflict | clean but wrong: code | clean but wrong: descriptor, Go rejects | clean but wrong: descriptor, Go accepts |
+| variant | clean | conflict | error | clean but wrong: code | clean but wrong: descriptor (not validated) |
 | --- | --- | --- | --- | --- | --- |
 | base64 | 0 | 4136 | 0 | 0 | 0 |
-| Option A | 2926 | 1146 | 28 | 30 | 6 |
-| Option A + manifest | 2926 | 1192 | 0 | 18 | 0 |
-| Option B | 3794 | 252 | 74 | 14 | 2 |
-| Option B + index manifest | 3794 | 326 | 0 | 14 | 2 |
-| Option B + manifest | 3792 | 344 | 0 | 0 | 0 |
+| String literal | 2926 | 1146 | 24 | 28 | 12 |
+| String literal + manifest | 2926 | 1192 | 12 | 0 | 6 |
+| Nested array | 3830 | 208 | 0 | 74 | 24 |
+| Nested array + index manifest | 3830 | 282 | 0 | 0 | 24 |
+| Nested array + manifest | 3828 | 308 | 0 | 0 | 0 |
+| Nested array + index manifest + number types | 3868 | 268 | 0 | 0 | 0 |
+| Nested array + names | 4104 | 32 | 0 | 0 | 0 |
+| Nested array + names + number types | 4092 | 44 | 0 | 0 | 0 |
 
 #### different size (4136)
 
-| variant | clean | conflict | clean but wrong: code | clean but wrong: descriptor, Go rejects | clean but wrong: descriptor, Go accepts |
+| variant | clean | conflict | error | clean but wrong: code | clean but wrong: descriptor (not validated) |
 | --- | --- | --- | --- | --- | --- |
 | base64 | 0 | 4136 | 0 | 0 | 0 |
-| Option A | 2922 | 1187 | 27 | 0 | 0 |
-| Option A + manifest | 2922 | 1214 | 0 | 0 | 0 |
-| Option B | 3794 | 252 | 74 | 14 | 2 |
-| Option B + index manifest | 3794 | 326 | 0 | 14 | 2 |
-| Option B + manifest | 3792 | 344 | 0 | 0 | 0 |
+| String literal | 2922 | 1187 | 0 | 27 | 0 |
+| String literal + manifest | 2922 | 1214 | 0 | 0 | 0 |
+| Nested array | 3830 | 208 | 0 | 74 | 24 |
+| Nested array + index manifest | 3830 | 282 | 0 | 0 | 24 |
+| Nested array + manifest | 3828 | 308 | 0 | 0 | 0 |
+| Nested array + index manifest + number types | 3868 | 268 | 0 | 0 | 0 |
+| Nested array + names | 4104 | 32 | 0 | 0 | 0 |
+| Nested array + names + number types | 4092 | 44 | 0 | 0 | 0 |
 
 #### Clean but wrong, by kind of edit pair
 
-| pairs | base64 | Option A | Option A + manifest | Option B | Option B + index manifest | Option B + manifest |
-| --- | --- | --- | --- | --- | --- | --- |
-| different lists: container (100) | 0 | 0 | 0 | 0 | 0 | 0 |
-| different lists: generated code (2052) | 0 | 0 | 0 | 36 | 0 | 0 |
-| different lists: mixed (5492) | 0 | 0 | 0 | 0 | 0 | 0 |
-| same list: container (56) | 0 | 12 | 12 | 0 | 0 | 0 |
-| same list: fields and oneofs (336) | 0 | 6 | 6 | 28 | 28 | 0 |
-| same list: generated code (196) | 0 | 73 | 0 | 112 | 0 | 0 |
-| same list: imports (40) | 0 | 0 | 0 | 4 | 4 | 0 |
+| pairs | base64 | String literal | String literal + manifest | Nested array | Nested array + index manifest | Nested array + manifest | Nested array + index manifest + number types | Nested array + names | Nested array + names + number types |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| different lists: container (100) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| different lists: generated code (2052) | 0 | 0 | 0 | 36 | 0 | 0 | 0 | 0 | 0 |
+| different lists: mixed (5492) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| same list: container (56) | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| same list: fields and oneofs (336) | 0 | 6 | 6 | 44 | 44 | 0 | 0 | 0 | 0 |
+| same list: generated code (196) | 0 | 61 | 0 | 112 | 0 | 0 | 0 | 0 | 0 |
+| same list: imports (40) | 0 | 0 | 0 | 4 | 4 | 0 | 0 | 0 | 0 |
 
-#### Cost: correct clean merges that the manifest turns into conflicts
+#### Cost: correct clean merges that a manifest or the number types turn into conflicts
 
 | without → with | correct → conflict | wrong → conflict | still wrong |
 | --- | --- | --- | --- |
-| Option A → Option A + manifest | 0 | 73 | 18 |
-| Option B → Option B + index manifest | 0 | 148 | 32 |
-| Option B → Option B + manifest | 4 | 180 | 0 |
+| String literal → String literal + manifest | 0 | 61 | 6 |
+| Nested array → Nested array + index manifest | 0 | 148 | 48 |
+| Nested array → Nested array + manifest | 4 | 196 | 0 |
+| Nested array + names → Nested array + names + number types | 24 | 0 | 0 |
 
-#### Clean but wrong with Option B + manifest: 0
+#### Clean but wrong with Nested array + manifest: 0
 
-shift-matrix.tsv lists the 202 pairs where some variant is clean but wrong or a manifest changes the outcome.
+
+#### Clean but wrong with Nested array + names + number types: 0
+
+
+shift-matrix.tsv lists the 230 pairs where some variant is clean but wrong or a manifest changes the outcome.

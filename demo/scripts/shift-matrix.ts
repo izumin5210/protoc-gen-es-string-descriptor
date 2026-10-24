@@ -30,7 +30,11 @@ import {
   type Variant,
 } from "../src/generate.js";
 import { protodescAvailable, protodescCheck } from "../src/protodesc.js";
-import { mergeGenerated, type Side } from "../src/replay-pair.js";
+import {
+  assertRoundTrip,
+  mergeGenerated,
+  type Side,
+} from "../src/replay-pair.js";
 import { mergeFile } from "../src/tools.js";
 
 const resultsDir = join(import.meta.dirname, "..", "results");
@@ -418,6 +422,7 @@ function generate(schema: Schema): Record<Variant, string> {
       [descriptorProto, ...deps, file],
       [FILE],
     );
+    assertRoundTrip(content);
     generatedCache.set(key, content);
   }
   return content;
@@ -426,6 +431,7 @@ function generate(schema: Schema): Record<Variant, string> {
 type Outcome =
   | "clean"
   | "conflict"
+  | "error"
   | "wrong code"
   | "wrong descriptor, Go rejects"
   | "wrong descriptor, Go accepts"
@@ -491,8 +497,11 @@ for (const size of ["same size", "different size"] as const) {
         merged: generate(mergedSchema),
       };
       const merged = mergedSchema;
-      const result = mergeGenerated(generated, (embedded) =>
-        protodescCheck(embedded, toProto(merged), [descriptorProto, ...deps]),
+      const result = mergeGenerated(
+        generated,
+        (embedded) =>
+          protodescCheck(embedded, toProto(merged), [descriptorProto, ...deps]),
+        [descriptorProto, ...deps],
       );
       cases.push({
         size,
@@ -506,8 +515,11 @@ for (const size of ["same size", "different size"] as const) {
             if (o.fileConflicts > 0) {
               return [v, "conflict"];
             }
-            if (o.fileCorrect) {
+            if (o.verdict === "correct") {
               return [v, "clean"];
+            }
+            if (o.verdict === "error") {
+              return [v, "error"];
             }
             if (!o.fileWrong?.descriptor) {
               return [v, "wrong code"];
@@ -542,10 +554,18 @@ const groupOf = (c: Case) => {
 const describe = (e: Edit) =>
   `${e.op} (${e.kind ? FIELD_KINDS[e.kind] : LISTS[e.list].label})`;
 
+// Without Go, wrong descriptors are not validated and get one column.
+const summaryHeader = protodescAvailable()
+  ? "| variant | clean | conflict | error | clean but wrong: code | clean but wrong: descriptor, Go rejects | clean but wrong: descriptor, Go accepts |"
+  : "| variant | clean | conflict | error | clean but wrong: code | clean but wrong: descriptor (not validated) |";
 const summaryRows = (subset: Case[]) =>
   VARIANTS.map(
     (v) =>
-      `| ${VARIANT_LABELS[v]} | ${count(subset, v, (o) => o === "clean")} | ${count(subset, v, (o) => o === "conflict")} | ${count(subset, v, (o) => o === "wrong code")} | ${count(subset, v, (o) => o === "wrong descriptor, Go rejects")} | ${count(subset, v, (o) => o === "wrong descriptor, Go accepts" || o === "wrong descriptor")} |`,
+      `| ${VARIANT_LABELS[v]} | ${count(subset, v, (o) => o === "clean")} | ${count(subset, v, (o) => o === "conflict")} | ${count(subset, v, (o) => o === "error")} | ${count(subset, v, (o) => o === "wrong code")} | ${
+        protodescAvailable()
+          ? `${count(subset, v, (o) => o === "wrong descriptor, Go rejects")} | ${count(subset, v, (o) => o === "wrong descriptor, Go accepts")}`
+          : count(subset, v, (o) => o === "wrong descriptor")
+      } |`,
   );
 
 const groups = [...new Set(replayed.map(groupOf))].sort();
@@ -553,10 +573,10 @@ const COSTS: [Variant, Variant][] = [
   ["a", "a-manifest"],
   ["b", "b-index-manifest"],
   ["b", "b-manifest"],
+  ["b-names", "b-names-numbers"],
 ];
-const wrongWithFullManifest = replayed.filter((c) =>
-  isWrong(c.outcomes?.["b-manifest"]),
-);
+const wrongWith = (v: Variant) =>
+  replayed.filter((c) => isWrong(c.outcomes?.[v]));
 
 // Only pairs where some variant merges wrong or a manifest changes the
 // outcome; the others are all clean or all conflicts, and shift-matrix.md
@@ -579,19 +599,19 @@ const md = [
       ", ",
     )}), plus 9 fields of one message: plain, proto3 optional and real oneof fields, interleaved. Each side applies one edit (${OPS.join(", ")}; fields are added and deleted per kind; imports can also be made public). Every ordered pair runs twice: with both sides adding elements of the same byte size, and of different sizes. ${cases.length} pairs, ${cases.length - replayed.length} of which conflict as .proto (e.g. both append to the same list) and are excluded.`,
   "",
-  `Whole generated \`_pb.ts\`, compared with the file generated from the merged schema${protodescAvailable() ? "; wrong descriptors are loaded with protobuf-go's `protodesc.NewFiles`" : " (Go not available: wrong descriptors were not validated)"}:`,
+  `Whole generated \`_pb.ts\`, compared with the file generated from the merged schema. *Clean* also counts merges that differ from it only in comments, number types or the text of \`fileDesc(…)\`, but decode to the same descriptor. *Error* means that the TypeScript compiler or loading the descriptor fails${protodescAvailable() ? "; wrong descriptors are loaded with protobuf-go's `protodesc.NewFiles`" : " (Go not available: wrong descriptors were not validated)"}:`,
   "",
   `#### All ${replayed.length} replayed pairs`,
   "",
-  "| variant | clean | conflict | clean but wrong: code | clean but wrong: descriptor, Go rejects | clean but wrong: descriptor, Go accepts |",
-  "| --- | --- | --- | --- | --- | --- |",
+  summaryHeader,
+  summaryHeader.replace(/[^|]+/g, " --- "),
   ...summaryRows(replayed),
   "",
   ...(["same size", "different size"] as const).flatMap((size) => [
     `#### ${size} (${replayed.filter((c) => c.size === size).length})`,
     "",
-    "| variant | clean | conflict | clean but wrong: code | clean but wrong: descriptor, Go rejects | clean but wrong: descriptor, Go accepts |",
-    "| --- | --- | --- | --- | --- | --- |",
+    summaryHeader,
+    summaryHeader.replace(/[^|]+/g, " --- "),
     ...summaryRows(replayed.filter((c) => c.size === size)),
     "",
   ]),
@@ -604,7 +624,7 @@ const md = [
     return `| ${g} (${subset.length}) | ${VARIANTS.map((v) => count(subset, v, isWrong)).join(" | ")} |`;
   }),
   "",
-  "#### Cost: correct clean merges that the manifest turns into conflicts",
+  "#### Cost: correct clean merges that a manifest or the number types turn into conflicts",
   "",
   "| without → with | correct → conflict | wrong → conflict | still wrong |",
   "| --- | --- | --- | --- |",
@@ -616,14 +636,16 @@ const md = [
     return `| ${VARIANT_LABELS[without]} → ${VARIANT_LABELS[withM]} | ${n((w, m) => w === "clean" && m === "conflict")} | ${n((w, m) => isWrong(w) && m === "conflict")} | ${n((_, m) => isWrong(m))} |`;
   }),
   "",
-  `#### Clean but wrong with ${VARIANT_LABELS["b-manifest"]}: ${wrongWithFullManifest.length}`,
-  "",
+  ...(["b-manifest", "b-names-numbers"] as const).flatMap((v) => [
+    `#### Clean but wrong with ${VARIANT_LABELS[v]}: ${wrongWith(v).length}`,
+    "",
+    ...wrongWith(v).map(
+      (c) =>
+        `- ${c.size}: ours ${describe(c.ours)}, theirs ${describe(c.theirs)}: ${c.outcomes?.[v]}`,
+    ),
+    "",
+  ]),
   `shift-matrix.tsv lists the ${informative.length} pairs where some variant is clean but wrong or a manifest changes the outcome.`,
-  "",
-  ...wrongWithFullManifest.map(
-    (c) =>
-      `- ${c.size}: ours ${describe(c.ours)}, theirs ${describe(c.theirs)}: ${c.outcomes?.["b-manifest"]}`,
-  ),
 ];
 
 mkdirSync(resultsDir, { recursive: true });
