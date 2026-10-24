@@ -1,5 +1,6 @@
 # Generated test artifacts
 *.binpb
+.tmp
 
 # Logs
 logs

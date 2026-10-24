@@ -3,24 +3,57 @@
 /* eslint-disable */
 
 import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
-import { messageDesc } from "@bufbuild/protobuf/codegenv2";
+import { fileDesc, messageDesc } from "protoc-gen-es-string-descriptor";
 import type { Message } from "@bufbuild/protobuf";
 
-import { fileDesc } from "protoc-gen-es-string-descriptor";
 /**
  * Describes the file nested.proto.
  */
 export const file_nested: GenFile = /*@__PURE__*/
-  fileDesc("" +
-    "\n" +
-    "\fnested.proto\x12\btestdata\"\x88\x01\n" +
-    "\x05Outer\x12\f\n" +
-    "\x04name\x18\x01 \x01(\t\x12$\n" +
-    "\x05inner\x18\x02 \x01(\v2\x15.testdata.Outer.Inner\x12$\n" +
-    "\x05items\x18\x03 \x03(\v2\x15.testdata.Outer.Inner\x1a%\n" +
-    "\x05Inner\x12\r\n" +
-    "\x05value\x18\x01 \x01(\t\x12\r\n" +
-    "\x05count\x18\x02 \x01(\x05b\x06proto3\xd2\xf6\x03\x04\b\x00\x18\x00");
+  fileDesc([
+ "\n\fnested.proto",
+ "\x12\btestdata",
+ ["\"", [
+  "\n\x05Outer",
+  ["\x12", [
+   "\n\x04name",
+   "\x18\x01 \x01(\t",
+  ]],
+  ["\x12", [
+   "\n\x05inner",
+   "\x18\x02 \x01(\v",
+   "2\x15.testdata.Outer.Inner",
+  ]],
+  ["\x12", [
+   "\n\x05items",
+   "\x18\x03 \x03(\v",
+   "2\x15.testdata.Outer.Inner",
+  ]],
+  ["\x1a", [
+   "\n\x05Inner",
+   ["\x12", [
+    "\n\x05value",
+    "\x18\x01 \x01(\t",
+   ]],
+   ["\x12", [
+    "\n\x05count",
+    "\x18\x02 \x01(\x05",
+   ]],
+  ]],
+ ]],
+ "b\x06proto3",
+], [
+], [
+]);
+export type _numbers_testdata_Outer = {
+  1: "name";
+  2: "inner";
+  3: "items";
+};
+export type _numbers_testdata_Outer_Inner = {
+  1: "value";
+  2: "count";
+};
 
 /**
  * @generated from message testdata.Outer
@@ -47,7 +80,7 @@ export type Outer = Message<"testdata.Outer"> & {
  * Use `create(OuterSchema)` to create a new message.
  */
 export const OuterSchema: GenMessage<Outer> = /*@__PURE__*/
-  messageDesc(file_nested, 0);
+  messageDesc(file_nested, "Outer");
 
 /**
  * @generated from message testdata.Outer.Inner
@@ -69,5 +102,5 @@ export type Outer_Inner = Message<"testdata.Outer.Inner"> & {
  * Use `create(Outer_InnerSchema)` to create a new message.
  */
 export const Outer_InnerSchema: GenMessage<Outer_Inner> = /*@__PURE__*/
-  messageDesc(file_nested, 0, 0);
+  messageDesc(file_nested, "Outer.Inner");
 
