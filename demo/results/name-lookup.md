@@ -4,6 +4,6 @@
 
 | | time to resolve every message once | memory |
 | --- | --- | --- |
-| by index (`messageDesc(file, 2, 0)`) | 0.11 ms | — |
-| by name, building a map per file first (`messageDesc(file, "Outer.Inner")`) | 0.92 ms | 114 KiB for 181 maps of 1565 messages, enums, services and extensions |
+| by index (`messageDesc(file, 2, 0)`) | 0.17 ms | — |
+| by name, building a map per file first (`messageDesc(file, "Outer.Inner")`) | 0.64 ms | 105 KiB for 181 maps of 1565 messages, enums, services and extensions |
 | for comparison: the registry of the same files | — | 4.0 MiB, plus 3.7 MiB for the parsed `FileDescriptorProto`s it keeps |

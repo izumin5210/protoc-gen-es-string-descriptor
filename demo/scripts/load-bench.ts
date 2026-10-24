@@ -41,6 +41,12 @@ const VARIANTS = [
   { name: "String literal (direct)", encoding: "a", direct: true },
   { name: "Nested array (shipped runtime)", encoding: "b", direct: false },
   { name: "Nested array (direct)", encoding: "b", direct: true },
+  // Hydrates without a base64 round trip, so it compares with "direct".
+  {
+    name: "Nested array + names + number types",
+    encoding: "b-names-numbers",
+    direct: false,
+  },
 ] as const;
 const bundles: Record<string, string> = {};
 for (const { name, encoding, direct } of VARIANTS) {

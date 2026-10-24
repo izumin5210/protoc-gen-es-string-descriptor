@@ -128,6 +128,8 @@ export function generateFromProtos(
     );
     const desc = source === undefined ? undefined : registry.getFile(source);
     const dependency = desc?.proto.dependency ?? [];
+    // Number types are TypeScript; `.js` and `.d.ts` output gets none here.
+    const typed = /(?<!\.d)\.ts$/.test(file.name);
     const manifest = (descriptorIndices: boolean) =>
       desc === undefined ? [] : indexManifest(desc, { descriptorIndices });
     return {
@@ -144,7 +146,7 @@ export function generateFromProtos(
           NAMES_RUNTIME,
           {
             names: false,
-            numberTypes: true,
+            numberTypes: typed,
             manifest:
               desc === undefined
                 ? []
@@ -157,7 +159,7 @@ export function generateFromProtos(
         "b-name-table-numbers": transformFileContentToNames(
           file.content,
           NAME_TABLE_RUNTIME,
-          { names: true, numberTypes: true },
+          { names: true, numberTypes: typed },
         ),
         "b-names": transformFileContentInline(file.content, NAMES_RUNTIME, {
           dependency,
@@ -166,7 +168,7 @@ export function generateFromProtos(
         "b-names-numbers": transformFileContentInline(
           file.content,
           NAMES_RUNTIME,
-          { dependency, numberTypes: true },
+          { dependency, numberTypes: typed },
         ),
       },
     };

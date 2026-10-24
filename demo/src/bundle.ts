@@ -9,6 +9,7 @@ import {
   type Encoding,
   type GeneratedFile,
   generate,
+  NAMES_RUNTIME,
   OPTION_B_RUNTIME,
 } from "./generate.js";
 import {
@@ -34,10 +35,12 @@ const runtimes = {
       "runtime.ts",
     ),
     [OPTION_B_RUNTIME]: join(srcDir, "option-b", "runtime.ts"),
+    [NAMES_RUNTIME]: join(srcDir, "names", "runtime.ts"),
   },
   direct: {
     "protoc-gen-es-string-descriptor": join(srcDir, "option-a-direct.ts"),
     [OPTION_B_RUNTIME]: join(srcDir, "option-b", "runtime-direct.ts"),
+    [NAMES_RUNTIME]: join(srcDir, "names", "runtime.ts"),
   },
 };
 
@@ -131,7 +134,7 @@ export interface BundleInput {
  */
 export async function writeBundleInput(
   files: GeneratedFile[],
-  encoding: Encoding,
+  encoding: Encoding | "b-names-numbers",
   options: { stub?: boolean; timing?: boolean; direct?: boolean } = {},
 ): Promise<BundleInput> {
   const name = [
@@ -145,6 +148,9 @@ export async function writeBundleInput(
   for (const file of files) {
     let content = file.content[encoding];
     if (options.stub) {
+      if (encoding === "b-names-numbers") {
+        throw new Error("stubs are not supported for the names variant");
+      }
       content = stubDescriptor(content, encoding);
     }
     const path = join(dir, file.name);
