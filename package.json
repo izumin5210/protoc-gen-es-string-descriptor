@@ -1,7 +1,7 @@
 {
   "name": "protoc-gen-es-string-descriptor",
   "version": "0.1.1",
-  "description": "A protoc-gen-es drop-in replacement that makes file descriptors diff-friendly by splitting them into multi-line raw byte string literals",
+  "description": "A protoc-gen-es drop-in replacement that embeds file descriptors in a form that git merges safely",
   "type": "module",
   "main": "dist/runtime.js",
   "types": "dist/runtime.d.ts",
@@ -34,6 +34,7 @@
     "buf",
     "codegen",
     "diff-friendly",
+    "merge-friendly",
     "file-descriptor"
   ],
   "author": "izumin5210 <m@izum.in>",
