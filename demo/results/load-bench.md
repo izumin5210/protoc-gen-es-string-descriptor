@@ -6,18 +6,18 @@
 
 | | import median | import p90 | hydrate median | hydrate p90 |
 | --- | --- | --- | --- | --- |
-| base64 | 104.60 | 111.79 | 97.70 | 104.90 |
-| Option A (shipped runtime) | 115.15 | 119.95 | 106.81 | 110.59 |
-| Option A (direct) | 103.03 | 108.07 | 94.49 | 99.74 |
-| Option B (shipped runtime) | 124.70 | 130.20 | 109.32 | 114.77 |
-| Option B (direct) | 114.27 | 121.89 | 97.57 | 106.11 |
+| base64 | 104.12 | 113.43 | 97.22 | 106.42 |
+| String literal (shipped runtime) | 115.66 | 125.51 | 107.14 | 117.21 |
+| String literal (direct) | 104.66 | 111.25 | 96.00 | 102.50 |
+| Nested array (shipped runtime) | 125.75 | 132.86 | 109.26 | 116.32 |
+| Nested array (direct) | 115.93 | 121.42 | 99.51 | 106.01 |
 
 #### Warm: literal to descriptor bytes for all files (tinybench, ms per iteration)
 
 | | mean | p99 | samples |
 | --- | --- | --- | --- |
-| base64: base64Decode | 2.31 | 4.33 | 433 |
-| Option A: chars to bytes | 0.91 | 3.12 | 1095 |
-| Option A: as shipped (+ base64 round trip) | 8.14 | 12.81 | 123 |
-| Option B: fromTree | 1.61 | 3.69 | 620 |
-| Option B: as shipped (+ base64 round trip) | 8.91 | 10.45 | 113 |
+| base64: base64Decode | 2.43 | 3.51 | 412 |
+| String literal: chars to bytes | 1.17 | 4.14 | 853 |
+| String literal: as shipped (+ base64 round trip) | 8.41 | 9.09 | 119 |
+| Nested array: fromTree | 1.98 | 2.95 | 507 |
+| Nested array: as shipped (+ base64 round trip) | 9.31 | 10.04 | 108 |

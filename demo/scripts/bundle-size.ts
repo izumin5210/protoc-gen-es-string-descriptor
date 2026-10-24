@@ -21,7 +21,11 @@ import { ENCODINGS, type Encoding } from "../src/generate.js";
 import { GOOGLEAPIS_REV } from "../src/googleapis.js";
 
 const resultsDir = join(import.meta.dirname, "..", "results");
-const LABELS = { base64: "base64", a: "Option A", b: "Option B" } as const;
+const LABELS = {
+  base64: "base64",
+  a: "String literal",
+  b: "Nested array",
+} as const;
 
 interface Sizes {
   raw: number;

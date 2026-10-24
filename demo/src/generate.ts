@@ -77,9 +77,9 @@ export interface GeneratedFile {
 }
 
 /**
- * Run the real protoc-gen-es on a `buf build` image and derive the Option A
- * and Option B variants from its output, so all three embed exactly the
- * descriptor that protoc-gen-es strips and serializes.
+ * Run the real protoc-gen-es on a `buf build` image and derive every variant
+ * from its output, so that all embed exactly the descriptor that
+ * protoc-gen-es strips and serializes.
  */
 export function generate(
   image: Uint8Array,

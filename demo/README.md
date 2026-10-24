@@ -5,63 +5,84 @@ This directory holds the evidence for a feature request to
 in a form that survives concurrent edits. It is not part of the published
 package.
 
-**Proposal: Option B + manifest.**
+**Proposal: nested array + names + number types.**
 
-- **Option B** embeds the descriptor as nested arrays without length
-  prefixes.
-- **The manifest** is a comment block that lists, one line each, every
-  position that the generated code or the embedded descriptor refers to:
-  - messages, enums, services and extensions, for `messageDesc(file, 2)` & co;
-  - imports, for `public_dependency` / `weak_dependency`;
-  - the oneofs of each message, for `oneof_index`.
+1. **Nested array.** The descriptor is embedded as nested arrays without
+   length prefixes: `[tag, [children]]` for sub-messages, raw byte strings
+   otherwise.
+2. **Names instead of positions.**
+   - `messageDesc(file, "Outer.Inner")`, and likewise `enumDesc`,
+     `serviceDesc` and `extDesc`.
+   - Synthetic oneofs of proto3 `optional` fields are left out and
+     re-created on load.
+   - Members of real oneofs, and public and weak imports, are listed by
+     name.
+3. **One import per line** in the imports array.
+4. **Number types.** A type keyed by field or value number per message and
+   enum, so that a duplicate number fails type checking with TS2300.
 
 **Summary**
 
-- Today, base64 conflicts on every concurrent change. In 46 pairs of real
-  googleapis commits where both sides changed the same descriptor, base64
-  conflicted in **all 46**; B + manifest merged **35** cleanly and correctly.
-- **B + manifest never merged into a wrong result**, neither in the replay
-  nor in a synthetic matrix of 8,272 edit pairs over every list that is
-  referenced by position. Every other variant did. The manifest cost 4
-  correct merges in the matrix, all adjacent edits to the import list.
-- **Option A** (this package: raw byte strings split after `0x0a`) has a
-  failure mode that no manifest can catch. If both sides grow the same
-  message, enum or service by the same number of bytes, its length prefix
-  changes identically on both sides, and git merges it. Part of the merged
-  content then falls outside the container. protobuf-es loads the result
-  without an error, and a field silently disappears.
-- Both encodings are smaller than base64 once minified and compressed: the
-  descriptors in a real esbuild bundle are **−33% (A) / −37% (B) gzip**,
-  for a few milliseconds of hydration time.
+- **Replay of real history.** On 91 pairs of
+  `google/cloud/aiplatform/v1` commits, base64 conflicted in 55 and the
+  proposal in 1. The proposal merged none of them wrongly. Every encoding
+  that keeps positions either merged some pairs into silently wrong code
+  (string literal 2, nested array 5) or conflicted far more often (index
+  manifest + number types: 8).
+- **18 minimal scenarios.**
+  - The proposal merges 12 of the 13 valid cases correctly, and the other
+    one conflicts.
+  - All 5 cases whose merged `.proto` is invalid end in an error, from
+    TypeScript or from loading the descriptor.
+  - The nested array alone is silently wrong in 8 cases.
+- **Size.** Per generated file, the proposal is +6% minified and −29%
+  gzipped compared with base64.
+- **Lookup by name.** Resolving all 1,376 messages of 181 descriptors by
+  name takes about 1 ms, including building the per-file maps (about
+  110 KiB, compared with 4.0 MiB for the registry).
+- **What names cost.** All oneof members and public imports of a file sit
+  in one table. Two unrelated additions can therefore become adjacent there
+  and conflict (1 of 85 replayed pairs on other files).
 - A clean merge is still not proof of correctness, so CI should regenerate
   and compare.
 
-| variant | replay: whole `_pb.ts` clean and correct | replay: conflict | replay: clean but wrong | matrix: clean but wrong | matrix: cost | bundle gzip (descriptors) | cold hydrate (median) |
-| --- | --- | --- | --- | --- | --- | --- | --- |
-| base64 (protoc-gen-es) | 0 / 46 | 46 | 0 | 0 | — | 115.7 KiB | 97.7 ms |
-| Option A | 29 | 15 | 2 | 91 | — | 77.9 KiB | 106.8 ms (94.5 ms direct) |
-| Option A + manifest | 29 | 17 | 0 | **18** | 0 | ≈ A | ≈ A |
-| Option B | 35 | 7 | 4 | 180 | — | 72.9 KiB | 109.3 ms (97.6 ms direct) |
-| Option B + manifest | 35 | 11 | **0** | **0** | 4 | ≈ B | ≈ B |
-
-"Cost" counts correct clean merges that the manifest turns into conflicts.
-The manifest is comments only, and minifiers drop it, so sizes and load
-times were not re-measured for it. Everything uses public data only:
+Everything uses public data only:
 [googleapis/googleapis](https://github.com/googleapis/googleapis) at
-`4792db7b61d0`, plus the small hand-written protos in `conflict-demo/`.
+`4792db7b61d0`, plus the small hand-written protos in `scenarios/` and
+`conflict-demo/`.
+
+## Variants
+
+| variant | what it embeds and emits |
+| --- | --- |
+| base64 | protoc-gen-es as is: one base64 string per file |
+| string literal | this package: raw bytes as a string literal, split after every `0x0a`, as protoc-gen-go does |
+| nested array | sub-messages as `[tag, [children]]` without length prefixes; positions unchanged |
+| nested array + index manifest + number types | nested array without synthetic oneofs, plus a comment block that lists every position that generated code uses and the members of real oneofs, numbered imports when some are public or weak, and number types |
+| nested array + names | the proposal without number types |
+| **nested array + names + number types** | **the proposal** |
+
+The detailed results also show three variants of an earlier iteration:
+
+- **string literal + manifest** and **nested array + manifest** list every
+  position in comments: imports, elements and all oneofs, synthetic ones
+  included.
+- **nested array + index manifest** lists only the positions that generated
+  code uses.
 
 ## The encodings
 
-All three embed the same bytes. protoc-gen-es strips `dependency`,
+All variants decode to the same bytes. protoc-gen-es strips `dependency`,
 `source_code_info` and derivable `json_name`s and serializes the result. The
 demo always starts from real protoc-gen-es output and rewrites it, so the
-stripping is exactly upstream's.
+stripping is exactly upstream's. Every variant is checked to decode back to
+those bytes, byte for byte, for every file that the scripts generate.
 
 ```ts
 // base64: one line per file
 fileDesc("ChhleGFtcGxlL3YxL2xpYnJhcnkucHJvdG8SCmV4YW1wbGUudjEiRwoEQm9vaxIM…");
 
-// Option A: raw bytes, split after every 0x0a (as protoc-gen-go does)
+// string literal: raw bytes, split after every 0x0a
 fileDesc("" +
     "\n" +
     "\x18example/v1/library.proto\x12\n" +
@@ -70,144 +91,216 @@ fileDesc("" +
     "\x04name\x18\x01 \x01(\t\x12\r\n" +
     …);
 
-// Option B: sub-messages become [tag, children]; their lengths are dropped
+// nested array: sub-messages become [tag, [children]]; their lengths are dropped
 fileDesc([
  "\n\x18example/v1/library.proto",
  "\x12\nexample.v1",
  ["\"", [
   "\n\x04Book",
-  ["\x12", ["\n\x04name\x18\x01 \x01(\t"]],
-  ["\x12", ["\n\x05title\x18\x02 \x01(\t"]],
+  ["\x12", [
+   "\n\x04name",
+   "\x18\x01 \x01(\t",
+  ]],
+  …
  ]],
  …
 ]);
 ```
 
-Option A still contains each message's length prefix (`"G` above is
-`message_type`, 71 bytes). Any edit inside a message changes the length of
-every ancestor, and the line holding that length conflicts with any other
-edit in the same ancestor.
+The string literal still contains each message's length prefix (`"G` above
+is `message_type`, 71 bytes). Any edit inside a message changes the length
+of every ancestor, and the line that holds that length conflicts with any
+other edit in the same ancestor. Worse, two edits that grow a message by the
+same number of bytes change the length identically, and git merges them;
+see [same-size edits](#string-literal-same-size-edits-to-one-message).
 
-Option B removes those lengths:
+The nested array removes those lengths:
 
 - The generator walks the wire format with `BinaryReader`. It uses
   `FileDescriptorProtoSchema` to decide which LEN fields are sub-messages,
-  and emits `[tag, children]` for them.
-- Everything else stays as raw byte strings, including unknown fields such as
-  option extensions. A LEN field starts a new line, and the scalars that
-  follow it stay on that line.
+  and emits `[tag, [children]]` for them.
+- Every other string, bytes or packed field gets a line of its own.
+  Consecutive scalars and unknown fields, such as option extensions, share
+  one line. A field's name is thus on one line, and its number, label, type
+  and `oneof_index` are on the next.
 - There is one space of indentation per level and a trailing comma on every
   element, so an append never touches the previous line.
 - The runtime needs no schema. It measures each subtree, writes
   `tag + varint(length) + body` into one buffer, and hands the bytes to the
   stock hydration.
 
-Code: [`src/option-b/encode.ts`](src/option-b/encode.ts),
-[`src/option-b/runtime.ts`](src/option-b/runtime.ts),
-[`src/option-b/transform.ts`](src/option-b/transform.ts) (rewrites
-protoc-gen-es output, like [`../src/transform.ts`](../src/transform.ts) does
-for A).
+Code: [`src/option-b/`](src/option-b/).
 
-## The manifest
+## The proposal: names + number types
 
-Generated code and the embedded descriptor both refer to elements by
-position. When two branches renumber the same list, git can merge both
-renumberings into silently wrong positions. The manifest lists every such
-list, so that renumbering it on both sides conflicts instead.
-
-It is a comment block right after the `fileDesc(…)` statement, with one
-block per list and one line per element:
+Generated for a message `Event` with a oneof `kind { dep.A click = 2; }`,
+an import of `dep/a.proto` and a public import of `dep/b.proto` (comments
+added):
 
 ```ts
-// Index manifest: every position that the generated code or the embedded
-// descriptor refers to, one block per list and one line per element. If
-// two branches renumber the same list, these lines conflict instead of
-// merging into silently wrong indices.
-// imports:
-// 0: google/protobuf/descriptor.proto
-// 1: dep/b.proto (public)
-// top-level messages:
-// 0: message example.v1.User
-// 1: message example.v1.Profile
-// messages nested in example.v1.Profile:
-// 1.0: message example.v1.Profile.Link
-// oneofs of example.v1.User:
-// 0: _nickname
-// 1: _email
-// services:
-// 0: service example.v1.TeamService
+import { fileDesc, messageDesc } from "names-runtime";
+
+export const file_example_v1_event: GenFile = /*@__PURE__*/
+  fileDesc([
+ "\n\x16example/v1/event.proto",
+ "\x12\nexample.v1",
+ ["\"", [
+  "\n\x05Event",
+  ["\x12", [
+   "\n\x02id",
+   "\x18\x01 \x01(\t",
+  ]],
+  ["\x12", [
+   "\n\x05click",
+   "\x18\x02 \x01(\v",        // number, label, type; no oneof_index
+   "2\x06.dep.A",
+  ]],
+  ["B", [
+   "\n\x04kind",
+  ]],
+ ]],
+ "b\x06proto3",
+ "\xd2\xf6\x03\x04\b\x00\x18\x00",
+], [
+  file_dep_a,                  // one import per line
+  file_dep_b,
+], [
+  ["oneof", "Event.click", "kind"],
+  ["public", file_dep_b],
+]);
+type _numbers_example_v1_Event = {
+  1: "id";
+  2: "click";
+};
+
+export const EventSchema: GenMessage<Event> = /*@__PURE__*/
+  messageDesc(file_example_v1_event, "Event");
 ```
 
-- **Paths** of messages, enums, services and extensions are the arguments
-  that generated code passes after the file, e.g. `messageDesc(file, 1, 0)`.
-  They come from `pathInFileDesc` in `@bufbuild/protobuf/codegenv2`.
-- **Imports** are listed in the order that protobuf-es rebuilds `dependency`
-  in, from the `imports` array of `fileDesc`. Public and weak imports are
-  marked, because `public_dependency` and `weak_dependency` index into that
-  list.
-- **Oneofs** are each message's `oneof_decl`, synthetic oneofs of proto3
-  `optional` fields included, because `oneof_index` indexes into it.
-- **Why it conflicts.** Inserting or removing an element renumbers every
-  later element of its list, and moving a message renumbers the paths of
-  everything nested in it. When both sides do that to the same list, both
-  rewrite the end of its block.
-- **Why the header lines.** git also conflicts on changes that merely touch
-  adjacent lines. A header line between two blocks keeps edits at the end
-  of one list and at the start of the next from conflicting.
+- **Names.** `messageDesc` & co take the name relative to the package. Map
+  entries do not count as nested messages, as in protobuf-es's registry.
+  The runtime looks names up in a map per file that it builds on first use,
+  and still accepts numbers.
+- **Synthetic oneofs** are dropped from the descriptor. On load they are
+  re-created the way protoc names them: after the real oneofs, in field
+  order, as `_<field>`, prefixed with `X` while that name is taken.
+- **Real oneof members** are listed as `["oneof", "Msg.field", "oneof"]`
+  instead of `oneof_index`.
+- **Public and weak imports** are listed as references to the imported
+  file objects, so the runtime finds them in the imports array by identity.
+- **Number types** are emitted per message and per enum, except for map
+  entries and enums with `allow_alias`. A duplicate number fails type
+  checking with `TS2300: Duplicate identifier '3'`. They are erased in
+  JavaScript. The tests check this with the real `tsc`.
 
-[`src/manifest.ts`](src/manifest.ts) builds it. The "index manifest"
-variant lists only the generated-code references; that part is also
-proposed as a feature of this wrapper.
+Code: [`src/names/`](src/names/). The runtime
+[`src/names/runtime.ts`](src/names/runtime.ts) restores the descriptor with
+[`src/names/restore.ts`](src/names/restore.ts) and then hydrates it as usual.
 
-### Which descriptor fields are positions
+**Why each part.** Generated code and the embedded descriptor refer to
+elements by position:
 
-Every integer field reachable from `FileDescriptorProto`, plus the
-references by name:
-
-| field | refers to | in the embedded descriptor | covered by |
+| position | in | what goes wrong when both sides shift it | the proposal |
 | --- | --- | --- | --- |
-| `FileDescriptorProto.public_dependency` | position in `dependency` | yes | `imports` block (marked `public`) |
-| `FileDescriptorProto.weak_dependency` | position in `dependency` | yes | `imports` block (marked `weak`) |
-| `FieldDescriptorProto.oneof_index` | position in the message's `oneof_decl` | yes | `oneofs of …` block |
-| `SourceCodeInfo.Location.path`, `.span` | positions | no, protoc-gen-es strips `source_code_info` | — |
-| `FileDescriptorProto.dependency` | file names | no, stripped and rebuilt from `fileDesc`'s `imports` array | the array is on one line, so both sides changing imports conflicts there |
-| `FileDescriptorProto.option_dependency` | file names | yes | names, not positions |
-| field and enum value numbers, reserved and extension range bounds, `ExtensionRangeOptions.Declaration.number`, `UninterpretedOption` values | values | yes | values, not positions |
-| `type_name`, `extendee`, `input_type`, `output_type` | fully-qualified names | yes | names, not positions |
+| `messageDesc(file, 2)` & co | generated code | an appended message keeps a stale index and points at another message | names |
+| `oneof_index` | descriptor, per field | a field lands in the wrong oneof; for proto3 `optional`, in another field's synthetic oneof | synthetic oneofs dropped; real ones by name |
+| `public_dependency`, `weak_dependency` | descriptor | another import becomes public | by name |
+| length prefixes | string literal | same-size edits merge and cut a message short | none in a nested array |
+| field and enum value numbers | descriptor | not positions, but both sides can add the same number | number types |
 
-A name reference can still go stale: one side renames a message while the
-other adds a field of that type. But then the merged `.proto` does not
-compile either, so regenerating catches it.
+Other references in the descriptor (`type_name`, `extendee`, …) are already
+names. A stale name, e.g. one side renames a message while the other uses
+it, does not compile as `.proto` either, and the generated code fails
+TypeScript (`TS2304: Cannot find name`).
 
-`oneof_index` is not harmless. protobuf-es ignores it for proto3 `optional`
-fields (`findOneof` in `@bufbuild/protobuf` 2.11.0's `registry.js`), so the
-runtime behaves the same. But the descriptor itself changes meaning, and
-protobuf-go rejects it: `proto: message field "example.v1.User.email" under
-proto3 optional semantics must be within a single element oneof`. Anything
-that reads `file.proto`, e.g. gRPC server reflection, passes the broken
-descriptor on.
+**What it costs.**
+
+- *Conflicts in the name table.* All oneof members and public imports of a
+  file are in one table. If both sides add a oneof to different messages,
+  their entries can land next to each other and conflict, whereas the
+  nested array keeps `oneof_index` inside each field. This happened in 1 of
+  85 replayed pairs of the other files (pubsub `8a4cc94afcb9` /
+  `64ecfebceee5`).
+- *A map field next to a nested message.* Map entries are nested types in
+  the descriptor, so one side adding a map field and the other adding a
+  nested message to the same message makes two adjacent additions. That
+  conflicts in every variant.
+- *Size.* Names are longer than indices, and the name table adds a line per
+  oneof member: +6% minified per file compared with both base64 and the
+  nested array.
+- *Type checking.* The number types help only if generated code is
+  type-checked. With `target=js+dts` they would live in `.d.ts` files, which
+  `skipLibCheck` skips; the demo emits them for `target=ts` only.
+
+## Scenario catalogue
+
+[`scenarios/`](scenarios/) has 18 minimal pairs of concurrent edits whose
+`.proto` merges cleanly. For each, the script generates every variant for
+base, ours and theirs, merges the whole `_pb.ts` with `git merge-file`, and
+judges the result as a user would see it:
+
+- *correct*: identical to the file generated from the merged `.proto`, or
+  it differs only in comments, number types or the text of `fileDesc(…)`
+  and decodes to the same descriptor (this never happened here);
+- *error*: the TypeScript compiler reports an error, or loading the
+  descriptor with protobuf-es throws;
+- *silently wrong*: neither, but the result differs.
+
+| Scenario | base64 | string literal | nested array | nested array + index manifest + number types | nested array + names | **nested array + names + number types** |
+| --- | --- | --- | --- | --- | --- | --- |
+| ***Merged `.proto` is valid (ideal: correct)*** | | | | | | |
+| One side inserts a message in the middle; the other appends one | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct |
+| Both sides add top-level enums at different positions | ⚪ conflict | ❌ **silently wrong** | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct |
+| Both sides add `optional` fields to one message (adjacent) | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add `optional` fields to one message (a plain field in between) | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add `optional` fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add same-size fields to one message (far apart) | ⚪ conflict | ❌ **silently wrong** | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| One side makes an import public; the other inserts an import before it | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct |
+| One side inserts a oneof before an existing one; the other adds a member to the existing one | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚪ conflict | ✅ correct | ✅ correct |
+| Both sides add fields to one message (far apart) | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add RPCs to one service (far apart) | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct | ✅ correct |
+| Both sides add nested messages to different parents | ⚪ conflict | ⚪ conflict | ✅ correct | ⚪ conflict | ✅ correct | ✅ correct |
+| One side adds a map field; the other adds a nested message to the same message | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict | ⚪ conflict |
+| Both sides add different imports | ⚪ conflict | ⚪ conflict | ⚪ conflict | ✅ correct | ✅ correct | ✅ correct |
+| ***Merged `.proto` is invalid (ideal: conflict or error)*** | | | | | | |
+| Both sides add a field with the same number | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
+| Both sides add an enum value with the same number | ⚪ conflict | ⚪ conflict | ❌ **silently wrong** | ⚠️ error | ❌ **silently wrong** | ⚠️ error |
+| Both sides add a field with the same name | ⚪ conflict | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
+| One side renames a message; the other references the old name | ⚪ conflict | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error | ⚠️ error |
+| Both sides add a message with the same name | ⚪ conflict | ⚠️ error | ⚠️ error | ⚪ conflict | ⚠️ error | ⚠️ error |
+
+- **Duplicate numbers** are the reason for the number types. Without them,
+  protobuf-es loads a message with two fields numbered 3, and nothing
+  complains.
+- **Duplicate names** were already errors: generated code declares a
+  property, an enum member or an export per name, and TypeScript rejects
+  duplicates.
+- **Every variant that keeps positions** merges at least one valid case
+  silently wrong or conflicts on it.
+
+All variants, with diffs and error messages:
+[`results/scenarios.md`](results/scenarios.md).
 
 ## Readable demo: what conflicts and why
 
-`conflict-demo/` has nine pairs of edits. Every pair merges cleanly as
-`.proto`. The script generates every variant for base, ours and theirs,
-runs `git merge-file`, and compares each clean result with the code
-generated from the merged `.proto`. Wrong descriptors are also loaded with
-protobuf-es and with protobuf-go's `protodesc.NewFiles`.
+[`conflict-demo/`](conflict-demo/) has nine more pairs of edits, with every
+hunk and diff in [`results/conflict-demo.md`](results/conflict-demo.md).
+Five of them are variants of catalogue scenarios with a different layout,
+and every variant merges them the same way: the index shift (01), `optional`
+fields adjacent (03) and separated (04), same-size fields (06) and the public
+import (12).
 
-Whole generated `_pb.ts`:
-
-| scenario | base64 | A | A + manifest | B | B + index manifest | B + manifest |
-| --- | --- | --- | --- | --- | --- | --- |
-| same service, different RPCs added | conflict | conflict | conflict | clean | clean | clean |
-| same message, different fields added | conflict | conflict | conflict | clean | clean | clean |
-| message inserted right before a message the other side changed | conflict | conflict | conflict | clean | clean | clean |
-| control: different messages changed | conflict | clean | clean | clean | clean | clean |
-| `Profile` inserted before `Team` / `Invoice` appended | conflict | **wrong** (code) | conflict | **wrong** (code) | conflict | conflict |
-| optional `bio` inserted / optional `phone` appended right after | conflict | conflict | conflict | conflict | conflict | conflict |
-| the same, with a plain field between `email` and `phone` | conflict | conflict | conflict | **wrong** (Go rejects) | **wrong** (Go rejects) | conflict |
-| `bio` inserted / `age` appended, same byte size | conflict | **wrong** (Go rejects) | **wrong** (Go rejects) | clean | clean | clean |
-| import made public / import inserted before it | conflict | conflict | conflict | **wrong** (Go accepts) | **wrong** (Go accepts) | conflict |
+| scenario | base64 | string literal | string literal + manifest | nested array | nested array + index manifest | nested array + manifest | nested array + index manifest + number types | nested array + names | nested array + names + number types |
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| same service, different RPCs added | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
+| same message, different fields added | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
+| message inserted right before a message the other side changed | conflict | conflict | conflict | clean | clean | clean | clean | clean | clean |
+| control: different messages changed | conflict | clean | clean | clean | clean | clean | clean | clean | clean |
+| `Profile` inserted before `Team` / `Invoice` appended | conflict | **wrong** (code) | conflict | **wrong** (code) | conflict | conflict | conflict | clean | clean |
+| optional `bio` inserted / optional `phone` appended right after | conflict | conflict | conflict | **wrong** (descriptor) | **wrong** (descriptor) | conflict | clean | clean | clean |
+| the same, with a plain field between `email` and `phone` | conflict | conflict | conflict | **wrong** (descriptor) | **wrong** (descriptor) | conflict | clean | clean | clean |
+| `bio` inserted / `age` appended, same byte size | conflict | **wrong** (descriptor) | **wrong** (descriptor) | clean | clean | clean | clean | clean | clean |
+| import made public / import inserted before it | conflict | conflict | conflict | **wrong** (descriptor) | **wrong** (descriptor) | conflict | conflict | clean | clean |
 
 Every "clean" result above is byte-identical to the regenerated file.
 
@@ -216,40 +309,48 @@ Every "clean" result above is byte-identical to the regenerated file.
 `Team` to 2:
 
 ```diff
-# merged without the manifest (- expected, + merged)
+# merged nested array (- expected, + merged)
  export const InvoiceSchema: GenMessage<Invoice> = /*@__PURE__*/
 -  messageDesc(file_example_v1_library, 3);
 +  messageDesc(file_example_v1_library, 2);
 ```
 
-**`oneof_index`.** If `phone` is appended right after `email`, B conflicts
-anyway: ours rewrites `email`'s line (its `oneof_index` moves from 1 to 2),
-and theirs inserts directly below it. With one plain field in between, B
-merges, and `phone` keeps `oneof_index` 2, which is now `_email`. protobuf-es
-loads it unchanged; protobuf-go rejects it. The oneofs block conflicts:
+With names, both sides write `messageDesc(file, "Invoice")` and
+`messageDesc(file, "Team")`, which do not change when something is
+inserted.
 
-```js
-<<<<<<< ours
-// 1: _bio
-// 2: _email
-=======
-// 1: _email
-// 2: _phone
->>>>>>> theirs
+**`oneof_index`.** Ours inserts optional `bio`, theirs appends optional
+`phone`. The nested array keeps `phone`'s `oneof_index` on a line of its
+own, so the merge keeps theirs' 2, which is now `_email`:
+
+```diff
+# merged nested array (- expected, + merged)
+-   "\x18\x05 \x01(\tH\x03\x88\x01\x01",
++   "\x18\x05 \x01(\tH\x02\x88\x01\x01",
 ```
+
+protobuf-es ignores `oneof_index` for proto3 `optional` fields (`findOneof`
+in `@bufbuild/protobuf` 2.11.0's `registry.js`), so the runtime behaves the
+same. But the descriptor itself changes meaning, and protobuf-go rejects
+it: `proto: message field "example.v1.User.email" under proto3 optional
+semantics must be within a single element oneof`. Anything that reads
+`file.proto`, e.g. gRPC server reflection, passes the broken descriptor on.
+The proposal has no synthetic oneofs to shift.
 
 **`public_dependency`.** Ours makes `dep/b.proto` public
 (`public_dependency` = 1). Theirs inserts `dep/c.proto` first, so `b` moves
-to 2. Only theirs changes the `imports` array, so B merges, and
+to 2. Only theirs changes the imports array, so the nested array merges, and
 `public_dependency` now points at `dep/a.proto`. Both protobuf-es and
-protobuf-go accept it. The imports block conflicts.
+protobuf-go accept it. The proposal records `["public", file_dep_b]`.
 
-**Option A, same-size edits to one message.** Ours inserts `string bio = 4;`
-after `id`, theirs appends `string age = 5;`. Both grow `User` by 13 bytes,
-so both rewrite its length prefix to the same value, and git keeps it once:
+### String literal: same-size edits to one message
+
+Ours inserts `string bio = 4;` after `id`, theirs appends `string age = 5;`.
+Both grow `User` by 13 bytes, so both rewrite its length prefix to the same
+value, and git keeps it once:
 
 ```diff
-# merged Option A (- expected, + merged)
+# merged string literal (- expected, + merged)
 -    "example.v1\"I\n" +
 +    "example.v1\"<\n" +
 ```
@@ -262,66 +363,76 @@ so both rewrite its length prefix to the same value, and git keeps it once:
 +message "\n\u0003age\u0018\u0005 \u0001(\t.User" { id = 1; bio = 4; name = 2; email = 3 }
 ```
 
-`toJsonString(create(UserSchema, { id: "1", age: "20" }))`, with
-`UserSchema` = `messageDesc(file, 0)` as in generated code, gives
+`toJsonString(create(UserSchema, { id: "1", age: "20" }))` gives
 `{"id":"1"}`: `age` is silently dropped. protobuf-go rejects the descriptor
-(`invalid package`). No index moved, so the manifest cannot see it. Option B
-has no length prefixes and merges this case correctly.
-
-All hunks and diffs: [`results/conflict-demo.md`](results/conflict-demo.md).
+(`invalid package`). No index moved, so no manifest can see it. A nested
+array has no length prefixes and merges this case correctly.
 
 ## Replay on googleapis history
 
-**Method.** Three large, frequently edited files were used:
-`google/container/v1/cluster_service.proto`, `google/pubsub/v1/pubsub.proto`
-and `google/cloud/deploy/v1/cloud_deploy.proto`. For the last 40 consecutive
-commit pairs (C1, C2) touching each file:
+**Method.** For the last 40 consecutive commit pairs (C1, C2) touching each
+file:
 
 1. base = C1^, ours = C1, theirs = C2's own diff applied to C1^
    (`git merge-file -p <C1^> <C2^> <C2>`). Skip the pair if that conflicts.
-2. Merge the `.proto` (`git merge-file ours base theirs`). If it conflicts,
-   count it as a semantic conflict and skip it. This happened 0 times, because
-   C2 already rebased cleanly onto C1^.
+2. Merge the `.proto` (`git merge-file ours base theirs`). If it conflicted,
+   it would count as a semantic conflict; this never happened, because C2
+   already rebased cleanly onto C1^.
 3. `buf build --exclude-source-info` each side. All four sides use C2's
-   imports, so only the replayed file differs between them.
-4. Run protoc-gen-es, derive every variant, and merge two things with
-   `git merge-file`: the `fileDesc(…)` expression alone, and the whole
-   generated `_pb.ts`.
-5. For every clean merge, decode the result and compare it with the
-   descriptor built from the merged `.proto`. For the whole file, compare it
-   with the file generated from the merged `.proto`. Wrong descriptors are
-   also loaded with protobuf-go's `protodesc.NewFiles`.
+   imports, so only the replayed file differs between them. Otherwise
+   dependency changes, such as `[packed = false]` on
+   `google.api.field_behavior`, leak into the bytes.
+4. Run protoc-gen-es, derive every variant, merge the whole generated
+   `_pb.ts` with `git merge-file`, and judge it as in the scenario
+   catalogue.
 
-**Results.** Of 115 pairs, 30 did not rebase and 85 were replayed. In 39 of
-those, one side did not change the descriptor (e.g. a comment-only commit),
-and every variant merges trivially. The other 46 pairs:
+**`google/cloud/aiplatform/v1`.** `prediction_service.proto`,
+`content.proto` and `tool.proto`: 112 pairs, 16 of which do not rebase and 5
+of which do not build at C2's imports; 91 are replayed. In 36 of them, one
+side does not change the generated file at all.
 
-| variant | `fileDesc(…)`: clean | conflict | clean but wrong | whole `_pb.ts`: clean | conflict | clean but wrong |
-| --- | --- | --- | --- | --- | --- | --- |
-| base64 | 0 | 46 | 0 | 0 | 46 | 0 |
-| Option A | 33 | 13 | 0 | 29 | 15 | 2 |
-| Option A + manifest | 33 | 13 | 0 | 29 | 17 | 0 |
-| Option B | 44 | 1 | 1 | 35 | 7 | 4 |
-| Option B + index manifest | 44 | 1 | 1 | 35 | 10 | 1 |
-| Option B + manifest | 44 | 1 | 1 | 35 | 11 | **0** |
+| variant | correct | conflict | silently wrong | error |
+| --- | --- | --- | --- | --- |
+| base64 | 36 | 55 | 0 | 0 |
+| string literal | 64 | 25 | **2** | 0 |
+| nested array | 84 | 2 | **5** | 0 |
+| nested array + index manifest + number types | 83 | 8 | 0 | 0 |
+| nested array + names | 90 | 1 | 0 | 0 |
+| **nested array + names + number types** | 90 | 1 | 0 | 0 |
 
-The manifest variants embed the same descriptor as their encoding, so the
-`fileDesc(…)` columns are the same; the manifest acts on the whole file.
+- **The proposal's one conflict** (prediction_service `0830bd94d` /
+  `7d37a81f6`) is in the generated code outside the descriptor, so every
+  variant conflicts.
+- **The index manifest's 7 extra conflicts** come from both sides adding
+  messages or enums. Each addition renumbers the manifest lines after it,
+  and those lines are next to the other side's addition. 5 of the 7 are
+  pairs that the nested array merges wrongly.
+- **The nested array's 5 wrong merges** are index shifts in generated code.
 
-- **The manifest turned every wrong whole-file merge into a conflict:** 2
-  with A, 4 with B. Its cost was 0: no correct merge became a conflict.
-- **B's 4 wrong merges** are 3 index shifts in generated code and 1
-  `oneof_index` (cluster_service `f0a78c77d2` / `449133156d`: both sides
-  added a proto3 `optional` field to `ClusterUpdate`). protobuf-go rejects
-  the latter. The index manifest catches the 3 shifts; the oneofs block
-  catches the last one.
-- **B's one descriptor conflict:** both sides added a top-level message at
-  the same place (pubsub `69e9dff10d` / `d992b0619e`). In the `.proto`, the
-  insertions were separated by comments, which the descriptor does not
-  have.
+**Three other files.** `google/container/v1/cluster_service.proto`,
+`google/pubsub/v1/pubsub.proto` and
+`google/cloud/deploy/v1/cloud_deploy.proto`: 115 pairs, 85 replayed.
 
-Per-file tables: [`results/replay/summary.md`](results/replay/summary.md).
-Per-pair records with commit SHAs: [`results/replay/`](results/replay/).
+| variant | correct | conflict | silently wrong | error |
+| --- | --- | --- | --- | --- |
+| base64 | 39 | 46 | 0 | 0 |
+| string literal | 68 | 15 | **2** | 0 |
+| nested array | 72 | 9 | **4** | 0 |
+| nested array + index manifest + number types | 72 | 13 | 0 | 0 |
+| nested array + names | 78 | 7 | 0 | 0 |
+| **nested array + names + number types** | 78 | 7 | 0 | 0 |
+
+- **The nested array's 4 wrong merges** are 3 index shifts in generated code
+  and 1 `oneof_index` (cluster_service `f0a78c77d2` / `449133156d`: both
+  sides added a proto3 `optional` field to `ClusterUpdate`).
+- **The proposal** is correct in 7 pairs where the nested array conflicts or
+  is wrong. It conflicts in 1 pair where the nested array is correct: the
+  name table case above.
+
+Per-file tables, the earlier manifest variants and `fileDesc(…)` merged
+alone: [`results/replay-aiplatform/summary.md`](results/replay-aiplatform/summary.md),
+[`results/replay/summary.md`](results/replay/summary.md). Per-pair results
+with commit SHAs are in `pairs.tsv` next to them.
 
 ## Synthetic matrix
 
@@ -334,151 +445,180 @@ single edits to a small schema. Its lists have 3 elements each:
 - imports (none public at first);
 - the values of an enum and the methods of a service.
 
-It also has 9 fields of one message (plain, proto3 `optional` and real
-oneof fields, interleaved).
+It also has 9 fields of one message: plain, proto3 `optional` and real
+oneof fields, interleaved.
 
 Each side inserts at the front, in the middle or at the end, or deletes the
 first or the last element. Fields are added and deleted per kind, and an
 import can also be made public. Every ordered pair runs twice: with both
 sides adding elements of the same byte size, and of different sizes. Of
-8,712 pairs, 440 conflict as `.proto` and are excluded. The whole
-`_pb.ts` is compared with the file generated from the merged schema.
+8,712 pairs, 440 conflict as `.proto` and are excluded. The whole `_pb.ts`
+is judged as in the scenario catalogue.
 
-| variant | clean | conflict | clean but wrong: generated code | wrong descriptor, protobuf-go rejects | wrong descriptor, protobuf-go accepts |
+| variant | correct | conflict | error | silently wrong: generated code | silently wrong: descriptor |
 | --- | --- | --- | --- | --- | --- |
 | base64 | 0 | 8,272 | 0 | 0 | 0 |
-| Option A | 5,848 | 2,333 | 55 | 30 | 6 |
-| Option A + manifest | 5,848 | 2,406 | 0 | 18 | 0 |
-| Option B | 7,588 | 504 | 148 | 28 | 4 |
-| Option B + index manifest | 7,588 | 652 | 0 | 28 | 4 |
-| Option B + manifest | 7,584 | 688 | **0** | **0** | **0** |
+| string literal | 5,848 | 2,333 | 24 | 55 | 12 |
+| nested array | 7,660 | 416 | 0 | 148 | 48 |
+| nested array + index manifest + number types | 7,736 | 536 | 0 | 0 | 0 |
+| nested array + names | 8,208 | 64 | 0 | 0 | 0 |
+| **nested array + names + number types** | 8,184 | 88 | 0 | **0** | **0** |
 
-- **B + manifest: 0 clean-but-wrong.**
-  - The 148 index shifts in generated code are caught by the index
-    manifest.
-  - The 28 `oneof_index` cases are caught by the oneofs blocks.
-  - The 4 `public_dependency` cases are caught by the imports block.
-  - Its cost is 4 correct merges turned into conflicts. In each, one side
-    deletes the last import and the other marks the import above it public;
-    the two manifest lines are adjacent.
-- **A + manifest: 18 clean-but-wrong, all undetectable by a manifest.** They
-  are same-size edits on both sides of one container: 6 field lists, 6
-  enum value lists, 6 method lists.
-  - The orphaned bytes are parsed as the file's `package`. protobuf-go
-    rejects the result; protobuf-es does not.
-  - A's 6 same-size cases on nested messages are worse: the orphaned
-    message is parsed as a `dependency`, which `fileDesc` overwrites, and
-    protobuf-go accepts it. The manifest catches those, though, because
-    nested indices also shift.
-- **B's 36 different-list cases** move a parent message while the other side
-  appends to its nested messages, enums or extensions. The new reference
-  keeps the parent's old index. A conflicts on these anyway because of
-  length prefixes.
+- **The proposal merges no pair wrongly**, and conflicts in 88.
+- **Its number types cost 24 of those conflicts.** The type blocks of
+  neighbouring lists are adjacent, e.g. a message's nested enums and its
+  nested messages, so editing the end of one and the start of the other
+  conflicts.
+- **The string literal's same-size edits** are the 12 wrong descriptors and
+  the 24 errors: the orphaned bytes either still parse, or make loading
+  throw.
+- **The nested array's 48 wrong descriptors** are `oneof_index` and
+  `public_dependency` shifts; its 148 wrong merges in generated code are
+  index shifts.
 
-Details: [`results/shift-matrix.md`](results/shift-matrix.md). Every pair
-where a variant is clean but wrong or a manifest changes the outcome:
+The earlier manifest variants, per-size tables and every pair where a
+variant is wrong or a manifest or the number types change the outcome:
+[`results/shift-matrix.md`](results/shift-matrix.md),
 [`results/shift-matrix.tsv`](results/shift-matrix.tsv).
 
-## Bundle size with real bundlers
+## Size
 
-**Method.** TypeScript was generated for `google/cloud/aiplatform/v1` and its
-imports (137 files, well-known types excluded) in all three encodings. An
-entry imports every `file_*` export so that nothing is tree-shaken. It was
-bundled with esbuild `--bundle --minify` (0.28.2) and with Rollup 4.65 +
-terser. "Descriptors only" is the full bundle minus a bundle whose
-descriptors are emptied. Sizes in KiB, gzip level 9, brotli quality 11.
+**Per generated file.** All 173 generated files of
+`google/cloud/aiplatform/v1` with its subpackages and imports, well-known
+types excluded, `target=ts`. Sizes in KiB, summed over the files; gzip
+level 9 per file.
 
-| esbuild, charset=ascii | base64 | Option A | Option B |
+| variant | comments and whitespace removed | gzip | `esbuild --minify` | gzip |
+| --- | --- | --- | --- | --- |
+| base64 | 1,242.8 | 346.7 | 790.2 | 276.3 |
+| string literal | 1,306.0 (+5%) | 265.7 (−23%) | 689.7 (−13%) | 195.1 (−29%) |
+| nested array | 1,382.9 (+11%) | 257.1 (−26%) | 796.7 (+1%) | 194.9 (−29%) |
+| nested array + index manifest + number types | 1,374.0 (+11%) | 256.1 (−26%) | 789.9 (±0%) | 193.6 (−30%) |
+| nested array + names | 1,424.5 (+15%) | 261.3 (−25%) | 841.5 (+6%) | 196.5 (−29%) |
+| **nested array + names + number types** | 1,424.5 (+15%) | 261.3 (−25%) | 841.5 (+6%) | 196.5 (−29%) |
+
+- The first column removes comments, number types, indentation and line
+  breaks, and keeps the other TypeScript types. Comments are only removed
+  outside string literals: descriptor strings contain `/*`, e.g. in HTTP
+  paths such as `projects/*/locations`.
+- `esbuild --minify` also removes all types and escapes as a bundle would
+  (`charset=ascii`).
+- base64 hides repeated names from the compressor, which is why every other
+  variant compresses better.
+
+**In a real bundle.** An entry imports every `file_*` export of
+`google/cloud/aiplatform/v1` and its imports (137 files without
+subpackages), bundled with esbuild `--bundle --minify` (0.28.2) and with
+Rollup 4.65 + terser. "Descriptors only" is the full bundle minus a bundle
+whose descriptors are emptied. Sizes in KiB, gzip level 9, brotli quality
+11.
+
+| esbuild, charset=ascii | base64 | string literal | nested array |
 | --- | --- | --- | --- |
-| bundle, raw | 578.0 | 478.5 (−17%) | 572.3 (−1%) |
-| bundle, gzip | 134.2 | 96.6 (−28%) | 91.7 (−32%) |
-| bundle, brotli | 104.5 | 77.4 (−26%) | 72.5 (−31%) |
-| descriptors only, raw | 509.6 | 409.7 (−20%) | 503.0 (−1%) |
-| descriptors only, gzip | 115.7 | 77.9 (−33%) | 72.9 (−37%) |
-| descriptors only, brotli | 88.3 | 61.2 (−31%) | 56.0 (−37%) |
+| bundle, raw | 578.0 | 478.5 (−17%) | 584.4 (+1%) |
+| bundle, gzip | 134.2 | 96.6 (−28%) | 92.2 (−31%) |
+| bundle, brotli | 104.5 | 77.4 (−26%) | 72.8 (−30%) |
+| descriptors only, raw | 509.6 | 409.7 (−20%) | 515.1 (+1%) |
+| descriptors only, gzip | 115.7 | 77.9 (−33%) | 73.4 (−37%) |
+| descriptors only, brotli | 88.3 | 61.2 (−31%) | 56.3 (−36%) |
 
 - Rollup + terser and esbuild with `charset=utf8` land within 1–3% of
-  these. Before minification, the `fileDesc(…)` source is larger: A is +18%
-  and B is +39% raw. Compressed, it is −27% (A) and −31% (B).
-- **Both minifiers fold Option A's `"…" + "…"` chains** into a single
-  literal. No concatenation is left in any bundle.
+  these.
+- **Both minifiers fold the string literal's `"…" + "…"` chains** into a
+  single literal.
 - **Raw bytes are printed unescaped.** esbuild and terser write control
   characters (0x00–0x1f) as-is, and esbuild switches to template literals so
-  that `\n` becomes a real line break. This is why minified A is smaller than
-  base64 even before compression: the 4-character `\xNN` escapes in the
-  source become 1 character.
-  - esbuild `charset=ascii` (the default) re-escapes only bytes ≥ 0x80, as
-    `\xNN`.
-  - `charset=utf8` and terser emit them as raw U+0080–U+00FF characters,
-    which take 2 bytes each in UTF-8.
+  that `\n` becomes a real line break. esbuild `charset=ascii` (the default)
+  re-escapes only bytes ≥ 0x80, as `\xNN`; `charset=utf8` and terser emit
+  them as raw U+0080–U+00FF characters, which take 2 bytes each in UTF-8.
 
-Full tables, escape counts and samples: [`results/bundle-size.md`](results/bundle-size.md).
+Full tables: [`results/file-sizes.md`](results/file-sizes.md),
+[`results/bundle-size.md`](results/bundle-size.md).
+
+## Lookup by name
+
+[`scripts/name-lookup.ts`](scripts/name-lookup.ts) resolves every message
+of the 181 descriptors above (well-known types included) once, with the
+demo runtime's map per file:
+
+| | time (median of 11) | memory |
+| --- | --- | --- |
+| by index, `messageDesc(file, 2, 0)` | 0.11 ms | — |
+| by name, building the maps first | 0.92 ms | 114 KiB for 1,565 elements |
+| for comparison: the registry | — | 4.0 MiB, plus 3.7 MiB for the parsed descriptors it keeps |
+
+The times vary by about ±0.2 ms between runs.
 
 ## Load time
 
-Node v24.14.1 (V8 13.6), linux/x64. `Uint8Array.fromBase64` is not available
-in this Node, and `@bufbuild/protobuf` 2.11.0's `base64Decode` uses its own
-table-based decoder.
+Node v24.14.1 (V8 13.6), linux/x64, with the 137-file esbuild bundle from
+above. `Uint8Array.fromBase64` is not available in this Node, and
+`@bufbuild/protobuf` 2.11.0's `base64Decode` uses its own table-based
+decoder.
 
-- **Cold:** a fresh process imports the minified esbuild bundle from above,
-  30 runs, interleaved. "Hydrate" is the time from just before the first
-  descriptor module until all of them have been evaluated.
-- **Runtimes:** the shipped A/B runtimes re-encode their bytes to base64 so
-  that they can call the stock `fileDesc`. The "direct" variants skip that
-  round trip, as a native upstream implementation would.
+- **Cold:** a fresh process imports the minified bundle, 30 runs,
+  interleaved. "Hydrate" is the time from just before the first descriptor
+  module until all of them have been evaluated.
+- **Runtimes:** the shipped runtimes re-encode their bytes to base64 so that
+  they can call the stock `fileDesc`. The "direct" variants skip that round
+  trip, as a native upstream implementation would.
 
 | | import median | import p90 | hydrate median | hydrate p90 |
 | --- | --- | --- | --- | --- |
-| base64 | 104.6 ms | 111.8 ms | 97.7 ms | 104.9 ms |
-| Option A (shipped runtime) | 115.2 ms | 120.0 ms | 106.8 ms | 110.6 ms |
-| Option A (direct) | 103.0 ms | 108.1 ms | 94.5 ms | 99.7 ms |
-| Option B (shipped runtime) | 124.7 ms | 130.2 ms | 109.3 ms | 114.8 ms |
-| Option B (direct) | 114.3 ms | 121.9 ms | 97.6 ms | 106.1 ms |
-
-Converting the literals of all 137 files into bytes, warm (tinybench, mean):
-
-| base64 `base64Decode` | A chars → bytes | B `fromTree` |
-| --- | --- | --- |
-| 2.31 ms | 0.91 ms | 1.61 ms |
+| base64 | 104.1 ms | 113.4 ms | 97.2 ms | 106.4 ms |
+| string literal (shipped runtime) | 115.7 ms | 125.5 ms | 107.1 ms | 117.2 ms |
+| string literal (direct) | 104.7 ms | 111.3 ms | 96.0 ms | 102.5 ms |
+| nested array (shipped runtime) | 125.8 ms | 132.9 ms | 109.3 ms | 116.3 ms |
+| nested array (direct) | 115.9 ms | 121.4 ms | 99.5 ms | 106.0 ms |
 
 - Hydration time is dominated by `fromBinary` and building the registry,
-  which are the same for every encoding.
-- Implemented natively, A and B hydrate as fast as base64. The differences
-  are within run-to-run noise (p90 − median ≈ 5–8 ms).
-- B's gap between import and hydrate time is about 10 ms larger than
-  base64's. The extra time goes into parsing the nested array literals.
+  which are the same for every encoding. Implemented natively, the nested
+  array hydrates as fast as base64; the differences are within run-to-run
+  noise.
+- The nested array's import time is about 16 ms above its hydrate time,
+  compared with 7 ms for base64. The extra time goes into parsing the array
+  literals.
+- The names variants were not measured. Their runtime re-creates the
+  synthetic oneofs and name entries on the parsed descriptor, which an
+  upstream implementation would do before building the registry.
+
+Warm conversion and full tables: [`results/load-bench.md`](results/load-bench.md).
 
 ## Caveats
 
 - The replay models "two branches edited the same file", using real commits
-  that were actually sequential. Pairs where C2 does not rebase onto C1^
-  (30/115) are excluded, so the edits are probably closer together than
-  typical concurrent work.
-- Only `git merge-file` with default settings was used. The manifest relies
-  on git conflicting on overlapping and adjacent changes. Other merge tools
-  or `diff3`/`zdiff3` styles may report different hunks.
-- "Clean but wrong" is an exact text comparison with the file regenerated
-  from the merged `.proto`, so it would also flag harmless differences.
-  Every case found was a real change of meaning.
+  that were actually sequential. Pairs where C2 does not rebase onto C1^ are
+  excluded, so the edits are probably closer together than typical
+  concurrent work.
+- Only `git merge-file` with default settings was used. Other merge tools,
+  or `diff3`/`zdiff3` styles, may report different hunks.
+- "Silently wrong" is an exact comparison with the file regenerated from the
+  merged `.proto`, after decoding the descriptor, so it would also flag
+  harmless differences. Every case found was a real change of meaning.
 - The matrix covers single edits per side on short lists. It does not cover
   a side that edits several lists at once, renames, or moves.
-- Bundle sizes come from one API package. The descriptor share of a real
+- The runtime for names restores the descriptor with `fromBinary` /
+  `toBinary` before hydrating it. Its load time has not been measured.
+- Go was not available when the results were last regenerated, so wrong
+  descriptors were not loaded with protobuf-go this time. The protobuf-go
+  messages quoted above are from earlier runs of the same cases.
+- Sizes come from one API package. The descriptor share of a real
   application's bundle depends on how much else it ships.
-- Load times are from one shared Linux VM. Browsers and other engines were
-  not measured, and neither was a Node version with native
-  `Uint8Array.fromBase64`. Whether newer `@bufbuild/protobuf` releases use it
-  was not checked.
 
 ## Reproduce
 
 ```sh
 pnpm install
-pnpm --filter demo test           # Option B round trips, runtime and manifest checks
-pnpm --filter demo conflict-demo  # results/conflict-demo.md
-pnpm --filter demo replay         # results/replay/ (clones googleapis, ~10 min)
-pnpm --filter demo shift-matrix   # results/shift-matrix.{md,tsv} (~12 min)
-pnpm --filter demo bundle-size    # results/bundle-size.{md,json}
-pnpm --filter demo load-bench     # results/load-bench.{md,json}
+pnpm --filter demo test                   # round trips, runtimes, number types with tsc
+pnpm --filter demo scenarios              # results/scenarios.{md,json}
+pnpm --filter demo conflict-demo          # results/conflict-demo.md
+pnpm --filter demo replay aiplatform      # results/replay-aiplatform/ (clones googleapis)
+pnpm --filter demo replay                 # results/replay/ (~10 min)
+pnpm --filter demo shift-matrix           # results/shift-matrix.{md,tsv}
+pnpm --filter demo file-sizes             # results/file-sizes.md
+pnpm --filter demo name-lookup            # results/name-lookup.md
+pnpm --filter demo bundle-size            # results/bundle-size.{md,json}
+pnpm --filter demo load-bench             # results/load-bench.{md,json}
 ```
 
 - The scripts make a blob-less partial clone of googleapis under `.work/`

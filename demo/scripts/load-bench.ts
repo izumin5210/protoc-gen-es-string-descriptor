@@ -37,10 +37,10 @@ mkdirSync(workDir, { recursive: true });
 // take to reuse the stock `fileDesc`; base64 has nothing to skip.
 const VARIANTS = [
   { name: "base64", encoding: "base64", direct: false },
-  { name: "Option A (shipped runtime)", encoding: "a", direct: false },
-  { name: "Option A (direct)", encoding: "a", direct: true },
-  { name: "Option B (shipped runtime)", encoding: "b", direct: false },
-  { name: "Option B (direct)", encoding: "b", direct: true },
+  { name: "String literal (shipped runtime)", encoding: "a", direct: false },
+  { name: "String literal (direct)", encoding: "a", direct: true },
+  { name: "Nested array (shipped runtime)", encoding: "b", direct: false },
+  { name: "Nested array (direct)", encoding: "b", direct: true },
 ] as const;
 const bundles: Record<string, string> = {};
 for (const { name, encoding, direct } of VARIANTS) {
@@ -106,17 +106,17 @@ bench
   .add("base64: base64Decode", () => {
     for (const s of args.base64) base64Decode(s as string);
   })
-  .add("Option A: chars to bytes", () => {
+  .add("String literal: chars to bytes", () => {
     for (const s of args.a) rawToBytes(s as string);
   })
-  .add("Option A: as shipped (+ base64 round trip)", () => {
+  .add("String literal: as shipped (+ base64 round trip)", () => {
     for (const s of args.a)
       base64Decode(base64Encode(rawToBytes(s as string), "std_raw"));
   })
-  .add("Option B: fromTree", () => {
+  .add("Nested array: fromTree", () => {
     for (const t of args.b) fromTree(t as DescTree);
   })
-  .add("Option B: as shipped (+ base64 round trip)", () => {
+  .add("Nested array: as shipped (+ base64 round trip)", () => {
     for (const t of args.b)
       base64Decode(base64Encode(fromTree(t as DescTree), "std_raw"));
   });

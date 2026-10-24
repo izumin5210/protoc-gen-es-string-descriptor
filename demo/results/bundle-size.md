@@ -4,7 +4,7 @@
 
 #### Generated source (all files concatenated, before bundling)
 
-| | base64 | Option A | Option B |
+| | base64 | String literal | Nested array |
 | --- | --- | --- | --- |
 | files, raw | 1066.6 | 1170.9 (+10%) | 1345.9 (+26%) |
 | files, gzip | 172.1 | 126.9 (-26%) | 121.7 (-29%) |
@@ -15,7 +15,7 @@
 
 #### esbuild (charset=ascii)
 
-| | base64 | Option A | Option B |
+| | base64 | String literal | Nested array |
 | --- | --- | --- | --- |
 | bundle, raw | 578.0 | 478.5 (-17%) | 584.4 (+1%) |
 | bundle, gzip | 134.2 | 96.6 (-28%) | 92.2 (-31%) |
@@ -26,7 +26,7 @@
 
 #### esbuild (charset=utf8)
 
-| | base64 | Option A | Option B |
+| | base64 | String literal | Nested array |
 | --- | --- | --- | --- |
 | bundle, raw | 578.0 | 464.9 (-20%) | 573.6 (-1%) |
 | bundle, gzip | 134.2 | 96.6 (-28%) | 92.1 (-31%) |
@@ -37,7 +37,7 @@
 
 #### rollup + terser
 
-| | base64 | Option A | Option B |
+| | base64 | String literal | Nested array |
 | --- | --- | --- | --- |
 | bundle, raw | 577.1 | 472.5 (-18%) | 581.3 (+1%) |
 | bundle, gzip | 133.8 | 97.0 (-28%) | 91.4 (-32%) |
@@ -53,25 +53,25 @@ Counts are taken over the whole bundle minus the stub bundle. In the sample, ⟨
 | bundler | encoding | `"…"+"…"` left | `\xNN` | `\uNNNN` | raw control chars | raw non-ASCII chars | backticks |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | esbuild (charset=ascii) | base64 | 0 | 0 | 0 | 0 | 0 | 0 |
-| esbuild (charset=ascii) | Option A | 0 | 7553 | 0 | 39842 | 0 | 304 |
-| esbuild (charset=ascii) | Option B | 0 | 6009 | 0 | 34665 | 0 | 15510 |
+| esbuild (charset=ascii) | String literal | 0 | 7553 | 0 | 39842 | 0 | 304 |
+| esbuild (charset=ascii) | Nested array | 0 | 6009 | 0 | 34665 | 0 | 15510 |
 | esbuild (charset=utf8) | base64 | 0 | 0 | 0 | 0 | 0 | 0 |
-| esbuild (charset=utf8) | Option A | 0 | 606 | 0 | 39860 | 6929 | 304 |
-| esbuild (charset=utf8) | Option B | 0 | 458 | 0 | 34668 | 5548 | 15510 |
+| esbuild (charset=utf8) | String literal | 0 | 606 | 0 | 39860 | 6929 | 304 |
+| esbuild (charset=utf8) | Nested array | 0 | 458 | 0 | 34668 | 5548 | 15510 |
 | rollup + terser | base64 | 0 | 0 | 0 | 0 | 0 | 0 |
-| rollup + terser | Option A | 0 | 0 | 0 | 38341 | 6929 | 30 |
-| rollup + terser | Option B | 0 | 0 | 0 | 33055 | 5548 | 2 |
+| rollup + terser | String literal | 0 | 0 | 0 | 38341 | 6929 | 30 |
+| rollup + terser | Nested array | 0 | 0 | 0 | 33055 | 5548 | 2 |
 
 Samples (the start of `google/api/annotations.proto`'s descriptor):
 
 ```
 esbuild (charset=ascii) / base64: (not readable: base64)
-esbuild (charset=ascii) / Option A: `⟨0a⟩⟨1c⟩google/api/annotations.proto⟨12⟩⟨0a⟩google.api:K⟨0a⟩⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.Met
-esbuild (charset=ascii) / Option B: `⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[":",[`⟨0a⟩⟨04⟩http`,"⟨12⟩⟨1e⟩.google
+esbuild (charset=ascii) / String literal: `⟨0a⟩⟨1c⟩google/api/annotations.proto⟨12⟩⟨0a⟩google.api:K⟨0a⟩⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.Met
+esbuild (charset=ascii) / Nested array: `⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[":",[`⟨0a⟩⟨04⟩http`,"⟨12⟩⟨1e⟩.google
 esbuild (charset=utf8) / base64: (not readable: base64)
-esbuild (charset=utf8) / Option A: `⟨0a⟩⟨1c⟩google/api/annotations.proto⟨12⟩⟨0a⟩google.api:K⟨0a⟩⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.Met
-esbuild (charset=utf8) / Option B: `⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[":",[`⟨0a⟩⟨04⟩http`,"⟨12⟩⟨1e⟩.google
+esbuild (charset=utf8) / String literal: `⟨0a⟩⟨1c⟩google/api/annotations.proto⟨12⟩⟨0a⟩google.api:K⟨0a⟩⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.Met
+esbuild (charset=utf8) / Nested array: `⟨0a⟩⟨1c⟩google/api/annotations.proto`,`⟨12⟩⟨0a⟩google.api`,[":",[`⟨0a⟩⟨04⟩http`,"⟨12⟩⟨1e⟩.google
 rollup + terser / base64: (not readable: base64)
-rollup + terser / Option A: \n⟨1c⟩google/api/annotations.proto⟨12⟩\ngoogle.api:K\n⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.M
-rollup + terser / Option B: \n⟨1c⟩google/api/annotations.proto","⟨12⟩\ngoogle.api",[":",["\n⟨04⟩http","⟨12⟩⟨1e⟩.goog
+rollup + terser / String literal: \n⟨1c⟩google/api/annotations.proto⟨12⟩\ngoogle.api:K\n⟨04⟩http⟨12⟩⟨1e⟩.google.protobuf.M
+rollup + terser / Nested array: \n⟨1c⟩google/api/annotations.proto","⟨12⟩\ngoogle.api",[":",["\n⟨04⟩http","⟨12⟩⟨1e⟩.goog
 ```
