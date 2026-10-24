@@ -1,3 +1,5 @@
+import { fromBinary } from "@bufbuild/protobuf";
+import { FileDescriptorSetSchema } from "@bufbuild/protobuf/wkt";
 import { equalBytes } from "./bytes.js";
 import {
   decodeDescriptorExpr,
@@ -10,6 +12,7 @@ import {
   VARIANTS,
   type Variant,
 } from "./generate.js";
+import { protodescCheck } from "./protodesc.js";
 import { mergeFile } from "./tools.js";
 
 export type Side = "base" | "ours" | "theirs" | "merged";
@@ -29,6 +32,11 @@ export interface MergeOutcome {
   fileCorrect?: boolean;
   /** For clean but wrong whole-file merges: which part differs. */
   fileWrong?: { descriptor: boolean; rest: boolean };
+  /**
+   * For merges whose descriptor is clean but wrong: what protobuf-go's
+   * protodesc says about it ("ok" means the error goes unnoticed).
+   */
+  protodesc?: string;
   /** The merged `fileDesc(...)` expression, kept for the readable report. */
   merged: string;
   /** The merged `_pb.ts`, kept for the readable report. */
@@ -53,11 +61,20 @@ export function replayPair(
       return [side, files[0].content];
     }),
   ) as Record<Side, Record<Variant, string>>;
-  return mergeGenerated(generated);
+  const files = fromBinary(FileDescriptorSetSchema, images.merged).file;
+  const source = files.find((f) => f.name === path)!;
+  return mergeGenerated(generated, (embedded) =>
+    protodescCheck(
+      embedded,
+      source,
+      files.filter((f) => f !== source),
+    ),
+  );
 }
 
 export function mergeGenerated(
   generated: Record<Side, Record<Variant, string>>,
+  validate?: (embedded: Uint8Array) => string | undefined,
 ): Record<Variant, MergeOutcome> {
   const expected = decodeDescriptorExpr(
     extractDescriptorExpr(generated.merged.base64),
@@ -82,6 +99,21 @@ export function mergeGenerated(
         outcome.fileCorrect = fileMerge.text === pick("merged");
         if (!outcome.fileCorrect) {
           outcome.fileWrong = whichPartDiffers(fileMerge.text, pick("merged"));
+        }
+      }
+      const wrongDescriptor =
+        outcome.correct === false
+          ? merge.text
+          : outcome.fileWrong?.descriptor
+            ? extractDescriptorExpr(fileMerge.text)
+            : undefined;
+      if (validate !== undefined && wrongDescriptor !== undefined) {
+        try {
+          outcome.protodesc = validate(
+            decodeDescriptorExpr(wrongDescriptor, encodingOf(variant)),
+          );
+        } catch (e) {
+          outcome.protodesc = `not decodable: ${e}`;
         }
       }
       return [variant, outcome];
