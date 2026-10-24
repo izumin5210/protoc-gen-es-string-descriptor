@@ -1,11 +1,5 @@
 import { execFileSync, spawnSync } from "node:child_process";
-import {
-  copyFileSync,
-  mkdtempSync,
-  readFileSync,
-  rmSync,
-  writeFileSync,
-} from "node:fs";
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { create, fromBinary } from "@bufbuild/protobuf";
@@ -76,12 +70,14 @@ describe("index manifest", () => {
     );
 
     expect(calls.length).toBe(10);
-    expect(manifest.map(({ kind, path }) => ({ kind, path }))).toEqual(
-      calls.map(({ kind, path }) => ({ kind, path })),
-    );
-    for (const [i, call] of calls.entries()) {
+    const key = ({ kind, path }: { kind: string; path: string }) =>
+      `${kind} ${path}`;
+    expect(manifest.map(key).sort()).toEqual(calls.map(key).sort());
+    for (const call of calls) {
       if (call.name !== undefined) {
-        expect(manifest[i].name).toBe(call.name);
+        expect(manifest.find((m) => key(m) === key(call))?.name).toBe(
+          call.name,
+        );
       }
     }
     expect(manifest).toContainEqual({
@@ -96,10 +92,25 @@ describe("index manifest", () => {
     });
   });
 
-  it("follows the fileDesc statement", () => {
-    expect(content).toMatch(
-      /fileDesc\([\s\S]*?\);\n\n\/\/ Index manifest: [\s\S]*?\n\/\/ 0: message testdata\.manifest\.Person\n/,
-    );
+  it("follows the fileDesc statement, one headed block per list", () => {
+    const start = content.indexOf("// Index manifest: ");
+    expect(content.slice(0, start)).toMatch(/\);\n\n$/);
+    const blocks = content
+      .slice(start)
+      .split("\n\n")[0]
+      .split("\n")
+      .filter((line) => line.endsWith(":"));
+    expect(blocks).toEqual([
+      "// top-level messages:",
+      "// messages nested in testdata.manifest.Person:",
+      "// enums nested in testdata.manifest.Person:",
+      "// extensions nested in testdata.manifest.Person:",
+      "// enums nested in testdata.manifest.Person.Address:",
+      "// extensions nested in testdata.manifest.Person.Address:",
+      "// top-level enums:",
+      "// services:",
+      "// top-level extensions:",
+    ]);
   });
 
   it("is added to the .js file of target=js+dts but not to the .d.ts file", () => {
@@ -145,46 +156,89 @@ describe("index manifest", () => {
 });
 
 describe("merging generated code", () => {
-  // ours inserts Profile before Team (Team: 1 -> 2); theirs appends Invoice at
-  // index 2. Without the manifest, git merges both and InvoiceSchema ends up
-  // pointing at Team.
-  function merge(parameter: string) {
-    const sides = Object.fromEntries(
-      ["base", "ours", "theirs"].map((side) => {
-        const dir = mkdtempSync(join(tmp, `${side}-`));
-        copyFileSync(
-          join(mergeDir, `${side}.proto`),
-          join(dir, "library.proto"),
-        );
-        const path = join(dir, "library_pb.ts");
-        writeFileSync(path, generateTs(dir, "library.proto", parameter));
-        return [side, path];
-      }),
-    );
+  function mergeFile(ours: string, base: string, theirs: string) {
+    const dir = mkdtempSync(join(tmp, "merge-"));
+    const paths = { ours, base, theirs };
+    for (const [name, text] of Object.entries(paths)) {
+      writeFileSync(join(dir, name), text);
+    }
     const result = spawnSync(
       "git",
-      ["merge-file", "-p", sides.ours, sides.base, sides.theirs],
+      [
+        "merge-file",
+        "-p",
+        ...["ours", "base", "theirs"].map((n) => join(dir, n)),
+      ],
       { encoding: "utf8" },
     );
-    return { status: result.status, text: result.stdout };
+    return { conflicts: result.status ?? -1, text: result.stdout };
   }
 
-  it("conflicts when both sides renumber the same list", () => {
-    const { status, text } = merge("target=ts");
-    expect(status).toBeGreaterThan(0);
+  // Generates the scenario's three sides and the merged .proto, then merges
+  // the generated files.
+  function merge(scenario: string, parameter: string) {
+    const proto = (side: string) =>
+      readFileSync(join(mergeDir, scenario, `${side}.proto`), "utf8");
+    const protoMerge = mergeFile(proto("ours"), proto("base"), proto("theirs"));
+    expect(protoMerge.conflicts).toBe(0);
+    const generated = (text: string) => {
+      const dir = mkdtempSync(join(tmp, `${scenario}-`));
+      writeFileSync(join(dir, "library.proto"), text);
+      return generateTs(dir, "library.proto", parameter);
+    };
+    const result = mergeFile(
+      generated(proto("ours")),
+      generated(proto("base")),
+      generated(proto("theirs")),
+    );
+    return { ...result, expected: generated(protoMerge.text) };
+  }
+
+  it("conflicts when one side inserts and the other appends", () => {
+    // ours inserts Profile before Team (Team: 1 -> 2); theirs appends Invoice
+    // at index 2. Without the manifest, git merges both and InvoiceSchema
+    // ends up pointing at Team.
+    const { conflicts, text } = merge("insert-vs-append", "target=ts");
+    expect(conflicts).toBeGreaterThan(0);
     expect(text).toMatch(
       /<<<<<<< [\s\S]*\/\/ 2: message example\.v1\.Team[\s\S]*>>>>>>> /,
     );
   });
 
   it("would otherwise merge cleanly into a wrong index", () => {
-    const { status, text } = merge("target=ts,index_manifest=false");
-    expect(status).toBe(0);
+    const { conflicts, text, expected } = merge(
+      "insert-vs-append",
+      "target=ts,index_manifest=false",
+    );
+    expect(conflicts).toBe(0);
     expect(text).toContain(
       "export const InvoiceSchema: GenMessage<Invoice> = /*@__PURE__*/\n  messageDesc(file_library, 2);",
     );
-    expect(text).toContain(
-      "export const TeamSchema: GenMessage<Team> = /*@__PURE__*/\n  messageDesc(file_library, 2);",
+    expect(expected).toContain(
+      "export const InvoiceSchema: GenMessage<Invoice> = /*@__PURE__*/\n  messageDesc(file_library, 3);",
     );
+  });
+
+  it("conflicts when one side moves a message and the other appends to its nested messages", () => {
+    // Team: 1 -> 2 on ours; theirs adds messageDesc(file, 1, 1) for Invite.
+    const { conflicts, text } = merge(
+      "parent-shift-vs-nested-append",
+      "target=ts",
+    );
+    expect(conflicts).toBeGreaterThan(0);
+    expect(text).toMatch(
+      /<<<<<<< [\s\S]*\/\/ 2\.0: message example\.v1\.Team\.Member[\s\S]*>>>>>>> /,
+    );
+  });
+
+  it("does not conflict when neighbouring lists change at their boundary", () => {
+    // ours renumbers every enum; theirs every service. The lists are
+    // independent, and the header of the services block keeps them apart.
+    const { conflicts, text, expected } = merge(
+      "neighbouring-lists",
+      "target=ts",
+    );
+    expect(conflicts).toBe(0);
+    expect(text).toBe(expected);
   });
 });

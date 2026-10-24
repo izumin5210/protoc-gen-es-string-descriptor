@@ -38,18 +38,28 @@ export const file_manifest: GenFile = /*@__PURE__*/
     "\x05owner\x12\x1c.google.protobuf.FileOptions\x18\xd1\x86\x03 \x01(\tR\x05ownerb\x06proto3\xd2\xf6\x03\x04\b\x00\x18\x00", [file_google_protobuf_descriptor]);
 
 // Index manifest: every descriptor that the generated code looks up by
-// position (messageDesc, enumDesc, serviceDesc, extDesc), one per line as
-// "<path>: <kind> <full name>". If two branches renumber the same list,
-// these lines conflict instead of merging into silently wrong indices.
+// position (messageDesc, enumDesc, serviceDesc, extDesc), one block per
+// list and one line per element as "<path>: <kind> <full name>". If two
+// branches renumber the same list, these lines conflict instead of
+// merging into silently wrong indices.
+// top-level messages:
 // 0: message testdata.manifest.Person
+// messages nested in testdata.manifest.Person:
 // 0.0: message testdata.manifest.Person.Address
-// 0.0.0: enum testdata.manifest.Person.Address.Kind
-// 0.0.0: extension testdata.manifest.Person.Address.label
+// enums nested in testdata.manifest.Person:
 // 0.0: enum testdata.manifest.Person.Role
+// extensions nested in testdata.manifest.Person:
 // 0.0: extension testdata.manifest.Person.audited
+// enums nested in testdata.manifest.Person.Address:
+// 0.0.0: enum testdata.manifest.Person.Address.Kind
+// extensions nested in testdata.manifest.Person.Address:
+// 0.0.0: extension testdata.manifest.Person.Address.label
+// top-level enums:
 // 0: enum testdata.manifest.Level
+// services:
 // 0: service testdata.manifest.Greeter
 // 1: service testdata.manifest.Admin
+// top-level extensions:
 // 0: extension testdata.manifest.owner
 
 /**

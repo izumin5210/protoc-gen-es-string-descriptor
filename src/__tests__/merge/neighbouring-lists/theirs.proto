@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package example.v1;
+
+service Billing {
+}
+
+service Admin {
+}
+
+service Teams {
+}
+
+enum Role {
+  ROLE_UNSPECIFIED = 0;
+}
+
+enum Plan {
+  PLAN_UNSPECIFIED = 0;
+}
