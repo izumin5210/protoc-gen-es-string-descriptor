@@ -5,8 +5,10 @@ import type {
   DescMessage,
   DescService,
 } from "@bufbuild/protobuf";
+import { isFieldSet } from "@bufbuild/protobuf";
 import { pathInFileDesc } from "@bufbuild/protobuf/codegenv2";
 import { nestedTypes } from "@bufbuild/protobuf/reflect";
+import { FieldDescriptorProtoSchema } from "@bufbuild/protobuf/wkt";
 
 export interface ManifestOptions {
   /**
@@ -86,6 +88,39 @@ const HEADER = [
   "// merging into silently wrong indices.",
 ];
 
+/**
+ * Members of real oneofs, for an encoding that leaves synthetic oneofs out
+ * of the descriptor but keeps `oneof_index` positional.
+ */
+export function oneofMemberManifest(file: DescFile): string[] {
+  const lines: string[] = [];
+  for (const desc of nestedTypes(file)) {
+    if (desc.kind !== "message") {
+      continue;
+    }
+    const members = desc.proto.field.filter(
+      (f) =>
+        !f.proto3Optional &&
+        isFieldSet(f, FieldDescriptorProtoSchema.field.oneofIndex),
+    );
+    if (members.length > 0) {
+      lines.push(
+        `// oneof members of ${desc.typeName}:`,
+        ...members.map(
+          (f) =>
+            `// ${f.oneofIndex} ${desc.proto.oneofDecl[f.oneofIndex].name}: ${f.name}`,
+        ),
+      );
+    }
+  }
+  return lines;
+}
+
+/** The manifest as inserted by {@link insertIndexManifest}. */
+export function withManifestHeader(manifest: string[]): string[] {
+  return manifest.length === 0 ? [] : [...HEADER, ...manifest];
+}
+
 /** Insert the manifest right after the `fileDesc(...)` statement. */
 export function insertIndexManifest(
   content: string,
@@ -97,5 +132,5 @@ export function insertIndexManifest(
     return content;
   }
   const at = end + ");\n".length;
-  return `${content.slice(0, at)}\n${[...HEADER, ...manifest].join("\n")}\n${content.slice(at)}`;
+  return `${content.slice(0, at)}\n${withManifestHeader(manifest).join("\n")}\n${content.slice(at)}`;
 }

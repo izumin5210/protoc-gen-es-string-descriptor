@@ -6,17 +6,29 @@ import {
 } from "@bufbuild/protobuf/wkt";
 import { protocGenEs } from "@bufbuild/protoc-gen-es/dist/cjs/src/protoc-gen-es-plugin.js";
 import { transformFileContent } from "../../src/transform.js";
-import { indexManifest, insertIndexManifest } from "./manifest.js";
+import {
+  indexManifest,
+  insertIndexManifest,
+  oneofMemberManifest,
+  withManifestHeader,
+} from "./manifest.js";
+import { transformFileContentToNames } from "./names/transform.js";
 import { transformFileContentToTree } from "./option-b/transform.js";
 
 export const ENCODINGS = ["base64", "a", "b"] as const;
 export type Encoding = (typeof ENCODINGS)[number];
 
 /**
- * Encodings plus manifest variants, compared when merging. "index manifest"
- * lists only what generated code looks up by position (the wrapper feature);
- * "manifest" also lists imports and oneofs, which the descriptor refers to
- * by position (the upstream proposal).
+ * Encodings plus manifest and names variants, compared when merging.
+ *
+ * - "index manifest" lists only what generated code looks up by position
+ *   (the wrapper feature); "manifest" also lists imports and oneofs, which
+ *   the descriptor refers to by position.
+ * - "index manifest + number types" leaves synthetic oneofs out, lists the
+ *   members of real oneofs, numbers the imports when some are public or
+ *   weak, and adds a type keyed by number per message and enum.
+ * - "names" refers to elements, oneofs and public / weak imports by name
+ *   and puts one import per line; "+ number types" is the proposal.
  */
 export const VARIANTS = [
   "base64",
@@ -25,23 +37,39 @@ export const VARIANTS = [
   "b",
   "b-index-manifest",
   "b-manifest",
+  "b-index-manifest-numbers",
+  "b-names",
+  "b-names-numbers",
 ] as const;
 export type Variant = (typeof VARIANTS)[number];
 
 export const VARIANT_LABELS: Record<Variant, string> = {
   base64: "base64",
-  a: "Option A",
-  "a-manifest": "Option A + manifest",
-  b: "Option B",
-  "b-index-manifest": "Option B + index manifest",
-  "b-manifest": "Option B + manifest",
+  a: "String literal",
+  "a-manifest": "String literal + manifest",
+  b: "Nested array",
+  "b-index-manifest": "Nested array + index manifest",
+  "b-manifest": "Nested array + manifest",
+  "b-index-manifest-numbers": "Nested array + index manifest + number types",
+  "b-names": "Nested array + names",
+  "b-names-numbers": "Nested array + names + number types",
 };
 
-export function encodingOf(variant: Variant): Encoding {
+/** How the first argument of `fileDesc` is decoded. */
+export type DescriptorFormat = Encoding | "b-stripped" | "names";
+
+export function formatOf(variant: Variant): DescriptorFormat {
+  if (variant.startsWith("b-names")) {
+    return "names";
+  }
+  if (variant === "b-index-manifest-numbers") {
+    return "b-stripped";
+  }
   return variant.split("-")[0] as Encoding;
 }
 
 export const OPTION_B_RUNTIME = "option-b-runtime";
+export const NAMES_RUNTIME = "names-runtime";
 
 export interface GeneratedFile {
   name: string;
@@ -100,6 +128,30 @@ export function generateFromProtos(
         b,
         "b-index-manifest": insertIndexManifest(b, manifest(false)),
         "b-manifest": insertIndexManifest(b, manifest(true)),
+        "b-index-manifest-numbers": transformFileContentToNames(
+          file.content,
+          NAMES_RUNTIME,
+          {
+            names: false,
+            numberTypes: true,
+            manifest:
+              desc === undefined
+                ? []
+                : withManifestHeader([
+                    ...manifest(false),
+                    ...oneofMemberManifest(desc),
+                  ]),
+          },
+        ),
+        "b-names": transformFileContentToNames(file.content, NAMES_RUNTIME, {
+          names: true,
+          numberTypes: false,
+        }),
+        "b-names-numbers": transformFileContentToNames(
+          file.content,
+          NAMES_RUNTIME,
+          { names: true, numberTypes: true },
+        ),
       },
     };
   });

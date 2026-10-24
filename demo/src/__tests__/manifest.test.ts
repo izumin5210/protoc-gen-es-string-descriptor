@@ -7,7 +7,7 @@ import {
   decodeDescriptorExpr,
   extractDescriptorExpr,
 } from "../descriptor-expr.js";
-import { encodingOf, generate, VARIANTS } from "../generate.js";
+import { formatOf, generate, VARIANTS } from "../generate.js";
 import { bufBuild } from "../tools.js";
 
 const testdataDir = fileURLToPath(new URL("testdata", import.meta.url));
@@ -23,7 +23,7 @@ describe("manifest variants", () => {
     );
     for (const variant of VARIANTS) {
       const expr = extractDescriptorExpr(file.content[variant]);
-      expect(decodeDescriptorExpr(expr, encodingOf(variant))).toEqual(expected);
+      expect(decodeDescriptorExpr(expr, formatOf(variant))).toEqual(expected);
     }
   });
 

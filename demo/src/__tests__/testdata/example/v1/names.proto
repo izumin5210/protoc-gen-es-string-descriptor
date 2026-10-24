@@ -1,0 +1,32 @@
+syntax = "proto3";
+package example.v1;
+
+import "example/v1/dep/a.proto";
+import public "example/v1/dep/b.proto";
+
+// Synthetic oneof names collide with fields and with each other.
+message Collide {
+  optional string foo = 1;
+  string _foo = 2;
+  optional string _bar = 3;
+  oneof X_foo {
+    string x = 4;
+  }
+  oneof kind {
+    string click = 5;
+    dep.A a = 6;
+  }
+  map<string, Inner> by_key = 7;
+  message Inner {
+    optional int32 n = 1;
+    enum Mode {
+      option allow_alias = true;
+      MODE_UNSPECIFIED = 0;
+      MODE_DEFAULT = 0;
+    }
+  }
+}
+
+enum Level {
+  LEVEL_UNSPECIFIED = 0;
+}
