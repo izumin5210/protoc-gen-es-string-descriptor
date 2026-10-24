@@ -11,5 +11,6 @@ Every generated `_pb.ts` of `google/cloud/aiplatform/v1` (subpackages included) 
 | String literal | 1306.0 (+5%) | 265.7 (−23%) | 689.7 (−13%) | 195.1 (−29%) |
 | Nested array | 1382.9 (+11%) | 257.1 (−26%) | 796.7 (+1%) | 194.9 (−29%) |
 | Nested array + index manifest + number types | 1374.0 (+11%) | 256.1 (−26%) | 789.9 | 193.6 (−30%) |
-| Nested array + names | 1424.5 (+15%) | 261.3 (−25%) | 841.5 (+6%) | 196.5 (−29%) |
-| Nested array + names + number types | 1424.5 (+15%) | 261.3 (−25%) | 841.5 (+6%) | 196.5 (−29%) |
+| Nested array + name table + number types | 1425.4 (+15%) | 262.0 (−24%) | 842.3 (+7%) | 197.2 (−29%) |
+| Nested array + names | 1416.4 (+14%) | 259.7 (−25%) | 832.4 (+5%) | 194.8 (−29%) |
+| Nested array + names + number types | 1416.4 (+14%) | 259.7 (−25%) | 832.4 (+5%) | 194.8 (−29%) |

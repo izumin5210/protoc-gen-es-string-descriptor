@@ -23,6 +23,7 @@ does, but the result differs from the file generated from the merged
 | `google/container/v1/cluster_service.proto` | Nested array + index manifest | 23 | 0 | 2 | 1 | 0 |
 | `google/container/v1/cluster_service.proto` | Nested array + manifest | 23 | 0 | 3 | 0 | 0 |
 | `google/container/v1/cluster_service.proto` | Nested array + index manifest + number types | 24 | 0 | 2 | 0 | 0 |
+| `google/container/v1/cluster_service.proto` | Nested array + name table + number types | 26 | 0 | 0 | 0 | 0 |
 | `google/container/v1/cluster_service.proto` | Nested array + names | 26 | 0 | 0 | 0 | 0 |
 | `google/container/v1/cluster_service.proto` | Nested array + names + number types | 26 | 0 | 0 | 0 | 0 |
 | `google/pubsub/v1/pubsub.proto` | base64 | 21 | 0 | 15 | 0 | 0 |
@@ -32,8 +33,9 @@ does, but the result differs from the file generated from the merged
 | `google/pubsub/v1/pubsub.proto` | Nested array + index manifest | 31 | 0 | 5 | 0 | 0 |
 | `google/pubsub/v1/pubsub.proto` | Nested array + manifest | 31 | 0 | 5 | 0 | 0 |
 | `google/pubsub/v1/pubsub.proto` | Nested array + index manifest + number types | 30 | 0 | 6 | 0 | 0 |
-| `google/pubsub/v1/pubsub.proto` | Nested array + names | 33 | 0 | 3 | 0 | 0 |
-| `google/pubsub/v1/pubsub.proto` | Nested array + names + number types | 33 | 0 | 3 | 0 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Nested array + name table + number types | 33 | 0 | 3 | 0 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Nested array + names | 34 | 0 | 2 | 0 | 0 |
+| `google/pubsub/v1/pubsub.proto` | Nested array + names + number types | 34 | 0 | 2 | 0 | 0 |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | base64 | 9 | 0 | 14 | 0 | 0 |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | String literal | 17 | 0 | 6 | 0 | 0 |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | String literal + manifest | 17 | 0 | 6 | 0 | 0 |
@@ -41,8 +43,9 @@ does, but the result differs from the file generated from the merged
 | `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + index manifest | 18 | 0 | 5 | 0 | 0 |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + manifest | 18 | 0 | 5 | 0 | 0 |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + index manifest + number types | 18 | 0 | 5 | 0 | 0 |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + names | 19 | 0 | 4 | 0 | 0 |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + names + number types | 19 | 0 | 4 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + name table + number types | 19 | 0 | 4 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + names | 22 | 0 | 1 | 0 | 0 |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + names + number types | 22 | 0 | 1 | 0 | 0 |
 | **total** | base64 | 39 | 0 | 46 | 0 | 0 |
 | **total** | String literal | 68 | 0 | 15 | 2 | 0 |
 | **total** | String literal + manifest | 68 | 0 | 17 | 0 | 0 |
@@ -50,8 +53,9 @@ does, but the result differs from the file generated from the merged
 | **total** | Nested array + index manifest | 72 | 0 | 12 | 1 | 0 |
 | **total** | Nested array + manifest | 72 | 0 | 13 | 0 | 0 |
 | **total** | Nested array + index manifest + number types | 72 | 0 | 13 | 0 | 0 |
-| **total** | Nested array + names | 78 | 0 | 7 | 0 | 0 |
-| **total** | Nested array + names + number types | 78 | 0 | 7 | 0 | 0 |
+| **total** | Nested array + name table + number types | 78 | 0 | 7 | 0 | 0 |
+| **total** | Nested array + names | 82 | 0 | 3 | 0 | 0 |
+| **total** | Nested array + names + number types | 82 | 0 | 3 | 0 | 0 |
 
 Replayed pairs where both sides changed the descriptor. Variants that embed
 the same descriptor have the same `fileDesc(…)` columns.
@@ -65,6 +69,7 @@ the same descriptor have the same `fileDesc(…)` columns.
 | `google/container/v1/cluster_service.proto` | Nested array + index manifest | 16 | 0 | 1 | 14 | 2 | 1 | 0 | — |
 | `google/container/v1/cluster_service.proto` | Nested array + manifest | 16 | 0 | 1 | 14 | 3 | 0 | 0 | — |
 | `google/container/v1/cluster_service.proto` | Nested array + index manifest + number types | 17 | 0 | 0 | 15 | 2 | 0 | 0 | — |
+| `google/container/v1/cluster_service.proto` | Nested array + name table + number types | 17 | 0 | 0 | 17 | 0 | 0 | 0 | — |
 | `google/container/v1/cluster_service.proto` | Nested array + names | 17 | 0 | 0 | 17 | 0 | 0 | 0 | — |
 | `google/container/v1/cluster_service.proto` | Nested array + names + number types | 17 | 0 | 0 | 17 | 0 | 0 | 0 | — |
 | `google/pubsub/v1/pubsub.proto` | base64 | 0 | 15 | 0 | 0 | 15 | 0 | 0 | — |
@@ -74,8 +79,9 @@ the same descriptor have the same `fileDesc(…)` columns.
 | `google/pubsub/v1/pubsub.proto` | Nested array + index manifest | 14 | 1 | 0 | 10 | 5 | 0 | 0 | — |
 | `google/pubsub/v1/pubsub.proto` | Nested array + manifest | 14 | 1 | 0 | 10 | 5 | 0 | 0 | — |
 | `google/pubsub/v1/pubsub.proto` | Nested array + index manifest + number types | 14 | 1 | 0 | 9 | 6 | 0 | 0 | — |
-| `google/pubsub/v1/pubsub.proto` | Nested array + names | 12 | 3 | 0 | 12 | 3 | 0 | 0 | — |
-| `google/pubsub/v1/pubsub.proto` | Nested array + names + number types | 12 | 3 | 0 | 12 | 3 | 0 | 0 | — |
+| `google/pubsub/v1/pubsub.proto` | Nested array + name table + number types | 12 | 3 | 0 | 12 | 3 | 0 | 0 | — |
+| `google/pubsub/v1/pubsub.proto` | Nested array + names | 14 | 1 | 0 | 13 | 2 | 0 | 0 | — |
+| `google/pubsub/v1/pubsub.proto` | Nested array + names + number types | 14 | 1 | 0 | 13 | 2 | 0 | 0 | — |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | base64 | 0 | 14 | 0 | 0 | 14 | 0 | 0 | — |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | String literal | 8 | 6 | 0 | 8 | 6 | 0 | 0 | — |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | String literal + manifest | 8 | 6 | 0 | 8 | 6 | 0 | 0 | — |
@@ -83,8 +89,9 @@ the same descriptor have the same `fileDesc(…)` columns.
 | `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + index manifest | 12 | 2 | 0 | 9 | 5 | 0 | 0 | — |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + manifest | 12 | 2 | 0 | 9 | 5 | 0 | 0 | — |
 | `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + index manifest + number types | 12 | 2 | 0 | 9 | 5 | 0 | 0 | — |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + names | 11 | 3 | 0 | 10 | 4 | 0 | 0 | — |
-| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + names + number types | 11 | 3 | 0 | 10 | 4 | 0 | 0 | — |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + name table + number types | 11 | 3 | 0 | 10 | 4 | 0 | 0 | — |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + names | 14 | 0 | 0 | 13 | 1 | 0 | 0 | — |
+| `google/cloud/deploy/v1/cloud_deploy.proto` | Nested array + names + number types | 14 | 0 | 0 | 13 | 1 | 0 | 0 | — |
 | **total** | base64 | 0 | 46 | 0 | 0 | 46 | 0 | 0 | — |
 | **total** | String literal | 33 | 13 | 0 | 29 | 15 | 2 | 2 | — |
 | **total** | String literal + manifest | 33 | 13 | 0 | 29 | 17 | 0 | 0 | — |
@@ -92,8 +99,9 @@ the same descriptor have the same `fileDesc(…)` columns.
 | **total** | Nested array + index manifest | 42 | 3 | 1 | 33 | 12 | 1 | 0 | — |
 | **total** | Nested array + manifest | 42 | 3 | 1 | 33 | 13 | 0 | 0 | — |
 | **total** | Nested array + index manifest + number types | 43 | 3 | 0 | 33 | 13 | 0 | 0 | — |
-| **total** | Nested array + names | 40 | 6 | 0 | 39 | 7 | 0 | 0 | — |
-| **total** | Nested array + names + number types | 40 | 6 | 0 | 39 | 7 | 0 | 0 | — |
+| **total** | Nested array + name table + number types | 40 | 6 | 0 | 39 | 7 | 0 | 0 | — |
+| **total** | Nested array + names | 45 | 1 | 0 | 43 | 3 | 0 | 0 | — |
+| **total** | Nested array + names + number types | 45 | 1 | 0 | 43 | 3 | 0 | 0 | — |
 
 Go was not available, so wrong descriptors were not loaded with protobuf-go.
 

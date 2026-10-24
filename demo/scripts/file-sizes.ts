@@ -19,6 +19,7 @@ const SHOWN: Variant[] = [
   "a",
   "b",
   "b-index-manifest-numbers",
+  "b-name-table-numbers",
   "b-names",
   "b-names-numbers",
 ];

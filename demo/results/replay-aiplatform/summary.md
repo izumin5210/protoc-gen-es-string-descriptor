@@ -23,6 +23,7 @@ does, but the result differs from the file generated from the merged
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + index manifest | 29 | 0 | 5 | 0 | 0 |
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + manifest | 29 | 0 | 5 | 0 | 0 |
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + index manifest + number types | 29 | 0 | 5 | 0 | 0 |
+| `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + name table + number types | 33 | 0 | 1 | 0 | 0 |
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + names | 33 | 0 | 1 | 0 | 0 |
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + names + number types | 33 | 0 | 1 | 0 | 0 |
 | `google/cloud/aiplatform/v1/content.proto` | base64 | 7 | 0 | 23 | 0 | 0 |
@@ -32,6 +33,7 @@ does, but the result differs from the file generated from the merged
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + index manifest | 29 | 0 | 1 | 0 | 0 |
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + manifest | 28 | 0 | 2 | 0 | 0 |
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + index manifest + number types | 29 | 0 | 1 | 0 | 0 |
+| `google/cloud/aiplatform/v1/content.proto` | Nested array + name table + number types | 30 | 0 | 0 | 0 | 0 |
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + names | 30 | 0 | 0 | 0 | 0 |
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + names + number types | 30 | 0 | 0 | 0 | 0 |
 | `google/cloud/aiplatform/v1/tool.proto` | base64 | 10 | 0 | 17 | 0 | 0 |
@@ -41,6 +43,7 @@ does, but the result differs from the file generated from the merged
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + index manifest | 25 | 0 | 2 | 0 | 0 |
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + manifest | 24 | 0 | 2 | 1 | 0 |
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + index manifest + number types | 25 | 0 | 2 | 0 | 0 |
+| `google/cloud/aiplatform/v1/tool.proto` | Nested array + name table + number types | 27 | 0 | 0 | 0 | 0 |
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + names | 27 | 0 | 0 | 0 | 0 |
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + names + number types | 27 | 0 | 0 | 0 | 0 |
 | **total** | base64 | 36 | 0 | 55 | 0 | 0 |
@@ -50,6 +53,7 @@ does, but the result differs from the file generated from the merged
 | **total** | Nested array + index manifest | 83 | 0 | 8 | 0 | 0 |
 | **total** | Nested array + manifest | 81 | 0 | 9 | 1 | 0 |
 | **total** | Nested array + index manifest + number types | 83 | 0 | 8 | 0 | 0 |
+| **total** | Nested array + name table + number types | 90 | 0 | 1 | 0 | 0 |
 | **total** | Nested array + names | 90 | 0 | 1 | 0 | 0 |
 | **total** | Nested array + names + number types | 90 | 0 | 1 | 0 | 0 |
 
@@ -65,6 +69,7 @@ the same descriptor have the same `fileDesc(…)` columns.
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + index manifest | 15 | 0 | 0 | 10 | 5 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + manifest | 15 | 0 | 0 | 10 | 5 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + index manifest + number types | 15 | 0 | 0 | 10 | 5 | 0 | 0 | — |
+| `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + name table + number types | 15 | 0 | 0 | 14 | 1 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + names | 15 | 0 | 0 | 14 | 1 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/prediction_service.proto` | Nested array + names + number types | 15 | 0 | 0 | 14 | 1 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/content.proto` | base64 | 0 | 23 | 0 | 0 | 23 | 0 | 0 | — |
@@ -74,6 +79,7 @@ the same descriptor have the same `fileDesc(…)` columns.
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + index manifest | 23 | 0 | 0 | 22 | 1 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + manifest | 23 | 0 | 0 | 21 | 2 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + index manifest + number types | 23 | 0 | 0 | 22 | 1 | 0 | 0 | — |
+| `google/cloud/aiplatform/v1/content.proto` | Nested array + name table + number types | 23 | 0 | 0 | 23 | 0 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + names | 23 | 0 | 0 | 23 | 0 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/content.proto` | Nested array + names + number types | 23 | 0 | 0 | 23 | 0 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/tool.proto` | base64 | 0 | 17 | 0 | 0 | 17 | 0 | 0 | — |
@@ -83,6 +89,7 @@ the same descriptor have the same `fileDesc(…)` columns.
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + index manifest | 17 | 0 | 0 | 15 | 2 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + manifest | 17 | 0 | 0 | 14 | 2 | 1 | 1 | — |
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + index manifest + number types | 17 | 0 | 0 | 15 | 2 | 0 | 0 | — |
+| `google/cloud/aiplatform/v1/tool.proto` | Nested array + name table + number types | 17 | 0 | 0 | 17 | 0 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + names | 17 | 0 | 0 | 17 | 0 | 0 | 0 | — |
 | `google/cloud/aiplatform/v1/tool.proto` | Nested array + names + number types | 17 | 0 | 0 | 17 | 0 | 0 | 0 | — |
 | **total** | base64 | 0 | 55 | 0 | 0 | 55 | 0 | 0 | — |
@@ -92,6 +99,7 @@ the same descriptor have the same `fileDesc(…)` columns.
 | **total** | Nested array + index manifest | 55 | 0 | 0 | 47 | 8 | 0 | 0 | — |
 | **total** | Nested array + manifest | 55 | 0 | 0 | 45 | 9 | 1 | 1 | — |
 | **total** | Nested array + index manifest + number types | 55 | 0 | 0 | 47 | 8 | 0 | 0 | — |
+| **total** | Nested array + name table + number types | 55 | 0 | 0 | 54 | 1 | 0 | 0 | — |
 | **total** | Nested array + names | 55 | 0 | 0 | 54 | 1 | 0 | 0 | — |
 | **total** | Nested array + names + number types | 55 | 0 | 0 | 54 | 1 | 0 | 0 | — |
 
