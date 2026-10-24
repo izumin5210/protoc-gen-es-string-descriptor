@@ -207,7 +207,7 @@ describe("names runtime", () => {
     const { arg } = parseFileDescCall(extractDescriptorExpr(content), "names");
     expect(() =>
       fileDesc(arg as Parameters<typeof fileDesc>[0], imports),
-    ).toThrow(/unresolved oneof Collide\.\w+ -> gone/);
+    ).toThrow(/unresolved oneof member Collide\.\w+ -> gone/);
   });
 
   it.each(sources)("looks up every element of $path by name", ({

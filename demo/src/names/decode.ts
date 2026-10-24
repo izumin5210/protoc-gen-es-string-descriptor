@@ -1,253 +1,436 @@
-import { type DescTree, fromTree } from "../option-b/runtime.js";
+import { WireType } from "@bufbuild/protobuf/wire";
+import { jsStringToBytes } from "../../../src/escape.js";
+import type { DescTree } from "../option-b/runtime.js";
+import { ONEOF, PUBLIC_DEPENDENCY, WEAK_DEPENDENCY } from "./inline.js";
 
-// Tags as one char per byte, the way a DescTree holds them. Only these are
-// looked at; everything else is copied without a schema.
-const MESSAGE_TYPE = '"'; // FileDescriptorProto.message_type = 4, LEN
-const PUBLIC_DEPENDENCY = "P"; // FileDescriptorProto.public_dependency = 10
-const WEAK_DEPENDENCY = "X"; // FileDescriptorProto.weak_dependency = 11
-const NAME = "\n"; // `name = 1` of DescriptorProto, FieldDescriptorProto, OneofDescriptorProto
-const FIELD = "\x12"; // DescriptorProto.field = 2
-const NESTED_TYPE = "\x1a"; // DescriptorProto.nested_type = 3
-const ONEOF_DECL = "B"; // DescriptorProto.oneof_decl = 8
-const ONEOF_INDEX = "H"; // FieldDescriptorProto.oneof_index = 9
-const PROTO3_OPTIONAL = 17; // FieldDescriptorProto.proto3_optional
-const PROTO3_OPTIONAL_TRUE = "\x88\x01\x01"; // a quick filter for it
-// The markers of inline.ts: fields 536870911, 536870910 and 536870909, LEN.
-const ONEOF_MARKER = "\xfa\xff\xff\xff\x0f";
-const PUBLIC_MARKER = "\xf2\xff\xff\xff\x0f";
-const WEAK_MARKER = "\xea\xff\xff\xff\x0f";
+// Copied from `fromTree` in `src/tree.ts` of the plugin's names encoding
+// (#14, the version that hydrates through codegenv2), renamed so as not to
+// clash with the nested array's own `fromTree`.
+
+/**
+ * Serialize a {@link DescTree} of a `FileDescriptorProto`, recomputing the
+ * length prefixes, and restore what the plugin replaced or left out, in the
+ * order that protobuf-es serializes it:
+ *
+ * - a field's oneof marker becomes `oneof_index` of the named real oneof;
+ * - the synthetic oneofs of proto3 `optional` fields are re-created after the
+ *   real ones, and the fields point at them;
+ * - the file's import markers become `public_dependency` /
+ *   `weak_dependency`, resolved against `dependency`, the file names of the
+ *   imports in import order.
+ *
+ * Only files, messages and their fields are parsed; everything else is
+ * copied as is. Throws if a marker does not resolve, e.g. after a bad merge.
+ */
+export function fromNamedTree(
+  tree: DescTree,
+  dependency: readonly string[] = [],
+): Uint8Array {
+  return serialize(restoreFile(tree, dependency.map(utf8)));
+}
+
+// Field numbers in descriptor.proto.
+const FILE_MESSAGE_TYPE = 4;
+const FILE_PUBLIC_DEPENDENCY = 10;
+const FILE_WEAK_DEPENDENCY = 11;
+const MESSAGE_NAME = 1;
+const MESSAGE_FIELD = 2;
+const MESSAGE_NESTED_TYPE = 3;
+const MESSAGE_ONEOF_DECL = 8;
+const FIELD_NAME = 1;
+const FIELD_ONEOF_INDEX = 9;
+const FIELD_PROTO3_OPTIONAL = 17;
+const ONEOF_NAME = 1;
+const FIELD_MARKERS = [ONEOF];
 
 type Item = DescTree[number];
 
 /**
- * Serialize a nested array of the names encoding into the bytes that
- * protoc-gen-es embeds. What the markers say by name is restored on the
- * way: `oneof_index` of real oneof members, the synthetic oneofs of proto3
- * `optional` fields, and `public_dependency` / `weak_dependency`, resolved
- * against `importNames`. Only file, message, field and oneof descriptors
- * are looked into; the rest of the tree is passed through as is.
+ * What a scan of the items of a message found: one length-delimited field,
+ * one varint, the markers to drop, and where to insert the restored fields.
+ * Strings in a tree are raw bytes, one char per byte, so names are compared
+ * as UTF-8 bytes without decoding.
  */
-export function fromNamedTree(
-  tree: DescTree,
-  importNames: readonly string[],
-): Uint8Array {
-  // Chunks hold UTF-8 bytes, one char per byte.
-  const names = importNames.map((n) =>
-    String.fromCharCode(...new TextEncoder().encode(n)),
-  );
-  return fromTree(
-    tree.map((item) => {
-      if (typeof item !== "string") {
-        return item[0] === MESSAGE_TYPE ? message(item, "") : item;
+interface Scan {
+  string?: string;
+  varint: number;
+  /** Markers as [item, start, end, field number, payload]. */
+  markers: [number, number, number, number, string][];
+  /** Item and offset of the first field numbered above `after`. */
+  insertAt: [number, number];
+}
+
+const NO_MARKERS: readonly number[] = [];
+
+/**
+ * Scan the fields of `items` without copying them: read the field numbered
+ * `stringNo` and the varint numbered `varintNo`, and find the unknown fields
+ * numbered in `markerNos`.
+ */
+function scan(
+  items: DescTree,
+  after: number,
+  stringNo = 0,
+  varintNo = 0,
+  markerNos = NO_MARKERS,
+): Scan {
+  const result: Scan = { varint: 0, markers: [], insertAt: [items.length, 0] };
+  let found = false;
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    if (typeof item !== "string") {
+      if (!found && fieldNo(item[0]) > after) {
+        result.insertAt = [i, 0];
+        found = true;
       }
-      const tag = item.startsWith(PUBLIC_MARKER)
-        ? PUBLIC_DEPENDENCY
-        : item.startsWith(WEAK_MARKER)
-          ? WEAK_DEPENDENCY
-          : undefined;
-      if (tag === undefined) {
-        return item;
+      continue;
+    }
+    let pos = 0;
+    while (pos < item.length) {
+      const start = pos;
+      const tag = readVarint(item, pos);
+      const no = Math.floor(tag / 8);
+      const wireType = tag % 8;
+      pos = varintEnd;
+      switch (wireType) {
+        case WireType.Varint: {
+          const value = readVarint(item, pos);
+          pos = varintEnd;
+          if (no === varintNo) {
+            result.varint = value;
+          }
+          break;
+        }
+        case WireType.Bit64:
+          pos += 8;
+          break;
+        case WireType.LengthDelimited: {
+          const length = readVarint(item, pos);
+          const payloadStart = varintEnd;
+          pos = payloadStart + length;
+          if (markerNos.includes(no)) {
+            result.markers.push([
+              i,
+              start,
+              pos,
+              no,
+              item.slice(payloadStart, pos),
+            ]);
+            continue;
+          }
+          if (no === stringNo) {
+            result.string = item.slice(payloadStart, pos);
+          }
+          break;
+        }
+        case WireType.Bit32:
+          pos += 4;
+          break;
+        default:
+          throw new Error(`unexpected wire type ${wireType}`);
       }
-      const name = markerValue(item);
-      const index = names.indexOf(name);
-      if (index < 0) {
-        throw new Error(`unresolved import ${name}`);
+      if (!found && no > after) {
+        result.insertAt = [i, start];
+        found = true;
       }
-      return tag + varint(index);
-    }),
+    }
+  }
+  return result;
+}
+
+/**
+ * `items` without the markers of `scan`, with `insert` at its insertion
+ * point and with `replace` applied to sub-messages.
+ */
+function rewrite(
+  items: DescTree,
+  { markers, insertAt }: Scan,
+  insert: Item[],
+  replace: (item: readonly [string, DescTree], index: number) => Item = (
+    item,
+  ) => item,
+): Item[] {
+  const out: Item[] = [];
+  for (let i = 0; i <= items.length; i++) {
+    const item = items[i];
+    if (typeof item !== "string") {
+      if (i === insertAt[0]) {
+        out.push(...insert);
+      }
+      if (item !== undefined) {
+        out.push(replace(item, i));
+      }
+      continue;
+    }
+    // Cut the markers out of the string, and split it at the insertion point.
+    const cuts: [number, number][] = markers
+      .filter(([m]) => m === i)
+      .map(([, start, end]) => [start, end]);
+    if (i === insertAt[0]) {
+      cuts.push([insertAt[1], insertAt[1]]);
+      cuts.sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+    }
+    if (cuts.length === 0) {
+      out.push(item);
+      continue;
+    }
+    let pos = 0;
+    for (const [start, end] of cuts) {
+      if (start > pos) {
+        out.push(item.slice(pos, start));
+      }
+      if (start === end && i === insertAt[0] && start === insertAt[1]) {
+        out.push(...insert);
+      }
+      pos = Math.max(pos, end);
+    }
+    if (pos < item.length) {
+      out.push(item.slice(pos));
+    }
+  }
+  return out;
+}
+
+function restoreFile(tree: DescTree, dependency: string[]): DescTree {
+  const found = scan(tree, FILE_WEAK_DEPENDENCY, 0, 0, [
+    PUBLIC_DEPENDENCY,
+    WEAK_DEPENDENCY,
+  ]);
+  const publicDeps: string[] = [];
+  const weakDeps: string[] = [];
+  for (const [, , , no, name] of found.markers) {
+    const index = dependency.indexOf(name);
+    const kind = no === PUBLIC_DEPENDENCY ? "public" : "weak";
+    if (index < 0) {
+      throw new Error(`unresolved ${kind} import ${fromUtf8(name)}`);
+    }
+    (no === PUBLIC_DEPENDENCY ? publicDeps : weakDeps).push(
+      varintField(
+        no === PUBLIC_DEPENDENCY
+          ? FILE_PUBLIC_DEPENDENCY
+          : FILE_WEAK_DEPENDENCY,
+        index,
+      ),
+    );
+  }
+  return rewrite(tree, found, [...publicDeps, ...weakDeps], (item) =>
+    fieldNo(item[0]) === FILE_MESSAGE_TYPE
+      ? [item[0], restoreMessage(item[1])]
+      : item,
   );
 }
 
-function message(node: readonly [string, DescTree], scope: string): Item {
-  const [tag, children] = node;
-  // Most messages have neither markers nor proto3 `optional` fields; they
-  // are passed through unless a nested message changes.
-  let changed = false;
+function restoreMessage(items: DescTree): DescTree {
+  const message = scan(items, MESSAGE_ONEOF_DECL, MESSAGE_NAME);
   const oneofs: string[] = [];
-  const fields: { name: string; optional: boolean }[] = [];
-  for (const item of children) {
+  const fields: { index: number; scan: Scan }[] = [];
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
     if (typeof item === "string") {
       continue;
     }
-    if (item[0] === ONEOF_DECL) {
-      oneofs.push(nameOf(item[1]) ?? "");
-    } else if (item[0] === FIELD) {
-      let optional = false;
-      for (const c of item[1]) {
-        if (typeof c !== "string") {
-          continue;
-        }
-        if (c.startsWith(ONEOF_MARKER)) {
-          changed = true;
-        } else if (c.includes(PROTO3_OPTIONAL_TRUE) && proto3Optional(c)) {
-          optional = changed = true;
-        }
-      }
-      fields.push({ name: optional ? (nameOf(item[1]) ?? "") : "", optional });
+    const no = fieldNo(item[0]);
+    if (no === MESSAGE_ONEOF_DECL) {
+      oneofs.push(scan(item[1], Infinity, ONEOF_NAME).string ?? "");
+    } else if (no === MESSAGE_FIELD) {
+      fields.push({
+        index: i,
+        scan: scan(
+          item[1],
+          FIELD_ONEOF_INDEX,
+          FIELD_NAME,
+          FIELD_PROTO3_OPTIONAL,
+          FIELD_MARKERS,
+        ),
+      });
     }
   }
-  const prefix = () => `${scope}${nameOf(children) ?? ""}.`;
-  if (!changed) {
-    let out: Item[] | undefined;
-    for (let j = 0; j < children.length; j++) {
-      const item = children[j];
-      if (typeof item === "string" || item[0] !== NESTED_TYPE) {
-        continue;
+  const fieldName = (f: Scan) => f.string ?? "";
+  const memberName = (f: Scan) =>
+    `${fromUtf8(message.string ?? "")}.${fromUtf8(fieldName(f))}`;
+  // protoc names synthetic oneofs `_` + field name, prefixed with `X` while
+  // that collides, and appends them after the real ones in field order.
+  const taken = new Set([...fields.map((f) => fieldName(f.scan)), ...oneofs]);
+  const synthetic: Item[] = [];
+  const restored = new Map<number, DescTree>();
+  for (const { index, scan: field } of fields) {
+    let oneofIndex: number | undefined;
+    if (field.markers.length > 1) {
+      throw new Error(`${memberName(field)} is in several oneofs`);
+    }
+    if (field.varint !== 0) {
+      const base = fieldName(field);
+      let name = base.startsWith("_") ? base : `_${base}`;
+      while (taken.has(name)) {
+        name = `X${name}`;
       }
-      const nested = message(item, prefix());
-      if (nested !== item) {
-        out ??= [...children];
-        out[j] = nested;
+      taken.add(name);
+      oneofIndex = oneofs.length + synthetic.length;
+      synthetic.push([
+        tagString(MESSAGE_ONEOF_DECL, WireType.LengthDelimited),
+        [lengthDelimitedField(ONEOF_NAME, name)],
+      ]);
+    } else if (field.markers.length === 1) {
+      const oneof = field.markers[0][4];
+      oneofIndex = oneofs.indexOf(oneof);
+      if (oneofIndex < 0) {
+        throw new Error(
+          `unresolved oneof member ${memberName(field)} -> ${fromUtf8(oneof)}`,
+        );
       }
     }
-    return out === undefined ? node : [tag, out];
+    if (oneofIndex !== undefined) {
+      const item = items[index] as readonly [string, DescTree];
+      restored.set(
+        index,
+        rewrite(item[1], field, [varintField(FIELD_ONEOF_INDEX, oneofIndex)]),
+      );
+    }
   }
-  // The synthetic oneofs, named the way protoc names them: after the real
-  // oneofs, in field order, `_` + field name, prefixed with `X` while that
-  // collides.
-  const taken = new Set([...fieldNames(children), ...oneofs]);
-  const synthetic: string[] = [];
-  let i = 0;
-  const out: Item[] = children.map((item) => {
+  if (synthetic.length === 0 && restored.size === 0) {
+    // Nested messages may still need restoring.
+    if (!items.some((item) => isNestedMessage(item))) {
+      return items;
+    }
+  }
+  return rewrite(items, message, synthetic, (item, i) => {
+    const fieldItems = restored.get(i);
+    if (fieldItems !== undefined) {
+      return [item[0], fieldItems];
+    }
+    return isNestedMessage(item) ? [item[0], restoreMessage(item[1])] : item;
+  });
+}
+
+function isNestedMessage(item: Item): item is readonly [string, DescTree] {
+  return typeof item !== "string" && fieldNo(item[0]) === MESSAGE_NESTED_TYPE;
+}
+
+/**
+ * Serialize in two passes, so that the output is a single allocation: first
+ * the body size of every sub-message in pre-order, then the bytes.
+ */
+function serialize(tree: DescTree): Uint8Array {
+  const bodySizes: number[] = [];
+  const out = new Uint8Array(measure(tree, bodySizes));
+  write(tree, out, 0, bodySizes, { next: 0 });
+  return out;
+}
+
+function measure(tree: DescTree, bodySizes: number[]): number {
+  let size = 0;
+  for (const item of tree) {
     if (typeof item === "string") {
-      return item;
+      size += item.length;
+    } else {
+      const index = bodySizes.push(0) - 1;
+      const body = measure(item[1], bodySizes);
+      bodySizes[index] = body;
+      size += item[0].length + varintSize(body) + body;
     }
-    if (item[0] === NESTED_TYPE) {
-      return message(item, prefix());
-    }
-    if (item[0] !== FIELD) {
-      return item;
-    }
-    const f = fields[i++];
-    let index: number | undefined;
-    if (f.optional) {
-      let oneof = f.name.startsWith("_") ? f.name : `_${f.name}`;
-      while (taken.has(oneof)) {
-        oneof = `X${oneof}`;
+  }
+  return size;
+}
+
+function write(
+  tree: DescTree,
+  out: Uint8Array,
+  pos: number,
+  bodySizes: number[],
+  cursor: { next: number },
+): number {
+  for (const item of tree) {
+    if (typeof item === "string") {
+      pos = writeRaw(item, out, pos);
+    } else {
+      pos = writeRaw(item[0], out, pos);
+      let body = bodySizes[cursor.next++];
+      while (body > 0x7f) {
+        out[pos++] = (body & 0x7f) | 0x80;
+        body >>>= 7;
       }
-      taken.add(oneof);
-      index = oneofs.length + synthetic.push(oneof) - 1;
-    }
-    return field(item, oneofs, index, prefix());
-  });
-  for (const oneof of synthetic) {
-    out.push([ONEOF_DECL, [NAME + varint(oneof.length) + oneof]]);
-  }
-  return [tag, out];
-}
-
-function fieldNames(children: DescTree): string[] {
-  const names: string[] = [];
-  for (const item of children) {
-    if (typeof item !== "string" && item[0] === FIELD) {
-      names.push(nameOf(item[1]) ?? "");
+      out[pos++] = body;
+      pos = write(item[1], out, pos, bodySizes, cursor);
     }
   }
-  return names;
+  return pos;
 }
 
-function field(
-  node: readonly [string, DescTree],
-  oneofs: string[],
-  syntheticIndex: number | undefined,
-  messagePrefix: string,
-): Item {
-  let index = syntheticIndex;
-  const out = node[1].filter((item) => {
-    if (typeof item !== "string" || !item.startsWith(ONEOF_MARKER)) {
-      return true;
-    }
-    const oneof = markerValue(item);
-    if (index !== undefined) {
-      throw new Error(
-        `${messagePrefix}${nameOf(node[1])} is in several oneofs`,
-      );
-    }
-    index = oneofs.indexOf(oneof);
-    if (index < 0) {
-      throw new Error(
-        `unresolved oneof ${messagePrefix}${nameOf(node[1])} -> ${oneof}`,
-      );
-    }
-    return false;
-  });
-  if (index === undefined) {
-    return node;
+function writeRaw(raw: string, out: Uint8Array, pos: number): number {
+  for (let i = 0; i < raw.length; i++) {
+    out[pos++] = raw.charCodeAt(i);
   }
-  return [node[0], [...out, ONEOF_INDEX + varint(index)]];
+  return pos;
 }
 
-/** The `name = 1` string among a descriptor's chunks. */
-function nameOf(children: DescTree): string | undefined {
-  for (const item of children) {
-    if (typeof item === "string" && item.startsWith(NAME)) {
-      const [length, pos] = readVarint(item, 1);
-      return item.slice(pos, pos + length);
-    }
+function varintSize(n: number): number {
+  let size = 1;
+  while (n > 0x7f) {
+    n >>>= 7;
+    size++;
   }
-  return undefined;
+  return size;
 }
 
-/** A marker chunk's value; a marker is always a chunk of its own. */
-function markerValue(chunk: string): string {
-  const [length, pos] = readVarint(chunk, ONEOF_MARKER.length);
-  if (pos + length !== chunk.length) {
-    throw new Error("a marker shares its chunk with another field");
-  }
-  return chunk.slice(pos);
-}
+/** Where the varint that {@link readVarint} read last ends. */
+let varintEnd = 0;
 
-/** Whether a chunk of fields sets `proto3_optional`. */
-function proto3Optional(chunk: string): boolean {
-  let set = false;
-  let pos = 0;
-  while (pos < chunk.length) {
-    const [tag, afterTag] = readVarint(chunk, pos);
-    const no = tag >>> 3;
-    switch (tag & 7) {
-      case 0: {
-        const [value, next] = readVarint(chunk, afterTag);
-        if (no === PROTO3_OPTIONAL) {
-          set = value !== 0;
-        }
-        pos = next;
-        break;
-      }
-      case 1:
-        pos = afterTag + 8;
-        break;
-      case 2: {
-        const [length, next] = readVarint(chunk, afterTag);
-        pos = next + length;
-        break;
-      }
-      case 5:
-        pos = afterTag + 4;
-        break;
-      default:
-        throw new Error(`unsupported wire type in ${JSON.stringify(chunk)}`);
-    }
-  }
-  return set;
-}
-
-/** A varint of at most 32 bits at `pos`, and the position after it. */
-function readVarint(s: string, pos: number): [number, number] {
+/** A varint at `pos`, ending at {@link varintEnd}. Exact up to 2^53. */
+function readVarint(s: string, pos: number): number {
   let value = 0;
-  for (let shift = 0; ; shift += 7) {
-    const byte = s.charCodeAt(pos++);
-    value += (byte & 0x7f) * 2 ** shift;
-    if (byte < 0x80) {
-      return [value, pos];
-    }
-  }
+  let scale = 1;
+  let byte: number;
+  do {
+    byte = s.charCodeAt(pos++);
+    value += (byte & 0x7f) * scale;
+    scale *= 128;
+  } while (byte & 0x80);
+  varintEnd = pos;
+  return value;
 }
 
-function varint(n: number): string {
+/** The field number of a tag. */
+function fieldNo(tag: string): number {
+  return Math.floor(readVarint(tag, 0) / 8);
+}
+
+/** A varint as raw bytes, for non-negative values below 2^31. */
+function varintString(n: number): string {
   let s = "";
   while (n > 0x7f) {
     s += String.fromCharCode((n & 0x7f) | 0x80);
     n >>>= 7;
   }
   return s + String.fromCharCode(n);
+}
+
+function tagString(no: number, wireType: WireType): string {
+  return varintString((no << 3) | wireType);
+}
+
+function varintField(no: number, value: number): string {
+  return tagString(no, WireType.Varint) + varintString(value);
+}
+
+function lengthDelimitedField(no: number, raw: string): string {
+  return (
+    tagString(no, WireType.LengthDelimited) + varintString(raw.length) + raw
+  );
+}
+
+/** A string as raw UTF-8 bytes, one char per byte, as in a tree. */
+function utf8(s: string): string {
+  return latin1(new TextEncoder().encode(s));
+}
+
+function fromUtf8(raw: string): string {
+  return new TextDecoder().decode(jsStringToBytes(raw));
+}
+
+function latin1(bytes: Uint8Array): string {
+  let s = "";
+  for (const byte of bytes) {
+    s += String.fromCharCode(byte);
+  }
+  return s;
 }

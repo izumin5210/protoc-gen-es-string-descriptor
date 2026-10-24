@@ -43,7 +43,7 @@ plugin by [#14](https://github.com/izumin5210/protoc-gen-es-string-descriptor/pu
   conflicts and 4 of the older replay's 7.
 - **Size and speed.** Per generated file, the proposal is +5% minified and
   −29% gzipped compared with base64. Hydrating 137 files through
-  codegenv2's `fileDesc` takes 123 ms, against 99 ms for base64. Resolving
+  codegenv2's `fileDesc` takes 123 ms, against 95 ms for base64. Resolving
   all 1,376 messages of 181 descriptors by name takes under 1 ms, including
   building the per-file maps (about 105 KiB, compared with 4.0 MiB for the
   registry).
@@ -143,7 +143,8 @@ The plugin implements this encoding in
 The demo's variant mirrors its code
 ([`src/names/inline.ts`](src/names/inline.ts),
 [`src/names/inline-transform.ts`](src/names/inline-transform.ts),
-[`src/names/runtime.ts`](src/names/runtime.ts)), and its output is
+[`src/names/runtime.ts`](src/names/runtime.ts), and
+[`src/names/decode.ts`](src/names/decode.ts), copied from it), and its output is
 byte-identical to the plugin's for all 173 generated files of
 `google/cloud/aiplatform/v1`, apart from the runtime's module name.
 
@@ -606,27 +607,28 @@ decoder.
 
 | | import median | import p90 | hydrate median | hydrate p90 |
 | --- | --- | --- | --- | --- |
-| base64 | 105.6 ms | 115.1 ms | 98.7 ms | 108.2 ms |
-| string literal (shipped runtime) | 117.1 ms | 125.0 ms | 108.0 ms | 116.5 ms |
-| string literal (direct) | 105.0 ms | 111.3 ms | 96.5 ms | 102.7 ms |
-| nested array (shipped runtime) | 126.0 ms | 133.8 ms | 108.8 ms | 116.8 ms |
-| nested array (direct) | 115.3 ms | 123.5 ms | 99.0 ms | 107.4 ms |
-| **nested array + names + number types** | 139.3 ms | 151.3 ms | 123.3 ms | 134.6 ms |
+| base64 | 102.5 ms | 112.3 ms | 95.4 ms | 105.0 ms |
+| string literal (shipped runtime) | 114.5 ms | 132.1 ms | 106.0 ms | 123.7 ms |
+| string literal (direct) | 103.0 ms | 115.9 ms | 94.6 ms | 106.2 ms |
+| nested array (shipped runtime) | 123.8 ms | 132.3 ms | 107.1 ms | 116.7 ms |
+| nested array (direct) | 114.7 ms | 125.3 ms | 97.5 ms | 106.2 ms |
+| **nested array + names + number types** | 139.8 ms | 149.2 ms | 123.2 ms | 132.9 ms |
 
 - Hydration time is dominated by `fromBinary` and building the registry,
   which are the same for every encoding. Implemented natively, the nested
   array hydrates as fast as base64; the differences are within run-to-run
   noise.
 - **The names runtime** resolves the markers and re-creates the synthetic
-  oneofs while it rebuilds the bytes from the nested array
-  ([`src/names/decode.ts`](src/names/decode.ts)), looking only into file,
-  message, field and oneof descriptors. It then passes the bytes as base64
-  to `fileDesc` from `@bufbuild/protobuf/codegenv2`, so hydration is
-  exactly upstream's. That costs about 25 ms more than base64 cold:
+  oneofs while it rebuilds the bytes from the nested array, looking only
+  into file, message and field descriptors. The result is byte for byte what
+  protoc-gen-es embeds. It then passes the bytes as base64 to `fileDesc`
+  from `@bufbuild/protobuf/codegenv2`, so hydration is exactly upstream's.
+  The decoder ([`src/names/decode.ts`](src/names/decode.ts)) is copied from
+  #14. That costs about 28 ms more than base64 cold:
   - about 10 ms for the base64 round trip, which "nested array (shipped
     runtime)" also pays;
-  - about 15 ms for the extra pass over the tree for the markers (3 ms
-    warm) and for the lookups by name.
+  - about 16 ms for the extra pass over the tree for the markers (warm:
+    5.4 ms against 1.8 ms for the plain tree) and for the lookups by name.
 - An earlier version of the names runtime parsed the rebuilt bytes,
   restored the names on the parsed descriptor and built the registry from
   it, without base64. It hydrated in 101 ms.

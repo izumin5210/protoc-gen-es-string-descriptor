@@ -7,8 +7,10 @@ import {
   FileDescriptorProtoSchema,
 } from "@bufbuild/protobuf/wkt";
 import { equalBytes } from "../bytes.js";
-import { renderTree, toTree } from "../option-b/encode.js";
-import { embedInlineNames, restoreInlineNames } from "./inline.js";
+import { renderTree, type TreeItem, toTree } from "../option-b/encode.js";
+import type { DescTree } from "../option-b/runtime.js";
+import { fromNamedTree } from "./decode.js";
+import { embedInlineNames } from "./inline.js";
 import { elementNames, moveImports } from "./table-transform.js";
 
 // Mirrors `src/transform.ts` of the plugin's names encoding (PR #14), for
@@ -82,11 +84,12 @@ function renderFileDescArgs(
 ): string {
   const file = clone(FileDescriptorProtoSchema, embedded);
   embedInlineNames(file, dependency);
-  const encoded = toBinary(FileDescriptorProtoSchema, file);
-  assertRestorable(bytes, embedded.name, encoded, dependency);
-  const tree = toTree(encoded, FileDescriptorProtoSchema, {
-    unknownOnOwnLine: true,
-  });
+  const tree = toTree(
+    toBinary(FileDescriptorProtoSchema, file),
+    FileDescriptorProtoSchema,
+    { unknownOnOwnLine: true },
+  );
+  assertRestorable(bytes, embedded.name, tree, dependency);
   return [
     "[",
     renderTree(tree),
@@ -103,17 +106,21 @@ function renderFileDescArgs(
 function assertRestorable(
   bytes: Uint8Array,
   fileName: string,
-  encoded: Uint8Array,
+  tree: TreeItem[],
   dependency: readonly string[],
 ): void {
-  const restored = fromBinary(FileDescriptorProtoSchema, encoded);
-  restored.dependency = [...dependency];
-  restoreInlineNames(restored);
-  // protoc-gen-es leaves the imports out of the embedded descriptor.
-  restored.dependency = [];
-  if (!equalBytes(toBinary(FileDescriptorProtoSchema, restored), bytes)) {
+  if (!equalBytes(fromNamedTree(evaluateTree(tree), dependency), bytes)) {
     throw new Error(`${fileName}: the descriptor does not round-trip`);
   }
+}
+
+/** The {@link DescTree} that the output of `renderTree` evaluates to. */
+function evaluateTree(items: TreeItem[]): DescTree {
+  return items.map((item) =>
+    item instanceof Uint8Array
+      ? String.fromCharCode(...item)
+      : [String.fromCharCode(...item.tag), evaluateTree(item.children)],
+  );
 }
 
 /**
