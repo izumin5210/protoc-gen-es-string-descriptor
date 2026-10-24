@@ -17,6 +17,8 @@ import {
   type Variant,
 } from "./generate.js";
 import { hydrate } from "./hydrate.js";
+import { fileDesc as namesFileDesc } from "./names/runtime.js";
+import type { DescTree } from "./option-b/runtime.js";
 import { protodescCheck } from "./protodesc.js";
 import { mergeFile } from "./tools.js";
 import { typeErrors } from "./typecheck.js";
@@ -204,7 +206,13 @@ function loader(dependencies: FileDescriptorProto[]) {
       }
       return file;
     });
-    hydrate(decodeDescriptorExpr(expr, format), imports);
+    if (format === "names") {
+      // The names runtime, as generated code would call it.
+      const { arg } = parseFileDescCall(expr, format);
+      namesFileDesc(arg as DescTree, imports);
+    } else {
+      hydrate(decodeDescriptorExpr(expr, format), imports);
+    }
   };
 }
 

@@ -1,14 +1,14 @@
-import type { JsonValue } from "@bufbuild/protobuf";
-import {
-  type DescEnum,
-  type DescExtension,
-  type DescFile,
-  type DescMessage,
-  type DescService,
-  fromBinary,
-  type Message,
+import type {
+  DescEnum,
+  DescExtension,
+  DescFile,
+  DescMessage,
+  DescService,
+  JsonValue,
+  Message,
 } from "@bufbuild/protobuf";
 import {
+  fileDesc as codegenFileDesc,
   enumDesc as enumDescByIndex,
   extDesc as extDescByIndex,
   type GenEnum,
@@ -20,23 +20,23 @@ import {
   serviceDesc as serviceDescByIndex,
 } from "@bufbuild/protobuf/codegenv2";
 import { nestedTypes } from "@bufbuild/protobuf/reflect";
-import { FileDescriptorProtoSchema } from "@bufbuild/protobuf/wkt";
-import { hydrateProto } from "../hydrate.js";
-import { type DescTree, fromTree } from "../option-b/runtime.js";
-import { restoreInlineNames } from "./inline.js";
+import { base64Encode } from "@bufbuild/protobuf/wire";
+import type { DescTree } from "../option-b/runtime.js";
+import { fromNamedTree } from "./decode.js";
 
 /**
- * Hydrate a file descriptor, like `fileDesc` from
- * `@bufbuild/protobuf/codegenv2`, from a nested array in which real oneof
- * members and public / weak imports are marked by name and synthetic oneofs
- * are left out. Mirrors `src/runtime.ts` of the plugin's names encoding.
+ * Hydrate a file descriptor from a nested array in which real oneof members
+ * and public / weak imports are marked by name and synthetic oneofs are left
+ * out. The markers are resolved while the bytes are rebuilt, and the bytes
+ * go to `fileDesc` from `@bufbuild/protobuf/codegenv2` as base64, so that
+ * hydration is exactly upstream's.
  */
 export function fileDesc(tree: DescTree, imports: DescFile[] = []): DescFile {
-  return hydrateProto(
-    fromBinary(FileDescriptorProtoSchema, fromTree(tree)),
-    imports,
-    restoreInlineNames,
+  const bytes = fromNamedTree(
+    tree,
+    imports.map((f) => f.proto.name),
   );
+  return codegenFileDesc(base64Encode(bytes, "std_raw"), imports);
 }
 
 type AnyDesc = DescMessage | DescEnum | DescService | DescExtension;

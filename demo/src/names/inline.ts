@@ -14,7 +14,7 @@ import { restoreSyntheticOneofs, stripSyntheticOneofs } from "./table.js";
 // FieldDescriptorProto and FileDescriptorProto declare no extension ranges,
 // so these numbers never carry real data.
 /** On a field: the name of its real oneof, instead of `oneof_index`. */
-const ONEOF = 536870911;
+export const ONEOF = 536870911;
 /** On the file: a public import's file name, instead of `public_dependency`. */
 export const PUBLIC_DEPENDENCY = 536870910;
 /** On the file: a weak import's file name, instead of `weak_dependency`. */

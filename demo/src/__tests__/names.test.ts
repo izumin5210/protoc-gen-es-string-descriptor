@@ -197,6 +197,19 @@ describe("names runtime", () => {
     expect(bytes(call("b-index-manifest-numbers"))).toEqual(bytes(original));
   });
 
+  it("throws on a oneof marker that does not resolve", () => {
+    const { path, imports } = sources[1];
+    const [file] = generate(bufBuild(testdataDir, path), [path]);
+    const content = file.content["b-names"].replace(
+      '"\\xfa\\xff\\xff\\xff\\x0f\\x04kind",',
+      '"\\xfa\\xff\\xff\\xff\\x0f\\x04gone",',
+    );
+    const { arg } = parseFileDescCall(extractDescriptorExpr(content), "names");
+    expect(() =>
+      fileDesc(arg as Parameters<typeof fileDesc>[0], imports),
+    ).toThrow(/unresolved oneof Collide.gone/);
+  });
+
   it.each(sources)("looks up every element of $path by name", ({
     path,
     imports,
