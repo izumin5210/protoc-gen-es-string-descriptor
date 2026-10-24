@@ -25,50 +25,39 @@ import { nestedTypes, protoCamelCase } from "@bufbuild/protobuf/reflect";
 import {
   type DescriptorProto,
   FieldDescriptorProtoSchema,
-  type FileDescriptorProto,
   FileDescriptorProtoSchema,
 } from "@bufbuild/protobuf/wkt";
 import { jsStringToBytes } from "./escape.js";
-import { type NameEntry, restoreNames } from "./names.js";
+import { restoreNames } from "./names.js";
 import { type DescTree, fromTree } from "./tree.js";
 
-export type { DescTree, NameEntry };
+export type { DescTree };
 
 /**
  * Hydrate a file descriptor, like `fileDesc` from
  * `@bufbuild/protobuf/codegenv2`.
  *
  * - `desc` is a {@link DescTree}, or the raw byte string that earlier
- *   versions of this plugin emitted.
+ *   versions of this plugin emitted. In a {@link DescTree}, real oneof
+ *   members and public / weak imports are marked by name, and synthetic
+ *   oneofs of proto3 `optional` fields are left out; both are restored here.
  * - `imports` are the files this file imports, in import order.
- * - `names` refers by name to what the descriptor would otherwise say by
- *   position: members of real oneofs, and public / weak imports. Synthetic
- *   oneofs of proto3 `optional` fields are re-created. Only used with a
- *   {@link DescTree}.
  */
 export function fileDesc(
   desc: string | DescTree,
   imports: DescFile[] = [],
-  names: readonly NameEntry<DescFile>[] = [],
 ): DescFile {
-  if (typeof desc === "string") {
-    return hydrate(
-      fromBinary(FileDescriptorProtoSchema, jsStringToBytes(desc)),
-      imports,
-    );
-  }
-  const file = fromBinary(FileDescriptorProtoSchema, fromTree(desc));
-  restoreNames(file, names, imports);
-  return hydrate(file, imports);
-}
-
-/**
- * What `fileDesc` from `@bufbuild/protobuf/codegenv2` does after decoding
- * base64, without encoding the bytes to base64 first.
- */
-function hydrate(root: FileDescriptorProto, imports: DescFile[]): DescFile {
+  const root =
+    typeof desc === "string"
+      ? fromBinary(FileDescriptorProtoSchema, jsStringToBytes(desc))
+      : fromBinary(FileDescriptorProtoSchema, fromTree(desc));
   root.messageType.forEach(restoreJsonNames);
   root.dependency = imports.map((f) => f.proto.name);
+  if (typeof desc !== "string") {
+    restoreNames(root);
+  }
+  // What `fileDesc` from `@bufbuild/protobuf/codegenv2` does after decoding
+  // base64, without encoding the bytes to base64 first.
   const registry = createFileRegistry(root, (name) =>
     imports.find((f) => f.proto.name === name),
   );

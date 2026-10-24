@@ -45,7 +45,6 @@ export const file_simple: GenFile = /*@__PURE__*/
  ]],
  "b\x06proto3",
 ], [
-], [
 ]);
 export type _numbers_testdata_User = {
   1: "name";

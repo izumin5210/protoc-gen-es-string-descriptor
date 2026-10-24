@@ -80,7 +80,6 @@ export const file_editions: GenFile = /*@__PURE__*/
  "b\beditions",
  "p\xe8\x07",
 ], [
-], [
 ]);
 export type _numbers_testdata_EditionsMessage = {
   1: "name";

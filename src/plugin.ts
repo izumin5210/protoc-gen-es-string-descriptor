@@ -17,12 +17,11 @@ export const plugin = {
     for (const file of response.file) {
       if (file.content) {
         const ext = /\.(d\.ts|ts|js)$/.exec(file.name)?.[1];
-        // Number types are erased from JavaScript, so `.js` gets none.
-        const source =
-          ext === "js"
-            ? undefined
-            : sources.get(file.name.slice(0, -(ext?.length ?? 0) - 1));
-        file.content = transformFileContent(file.content, source);
+        file.content = transformFileContent(file.content, {
+          source: sources.get(file.name.slice(0, -(ext?.length ?? 0) - 1)),
+          // Number types are erased from JavaScript, so `.js` gets none.
+          numberTypes: ext !== "js",
+        });
       }
     }
     return response;

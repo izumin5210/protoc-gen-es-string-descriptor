@@ -38,12 +38,11 @@ export const file_public_import: GenFile = /*@__PURE__*/
   ]],
  ]],
  "b\x06proto3",
+ "\xf2\xff\xff\xff\x0f\vdep/b.proto",
 ], [
  file_dep_a,
  file_dep_b,
  file_google_protobuf_timestamp,
-], [
- ["public", file_dep_b],
 ]);
 export type _numbers_testdata_Envelope = {
   1: "a";

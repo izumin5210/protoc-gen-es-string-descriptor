@@ -37,11 +37,11 @@ export const file_optional: GenFile = /*@__PURE__*/
   ]],
   ["\x12", [
    "\n\x05email",
-   "\x18\x06 \x01(\t",
+   "\x18\x06 \x01(\t\xfa\xff\xff\xff\x0f\x07contact",
   ]],
   ["\x12", [
    "\n\x05phone",
-   "\x18\x07 \x01(\t",
+   "\x18\x07 \x01(\t\xfa\xff\xff\xff\x0f\x07contact",
   ]],
   ["\x12", [
    "\n\x06parent",
@@ -62,9 +62,6 @@ export const file_optional: GenFile = /*@__PURE__*/
  ]],
  "b\x06proto3",
 ], [
-], [
- ["oneof", "Profile.email", "contact"],
- ["oneof", "Profile.phone", "contact"],
 ]);
 export type _numbers_testdata_Profile = {
   1: "id";

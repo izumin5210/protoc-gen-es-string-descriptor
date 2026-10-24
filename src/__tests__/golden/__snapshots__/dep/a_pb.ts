@@ -22,7 +22,6 @@ export const file_dep_a: GenFile = /*@__PURE__*/
  ]],
  "b\x06proto3",
 ], [
-], [
 ]);
 export type _numbers_testdata_dep_A = {
   1: "id";

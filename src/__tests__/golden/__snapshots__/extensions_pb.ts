@@ -77,7 +77,6 @@ export const file_extensions: GenFile = /*@__PURE__*/
  ]],
 ], [
  file_google_protobuf_descriptor,
-], [
 ]);
 export type _numbers_testdata_Extendable = {
   1: "id";

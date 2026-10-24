@@ -44,7 +44,6 @@ export const file_simple = /*@__PURE__*/
  ]],
  "b\x06proto3",
 ], [
-], [
 ]);
 
 /**

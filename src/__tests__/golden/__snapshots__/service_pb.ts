@@ -51,7 +51,6 @@ export const file_service: GenFile = /*@__PURE__*/
  "b\x06proto3",
 ], [
  file_google_protobuf_empty,
-], [
 ]);
 export type _numbers_testdata_HelloRequest = {
   1: "name";

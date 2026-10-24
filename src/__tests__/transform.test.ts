@@ -80,7 +80,9 @@ describe("transformFileContent", () => {
   });
 
   it("rewrites a .ts file", () => {
-    expect(transformFileContent(generatedTs, proto)).toBe(
+    expect(
+      transformFileContent(generatedTs, { source: proto, numberTypes: true }),
+    ).toBe(
       `import type { GenFile } from "@bufbuild/protobuf/codegenv2";
 import { tsEnum } from "@bufbuild/protobuf/codegenv2";
 import { enumDesc, fileDesc, messageDesc, serviceDesc } from "protoc-gen-es-string-descriptor";
@@ -142,10 +144,9 @@ export const file_m: GenFile = /*@__PURE__*/
  ["2", [
   "\\n\\vUserService",
  ]],
+ "\\xf2\\xff\\xff\\xff\\x0f\\tdep.proto",
 ], [
  file_dep,
-], [
- ["public", file_dep],
 ]);
 export type _numbers_example_v1_User = {
   1: "id";
@@ -173,8 +174,8 @@ export const UserService = /*@__PURE__*/
     );
   });
 
-  it("emits no number types without a source file, as for .js", () => {
-    const result = transformFileContent(generatedTs);
+  it("emits no number types without numberTypes, as for .js", () => {
+    const result = transformFileContent(generatedTs, { source: proto });
     expect(result).not.toContain("_numbers_");
     expect(result).toContain('messageDesc(file_m, "User.Address")');
   });
@@ -187,7 +188,7 @@ export declare const file_m: GenFile;
 export declare type User = {};
 `;
     expect(
-      transformFileContent(dts, proto),
+      transformFileContent(dts, { source: proto, numberTypes: true }),
     ).toBe(`import type { GenFile } from "@bufbuild/protobuf/codegenv2";
 
 export declare const file_m: GenFile;
@@ -217,16 +218,14 @@ export declare type User = {};
 fileDesc([
  "\\n\\x07e.proto",
 ], [
-], [
 ]);
 `,
     );
   });
 
-  it("fails rather than emit a descriptor that does not hydrate", () => {
-    // A public import that is not in the imports.
+  it("needs the source file for the names of public imports", () => {
     expect(() => transformFileContent(fileDescCall(proto, ""))).toThrow(
-      "unresolved public import in m.proto",
+      "m.proto: no file name for import 0",
     );
   });
 
@@ -248,9 +247,12 @@ fileDesc([
       name: "e.proto",
       messageType: [{ name: "M" }],
     });
-    expect(transformFileContent(fileDescCall(file, ""), file)).toContain(
-      "export type _numbers_M = {\n};\n",
-    );
+    expect(
+      transformFileContent(fileDescCall(file, ""), {
+        source: file,
+        numberTypes: true,
+      }),
+    ).toContain("export type _numbers_M = {\n};\n");
   });
 
   it("throws for a path that names no element", () => {

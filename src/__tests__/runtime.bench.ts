@@ -8,12 +8,12 @@ import { nestedTypes } from "@bufbuild/protobuf/reflect";
 import { base64Encode } from "@bufbuild/protobuf/wire";
 import { FileDescriptorProtoSchema } from "@bufbuild/protobuf/wkt";
 import { bench, describe } from "vitest";
-import { extractNames, restoreNames } from "../names.js";
+import { embedNames, restoreNames } from "../names.js";
 import { fileDesc, messageDesc } from "../runtime.js";
 import { evaluateTree, fromTree, toTree } from "../tree.js";
 import { bufBuildFiles } from "./helpers.js";
 
-// A large proto3 file with the features that the name table and synthetic
+// A large proto3 file with the features that the name markers and synthetic
 // oneofs cover: 300 messages of 16 fields, 3 of them optional and 2 in a
 // oneof.
 const proto = [
@@ -51,7 +51,7 @@ const bytes = toBinary(FileDescriptorProtoSchema, embedded);
 const b64 = base64Encode(bytes, "std_raw");
 const raw = Array.from(bytes, (b) => String.fromCharCode(b)).join("");
 const stripped = clone(FileDescriptorProtoSchema, embedded);
-const names = extractNames(stripped, []);
+embedNames(stripped, []);
 const tree = evaluateTree(
   toTree(toBinary(FileDescriptorProtoSchema, stripped)),
 );
@@ -63,31 +63,24 @@ describe(`fileDesc (${bytes.length} bytes, 300 messages)`, () => {
   bench("fileDesc(raw byte string), as earlier versions generate", () => {
     fileDesc(raw);
   });
-  bench("fileDesc(tree, imports, names)", () => {
-    fileDesc(tree, [], names);
+  bench("fileDesc(tree, imports)", () => {
+    fileDesc(tree, []);
   });
-  bench(
-    "fileDesc(tree, imports, names) via toBinary + base64 into codegenv2",
-    () => {
-      const file = fromBinary(FileDescriptorProtoSchema, fromTree(tree));
-      restoreNames(file, names, []);
-      originalFileDesc(
-        base64Encode(toBinary(FileDescriptorProtoSchema, file), "std_raw"),
-      );
-    },
-  );
+  bench("fileDesc(tree, imports) via toBinary + base64 into codegenv2", () => {
+    const file = fromBinary(FileDescriptorProtoSchema, fromTree(tree));
+    restoreNames(file);
+    originalFileDesc(
+      base64Encode(toBinary(FileDescriptorProtoSchema, file), "std_raw"),
+    );
+  });
 });
 
-describe("steps of fileDesc(tree, imports, names)", () => {
+describe("steps of fileDesc(tree, imports)", () => {
   bench("fromTree", () => {
     fromTree(tree);
   });
   bench("fromTree + fromBinary + restoreNames", () => {
-    restoreNames(
-      fromBinary(FileDescriptorProtoSchema, fromTree(tree)),
-      names,
-      [],
-    );
+    restoreNames(fromBinary(FileDescriptorProtoSchema, fromTree(tree)));
   });
 });
 

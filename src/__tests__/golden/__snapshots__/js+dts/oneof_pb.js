@@ -21,18 +21,19 @@ export const file_oneof = /*@__PURE__*/
    "\n\x05click",
    "\x18\x02 \x01(\v",
    "2\x15.testdata.Event.Click",
+   "\xfa\xff\xff\xff\x0f\x04kind",
   ]],
   ["\x12", [
    "\n\x04view",
-   "\x18\x03 \x01(\t",
+   "\x18\x03 \x01(\t\xfa\xff\xff\xff\x0f\x04kind",
   ]],
   ["\x12", [
    "\n\x03web",
-   "\x18\x04 \x01(\t",
+   "\x18\x04 \x01(\t\xfa\xff\xff\xff\x0f\x06source",
   ]],
   ["\x12", [
    "\n\x03app",
-   "\x18\x05 \x01(\x05",
+   "\x18\x05 \x01(\x05\xfa\xff\xff\xff\x0f\x06source",
   ]],
   ["\x12", [
    "\n\x04note",
@@ -50,11 +51,11 @@ export const file_oneof = /*@__PURE__*/
    ]],
    ["\x12", [
     "\n\x06button",
-    "\x18\x03 \x01(\t",
+    "\x18\x03 \x01(\t\xfa\xff\xff\xff\x0f\x06target",
    ]],
    ["\x12", [
     "\n\x04link",
-    "\x18\x04 \x01(\t",
+    "\x18\x04 \x01(\t\xfa\xff\xff\xff\x0f\x06target",
    ]],
    ["B", [
     "\n\x06target",
@@ -69,13 +70,6 @@ export const file_oneof = /*@__PURE__*/
  ]],
  "b\x06proto3",
 ], [
-], [
- ["oneof", "Event.click", "kind"],
- ["oneof", "Event.view", "kind"],
- ["oneof", "Event.web", "source"],
- ["oneof", "Event.app", "source"],
- ["oneof", "Event.Click.button", "target"],
- ["oneof", "Event.Click.link", "target"],
 ]);
 
 /**

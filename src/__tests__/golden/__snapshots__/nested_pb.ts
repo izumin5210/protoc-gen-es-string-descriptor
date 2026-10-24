@@ -89,7 +89,6 @@ export const file_nested: GenFile = /*@__PURE__*/
  ]],
  "b\x06proto3",
 ], [
-], [
 ]);
 export type _numbers_testdata_Outer = {
   1: "name";

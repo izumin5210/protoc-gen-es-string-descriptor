@@ -99,7 +99,6 @@ export const file_map: GenFile = /*@__PURE__*/
  ]],
  "b\x06proto3",
 ], [
-], [
 ]);
 export type _numbers_testdata_Inventory = {
   1: "counts";

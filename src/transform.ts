@@ -6,7 +6,7 @@ import {
   type FileDescriptorProto,
   FileDescriptorProtoSchema,
 } from "@bufbuild/protobuf/wkt";
-import { extractNames, type NameEntry, restoreNames } from "./names.js";
+import { embedNames, restoreNames } from "./names.js";
 import {
   evaluateTree,
   fromTree,
@@ -31,22 +31,34 @@ const MOVED_IMPORTS = [
   "extDesc",
 ];
 
+export interface TransformOptions {
+  /**
+   * The `.proto` file that the code was generated from. Required for the
+   * names of public and weak imports, and for number types.
+   */
+  source?: FileDescriptorProto;
+  /** Emit number types; leave them out for `.js`. */
+  numberTypes?: boolean;
+}
+
 /**
  * Rewrite protoc-gen-es output:
  *
- * - `fileDesc("base64", [deps])` becomes `fileDesc(tree, deps, names)`, where
- *   `tree` is the descriptor as a length-less nested array, `deps` has one
- *   import per line, and `names` refers by name to what the descriptor says
- *   by position;
+ * - `fileDesc("base64", [deps])` becomes `fileDesc(tree, [deps])`, where
+ *   `tree` is the descriptor as a length-less nested array that marks real
+ *   oneof members and public / weak imports by name, and `deps` has one
+ *   import per line;
  * - `messageDesc(file, 0, 1)` & co refer to the element by name;
- * - with `numberTypesFor`, a type keyed by number is emitted per message and
- *   enum, after `fileDesc(...)` in `.ts` and after the `GenFile` declaration
- *   in `.d.ts`.
+ * - with `numberTypes`, a type keyed by number is emitted per message and
+ *   enum of `source`, after `fileDesc(...)` in `.ts` and after the `GenFile`
+ *   declaration in `.d.ts`.
  */
 export function transformFileContent(
   content: string,
-  numberTypesFor?: FileDescriptorProto,
+  { source, numberTypes = false }: TransformOptions = {},
 ): string {
+  const types =
+    numberTypes && source !== undefined ? renderNumberTypes(source) : "";
   const match = FILE_DESC_RE.exec(content);
   if (match !== null) {
     const [statement, b64, deps = ""] = match;
@@ -57,7 +69,13 @@ export function transformFileContent(
       .filter(Boolean);
     const embedded = fromBinary(FileDescriptorProtoSchema, bytes);
     const paths = elementNames(embedded);
-    const replaced = `fileDesc(${renderFileDescArgs(bytes, embedded, imports)});\n${renderNumberTypes(numberTypesFor)}`;
+    const args = renderFileDescArgs(
+      bytes,
+      embedded,
+      imports,
+      source?.dependency ?? [],
+    );
+    const replaced = `fileDesc(${args});\n${types}`;
     const body =
       `${content.slice(0, match.index)}${replaced}${content.slice(match.index + statement.length)}`.replace(
         DESC_CALL_RE,
@@ -72,9 +90,9 @@ export function transformFileContent(
     return moveImports(body);
   }
   const decl = FILE_DECL_RE.exec(content);
-  if (decl !== null && numberTypesFor !== undefined) {
+  if (decl !== null) {
     const end = decl.index + decl[0].length;
-    return `${content.slice(0, end)}${renderNumberTypes(numberTypesFor)}${content.slice(end)}`;
+    return `${content.slice(0, end)}${types}${content.slice(end)}`;
   }
   return content;
 }
@@ -83,23 +101,17 @@ function renderFileDescArgs(
   bytes: Uint8Array,
   embedded: FileDescriptorProto,
   imports: string[],
+  dependency: readonly string[],
 ): string {
   const file = clone(FileDescriptorProtoSchema, embedded);
-  const names = extractNames(file, imports);
+  embedNames(file, dependency);
   const tree = toTree(toBinary(FileDescriptorProtoSchema, file));
-  assertRestorable(bytes, embedded.name, tree, names, imports);
-  const entries = names.map(([kind, ...rest]) => {
-    // Imports are referred to by the identifier of the imported file.
-    const args = kind === "oneof" ? rest.map((s) => JSON.stringify(s)) : rest;
-    return ` [${[JSON.stringify(kind), ...args].join(", ")}],`;
-  });
+  assertRestorable(bytes, embedded.name, tree, dependency);
   return [
     "[",
     ...renderTree(tree),
     "], [",
     ...imports.map((name) => ` ${name},`),
-    "], [",
-    ...entries,
     "]",
   ].join("\n");
 }
@@ -113,14 +125,16 @@ function assertRestorable(
   bytes: Uint8Array,
   fileName: string,
   tree: TreeItem[],
-  names: NameEntry<string>[],
-  imports: string[],
+  dependency: readonly string[],
 ): void {
   const restored = fromBinary(
     FileDescriptorProtoSchema,
     fromTree(evaluateTree(tree)),
   );
-  restoreNames(restored, names, imports);
+  restored.dependency = [...dependency];
+  restoreNames(restored);
+  // protoc-gen-es leaves the imports out of the embedded descriptor.
+  restored.dependency = [];
   const actual = toBinary(FileDescriptorProtoSchema, restored);
   if (
     actual.length !== bytes.length ||
@@ -176,10 +190,7 @@ function elementNames(file: FileDescriptorProto) {
  * the types are erased from JavaScript. Map entries and enums with
  * `allow_alias` are left out. Exported so that `noUnusedLocals` allows them.
  */
-function renderNumberTypes(file: FileDescriptorProto | undefined): string {
-  if (file === undefined) {
-    return "";
-  }
+function renderNumberTypes(file: FileDescriptorProto): string {
   const lines: string[] = [];
   const taken = new Set<string>();
   const emit = (scope: string, entries: [number, string][]) => {

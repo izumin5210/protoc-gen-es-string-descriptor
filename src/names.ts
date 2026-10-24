@@ -1,4 +1,10 @@
-import { clearField, create, isFieldSet } from "@bufbuild/protobuf";
+import {
+  clearField,
+  create,
+  isFieldSet,
+  type Message,
+} from "@bufbuild/protobuf";
+import { BinaryReader, BinaryWriter, WireType } from "@bufbuild/protobuf/wire";
 import {
   type DescriptorProto,
   FieldDescriptorProtoSchema,
@@ -6,50 +12,88 @@ import {
   OneofDescriptorProtoSchema,
 } from "@bufbuild/protobuf/wkt";
 
-/**
- * What the descriptor would otherwise say by position. `T` is how an import
- * is referred to: the imported file object at runtime, its identifier in the
- * plugin.
- */
-export type NameEntry<T> =
-  | readonly ["oneof", member: string, oneof: string]
-  | readonly ["public" | "weak", file: T];
+// Markers that say by name what the descriptor would otherwise say by
+// position. They are unknown fields with the largest field numbers;
+// FieldDescriptorProto and FileDescriptorProto declare no extension ranges,
+// so these numbers never carry real data.
+/** On a field: the name of its real oneof, instead of `oneof_index`. */
+const ONEOF = 536870911;
+/** On the file: a public import's file name, instead of `public_dependency`. */
+const PUBLIC_DEPENDENCY = 536870910;
+/** On the file: a weak import's file name, instead of `weak_dependency`. */
+const WEAK_DEPENDENCY = 536870909;
 
 /**
- * Move what the descriptor says by position into name entries: real oneof
- * members and public / weak imports. Synthetic oneofs are dropped, since
- * {@link restoreNames} re-creates them. Mutates `file`.
+ * Replace what the descriptor says by position with markers that say it by
+ * name: real oneof members and public / weak imports. `dependency` lists the
+ * imported file names, which the embedded descriptor leaves out. Synthetic
+ * oneofs are dropped, since {@link restoreNames} re-creates them. Mutates
+ * `file`.
  */
-export function extractNames<T>(
+export function embedNames(
   file: FileDescriptorProto,
-  imports: readonly T[],
-): NameEntry<T>[] {
+  dependency: readonly string[],
+): void {
   file.messageType.forEach(stripSyntheticOneofs);
-  const names: NameEntry<T>[] = [];
-  const walk = (list: DescriptorProto[], prefix: string) => {
+  const walk = (list: DescriptorProto[]) => {
     for (const message of list) {
-      const name = `${prefix}${message.name}`;
       for (const field of message.field) {
         // An unset oneof_index reads as 0, so check presence.
         if (isFieldSet(field, FieldDescriptorProtoSchema.field.oneofIndex)) {
-          const oneof = message.oneofDecl[field.oneofIndex];
-          names.push(["oneof", `${name}.${field.name}`, oneof.name]);
+          addMarker(field, ONEOF, message.oneofDecl[field.oneofIndex].name);
           clearField(field, FieldDescriptorProtoSchema.field.oneofIndex);
         }
       }
-      walk(message.nestedType, `${name}.`);
+      walk(message.nestedType);
     }
   };
-  walk(file.messageType, "");
-  for (const i of file.publicDependency) {
-    names.push(["public", imports[i]]);
-  }
-  for (const i of file.weakDependency) {
-    names.push(["weak", imports[i]]);
+  walk(file.messageType);
+  const imports = [
+    [PUBLIC_DEPENDENCY, file.publicDependency],
+    [WEAK_DEPENDENCY, file.weakDependency],
+  ] as const;
+  for (const [no, indices] of imports) {
+    for (const i of indices) {
+      if (dependency[i] === undefined) {
+        throw new Error(`${file.name}: no file name for import ${i}`);
+      }
+      addMarker(file, no, dependency[i]);
+    }
   }
   file.publicDependency = [];
   file.weakDependency = [];
-  return names;
+}
+
+function addMarker(message: Message, no: number, value: string): void {
+  message.$unknown = [
+    ...(message.$unknown ?? []),
+    {
+      no,
+      wireType: WireType.LengthDelimited,
+      // The payload with its length prefix, but without the tag.
+      data: new BinaryWriter().string(value).finish(),
+    },
+  ];
+}
+
+/** Remove the markers numbered `no` from `message` and return their values. */
+function takeMarkers(message: Message, no: number): string[] {
+  const values: string[] = [];
+  const rest = (message.$unknown ?? []).filter((u) => {
+    if (u.no !== no || u.wireType !== WireType.LengthDelimited) {
+      return true;
+    }
+    values.push(new BinaryReader(u.data).string());
+    return false;
+  });
+  if (values.length > 0) {
+    if (rest.length > 0) {
+      message.$unknown = rest;
+    } else {
+      delete message.$unknown;
+    }
+  }
+  return values;
 }
 
 function stripSyntheticOneofs(message: DescriptorProto): void {
@@ -72,51 +116,49 @@ function stripSyntheticOneofs(message: DescriptorProto): void {
 }
 
 /**
- * Put back what {@link extractNames} moved out: `oneof_index` of real oneof
- * members, `public_dependency` / `weak_dependency`, and the synthetic oneofs.
- * Throws if an entry does not resolve, e.g. after a bad merge.
+ * Turn the markers of {@link embedNames} back into `oneof_index`,
+ * `public_dependency` and `weak_dependency`, and re-create the synthetic
+ * oneofs. `file.dependency` must already be set. Throws if a marker does not
+ * resolve, e.g. after a bad merge.
  */
-export function restoreNames<T>(
-  file: FileDescriptorProto,
-  names: readonly NameEntry<T>[],
-  imports: readonly T[],
-): void {
-  const messages = new Map<string, DescriptorProto>();
-  const collect = (list: DescriptorProto[], prefix: string) => {
-    for (const message of list) {
-      const name = `${prefix}${message.name}`;
-      messages.set(name, message);
-      collect(message.nestedType, `${name}.`);
-    }
-  };
-  collect(file.messageType, "");
-  for (const entry of names) {
-    if (entry[0] === "oneof") {
-      const [, member, oneofName] = entry;
-      const cut = member.lastIndexOf(".");
-      const message = messages.get(member.slice(0, cut));
-      const field = message?.field.find(
-        (f) => f.name === member.slice(cut + 1),
-      );
-      const index =
-        message?.oneofDecl.findIndex((o) => o.name === oneofName) ?? -1;
-      if (field === undefined || index < 0) {
-        throw new Error(`unresolved oneof member ${member} -> ${oneofName}`);
-      }
-      field.oneofIndex = index;
-    } else {
-      const index = imports.indexOf(entry[1]);
+export function restoreNames(file: FileDescriptorProto): void {
+  const imports = [
+    [PUBLIC_DEPENDENCY, file.publicDependency, "public"],
+    [WEAK_DEPENDENCY, file.weakDependency, "weak"],
+  ] as const;
+  for (const [no, indices, kind] of imports) {
+    for (const name of takeMarkers(file, no)) {
+      const index = file.dependency.indexOf(name);
       if (index < 0) {
-        throw new Error(`unresolved ${entry[0]} import in ${file.name}`);
+        throw new Error(`${file.name}: unresolved ${kind} import ${name}`);
       }
-      (entry[0] === "public"
-        ? file.publicDependency
-        : file.weakDependency
-      ).push(index);
+      indices.push(index);
     }
   }
-  file.publicDependency.sort((a, b) => a - b);
-  file.weakDependency.sort((a, b) => a - b);
+  const walk = (list: DescriptorProto[], prefix: string) => {
+    for (const message of list) {
+      const name = `${prefix}${message.name}`;
+      for (const field of message.field) {
+        const oneofs = takeMarkers(field, ONEOF);
+        if (oneofs.length > 1) {
+          throw new Error(`${name}.${field.name} is in several oneofs`);
+        }
+        if (oneofs.length === 1) {
+          const index = message.oneofDecl.findIndex(
+            (o) => o.name === oneofs[0],
+          );
+          if (index < 0) {
+            throw new Error(
+              `unresolved oneof member ${name}.${field.name} -> ${oneofs[0]}`,
+            );
+          }
+          field.oneofIndex = index;
+        }
+      }
+      walk(message.nestedType, `${name}.`);
+    }
+  };
+  walk(file.messageType, "");
   file.messageType.forEach(restoreSyntheticOneofs);
 }
 
