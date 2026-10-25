@@ -72,7 +72,7 @@ The plugin runs protoc-gen-es and rewrites its output.
    - Synthetic oneofs of proto3 `optional` fields are left out and re-created on load, named the way protoc names them.
    - A member of a real oneof carries the oneof's name instead of `oneof_index`, and the file carries the file names of public and weak imports instead of `public_dependency` / `weak_dependency`. These markers are written into the descriptor itself, as unknown fields; see below.
 3. **Imports are listed one per line.** With names in place, their order no longer matters.
-4. **A type keyed by number is emitted per message and enum**, e.g. `_numbers_testdata_User` above. If a merge produces two fields or enum values with the same number, TypeScript reports `TS2300: Duplicate identifier '3'`. The types are emitted in `.ts` and `.d.ts` files, but not in `.js` files, and they are exported so that `noUnusedLocals` accepts them. Enums with `allow_alias` are left out.
+4. **Duplicate-number guard types.** A type keyed by number is emitted per message and enum, e.g. `_numbers_testdata_User` above. If a merge produces two fields or enum values with the same number, TypeScript reports `TS2300: Duplicate identifier '3'`. The types are emitted in `.ts` and `.d.ts` files, but not in `.js` files, and they are exported so that `noUnusedLocals` accepts them. Enums with `allow_alias` are left out.
 
 `fileDesc`, `messageDesc`, `enumDesc`, `serviceDesc` and `extDesc` are imported from this package instead of `@bufbuild/protobuf/codegenv2`. Other imports, such as `tsEnum`, stay as they are.
 
@@ -159,7 +159,7 @@ For a 105 KB descriptor with 300 messages, hydrating takes about 3–4 ms (rough
 
 ## Limitations
 
-- Number types only catch duplicate numbers if the generated code is type-checked. With `target=js+dts` they are in `.d.ts` files, which `skipLibCheck: true` skips.
+- Duplicate-number guard types only catch duplicate numbers if the generated code is type-checked. With `target=js+dts` they are in `.d.ts` files, which `skipLibCheck: true` skips.
 - If one branch adds a map field and another adds a nested message to the same message, the generated code still conflicts: map entries are nested messages in the descriptor, so the two additions end up next to each other.
 - Fewer conflicts do not make generated code a source of truth. CI should still regenerate the code and check that it matches.
 

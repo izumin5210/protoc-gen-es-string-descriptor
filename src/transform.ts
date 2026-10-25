@@ -34,10 +34,10 @@ const MOVED_IMPORTS = [
 export interface TransformOptions {
   /**
    * The `.proto` file that the code was generated from. Required for the
-   * names of public and weak imports, and for number types.
+   * names of public and weak imports, and for duplicate-number guard types.
    */
   source?: FileDescriptorProto;
-  /** Emit number types; leave them out for `.js`. */
+  /** Emit duplicate-number guard types; leave them out for `.js`. */
   numberTypes?: boolean;
 }
 

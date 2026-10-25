@@ -19,7 +19,7 @@ export const plugin = {
         const ext = /\.(d\.ts|ts|js)$/.exec(file.name)?.[1];
         file.content = transformFileContent(file.content, {
           source: sources.get(file.name.slice(0, -(ext?.length ?? 0) - 1)),
-          // Number types are erased from JavaScript, so `.js` gets none.
+          // Duplicate-number guard types are erased from JavaScript, so `.js` gets none.
           numberTypes: ext !== "js",
         });
       }

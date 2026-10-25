@@ -30,13 +30,13 @@ protocGenEs.run(request)        # Run original protoc-gen-es
     2. Render the descriptor as a nested array (tree.ts) and check that it
        restores to the original bytes
     3. Rewrite messageDesc(file, 0, 1) & co to names
-    4. Emit number types after fileDesc (.ts) or the GenFile declaration (.d.ts)
+    4. Emit duplicate-number guard types (`_numbers_*`) after fileDesc (.ts) or the GenFile declaration (.d.ts)
     5. Import fileDesc & co from this package instead of codegenv2
 ```
 
 ### Key modules
 
-- **`plugin.ts`** — Wraps `protocGenEs`, maps each output file to its source proto for number types (none for `.js`)
+- **`plugin.ts`** — Wraps `protocGenEs`, maps each output file to its source proto for duplicate-number guard types (none for `.js`)
 - **`transform.ts`** — Rewrites one generated file
 - **`tree.ts`** — `toTree` / `renderTree` (bytes → nested array literal) and `fromTree` (nested array → the bytes protoc-gen-es embeds, restoring the name markers and synthetic oneofs at the byte level)
 - **`names.ts`** — `embedNames`: replaces positions with name markers and drops synthetic oneofs (plugin only)
@@ -50,7 +50,7 @@ protocGenEs.run(request)        # Run original protoc-gen-es
 - **Unit tests** (`tree.test.ts`, `restore.test.ts`, `names.test.ts`, `escape.test.ts`, `transform.test.ts`, `runtime.test.ts`): Direct function testing with no mocks.
 - **Golden tests** (`golden/golden.test.ts`): `buf build` the protos in `golden/testdata` → run the plugin → compare with `toMatchFileSnapshot()` in `__snapshots__/`. Also evaluates the generated code next to protoc-gen-es output and compares every exported descriptor. Update snapshots with `pnpm vitest run -u`.
 - **Merge tests** (`merge/merge.test.ts`): `git merge-file` generated code of the scenarios in `merge/scenarios/` and compare with regenerated code, or expect a `tsc` error when the merged `.proto` is invalid.
-- **Number types** (`number-types.test.ts`): Type-check generated code with the `tsc` command line.
+- **Duplicate-number guard types** (`number-types.test.ts`): Type-check generated code with the `tsc` command line.
 - Generated code that must resolve this repository's packages is written to `.tmp/` (gitignored). Vitest resolves `protoc-gen-es-string-descriptor` to `src/runtime.ts`.
 
 ## Conventions
