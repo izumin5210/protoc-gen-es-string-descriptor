@@ -165,7 +165,7 @@ For a 105 KB descriptor with 300 messages, hydrating takes about 3–4 ms (rough
 
 ## Design decisions
 
-Why the encoding looks the way it does, and which alternatives were rejected: [ADR 0001: Merge-safe embedding of file descriptors](docs/adr/0001-merge-safe-descriptor-embedding.md).
+Why the encoding looks the way it does, and which alternatives were rejected: [ADR 0001: Merge-safe representation of embedded descriptors](docs/adr/0001-merge-safe-descriptor-embedding.md).
 
 ## License
 
