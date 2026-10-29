@@ -1,0 +1,36 @@
+syntax = "proto2";
+
+package testdata;
+
+import "google/protobuf/descriptor.proto";
+
+message Extendable {
+  optional string id = 1;
+  extensions 100 to 199;
+}
+
+extend Extendable {
+  optional string top_level = 100;
+}
+
+message Holder {
+  extend Extendable {
+    optional int32 nested = 101;
+  }
+}
+
+extend google.protobuf.MessageOptions {
+  optional string label = 50001;
+}
+
+message Labeled {
+  option (label) = "hello";
+  optional string name = 1 [default = "unnamed"];
+  required int32 rank = 2;
+}
+
+enum Legacy {
+  option allow_alias = true;
+  LEGACY_A = 0;
+  LEGACY_B = 0;
+}

@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package testdata;
+
+message Profile {
+  string id = 1;
+  optional string nickname = 2;
+  optional int32 age = 3;
+  // Takes the synthetic oneof name of `bio`, which becomes `X_bio`.
+  string _bio = 4;
+  optional string bio = 5;
+  oneof contact {
+    string email = 6;
+    string phone = 7;
+  }
+  optional Profile parent = 8;
+
+  message Settings {
+    optional bool dark_mode = 1;
+  }
+}

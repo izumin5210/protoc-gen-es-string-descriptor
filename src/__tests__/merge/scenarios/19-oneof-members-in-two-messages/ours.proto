@@ -1,0 +1,17 @@
+syntax = "proto3";
+package example.v1;
+
+message Request {
+  string id = 1;
+  oneof target {
+    string topic = 2;
+    string subscription = 3;
+  }
+}
+
+message Response {
+  string id = 1;
+  oneof result {
+    string message = 2;
+  }
+}

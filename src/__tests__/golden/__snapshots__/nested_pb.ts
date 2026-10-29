@@ -2,25 +2,119 @@
 // @generated from file nested.proto (package testdata, syntax proto3)
 /* eslint-disable */
 
-import type { GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
-import { messageDesc } from "@bufbuild/protobuf/codegenv2";
+import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc } from "protoc-gen-es-string-descriptor";
 import type { Message } from "@bufbuild/protobuf";
 
-import { fileDesc } from "protoc-gen-es-string-descriptor";
 /**
  * Describes the file nested.proto.
  */
 export const file_nested: GenFile = /*@__PURE__*/
-  fileDesc("" +
-    "\n" +
-    "\fnested.proto\x12\btestdata\"\x88\x01\n" +
-    "\x05Outer\x12\f\n" +
-    "\x04name\x18\x01 \x01(\t\x12$\n" +
-    "\x05inner\x18\x02 \x01(\v2\x15.testdata.Outer.Inner\x12$\n" +
-    "\x05items\x18\x03 \x03(\v2\x15.testdata.Outer.Inner\x1a%\n" +
-    "\x05Inner\x12\r\n" +
-    "\x05value\x18\x01 \x01(\t\x12\r\n" +
-    "\x05count\x18\x02 \x01(\x05b\x06proto3\xd2\xf6\x03\x04\b\x00\x18\x00");
+  fileDesc([
+ "\n\fnested.proto",
+ "\x12\btestdata",
+ ["\"", [
+  "\n\x05Outer",
+  ["\x12", [
+   "\n\x04name",
+   "\x18\x01 \x01(\t",
+  ]],
+  ["\x12", [
+   "\n\x05inner",
+   "\x18\x02 \x01(\v",
+   "2\x15.testdata.Outer.Inner",
+  ]],
+  ["\x12", [
+   "\n\x05items",
+   "\x18\x03 \x03(\v",
+   "2\x15.testdata.Outer.Inner",
+  ]],
+  ["\x12", [
+   "\n\x04deep",
+   "\x18\x04 \x01(\v",
+   "2\x1a.testdata.Outer.Inner.Deep",
+  ]],
+  ["\x12", [
+   "\n\x04kind",
+   "\x18\x05 \x01(\x0e",
+   "2\x14.testdata.Outer.Kind",
+  ]],
+  ["\x1a", [
+   "\n\x05Inner",
+   ["\x12", [
+    "\n\x05value",
+    "\x18\x01 \x01(\t",
+   ]],
+   ["\x12", [
+    "\n\x05count",
+    "\x18\x02 \x01(\x05",
+   ]],
+   ["\x1a", [
+    "\n\x04Deep",
+    ["\x12", [
+     "\n\x04flag",
+     "\x18\x01 \x01(\b",
+    ]],
+   ]],
+   ["\"", [
+    "\n\x05Level",
+    ["\x12", [
+     "\n\x11LEVEL_UNSPECIFIED",
+     "\x10\x00",
+    ]],
+    ["\x12", [
+     "\n\nLEVEL_HIGH",
+     "\x10\x01",
+    ]],
+   ]],
+  ]],
+  ["\"", [
+   "\n\x04Kind",
+   ["\x12", [
+    "\n\x10KIND_UNSPECIFIED",
+    "\x10\x00",
+   ]],
+   ["\x12", [
+    "\n\x06KIND_A",
+    "\x10\x01",
+   ]],
+  ]],
+ ]],
+ ["\"", [
+  "\n\vOuter_Inner",
+  ["\x12", [
+   "\n\tcollision",
+   "\x18\x01 \x01(\t",
+  ]],
+ ]],
+ "b\x06proto3",
+], [
+]);
+export type _numbers_testdata_Outer = {
+  1: "name";
+  2: "inner";
+  3: "items";
+  4: "deep";
+  5: "kind";
+};
+export type _numbers_testdata_Outer_Kind = {
+  0: "KIND_UNSPECIFIED";
+  1: "KIND_A";
+};
+export type _numbers_testdata_Outer_Inner = {
+  1: "value";
+  2: "count";
+};
+export type _numbers_testdata_Outer_Inner_Level = {
+  0: "LEVEL_UNSPECIFIED";
+  1: "LEVEL_HIGH";
+};
+export type _numbers_testdata_Outer_Inner_Deep = {
+  1: "flag";
+};
+export type _numbers_testdata_Outer_Inner$ = {
+  1: "collision";
+};
 
 /**
  * @generated from message testdata.Outer
@@ -40,6 +134,16 @@ export type Outer = Message<"testdata.Outer"> & {
    * @generated from field: repeated testdata.Outer.Inner items = 3;
    */
   items: Outer_Inner[];
+
+  /**
+   * @generated from field: testdata.Outer.Inner.Deep deep = 4;
+   */
+  deep?: Outer_Inner_Deep;
+
+  /**
+   * @generated from field: testdata.Outer.Kind kind = 5;
+   */
+  kind: Outer_Kind;
 };
 
 /**
@@ -47,7 +151,7 @@ export type Outer = Message<"testdata.Outer"> & {
  * Use `create(OuterSchema)` to create a new message.
  */
 export const OuterSchema: GenMessage<Outer> = /*@__PURE__*/
-  messageDesc(file_nested, 0);
+  messageDesc(file_nested, "Outer");
 
 /**
  * @generated from message testdata.Outer.Inner
@@ -69,5 +173,81 @@ export type Outer_Inner = Message<"testdata.Outer.Inner"> & {
  * Use `create(Outer_InnerSchema)` to create a new message.
  */
 export const Outer_InnerSchema: GenMessage<Outer_Inner> = /*@__PURE__*/
-  messageDesc(file_nested, 0, 0);
+  messageDesc(file_nested, "Outer.Inner");
+
+/**
+ * @generated from message testdata.Outer.Inner.Deep
+ */
+export type Outer_Inner_Deep = Message<"testdata.Outer.Inner.Deep"> & {
+  /**
+   * @generated from field: bool flag = 1;
+   */
+  flag: boolean;
+};
+
+/**
+ * Describes the message testdata.Outer.Inner.Deep.
+ * Use `create(Outer_Inner_DeepSchema)` to create a new message.
+ */
+export const Outer_Inner_DeepSchema: GenMessage<Outer_Inner_Deep> = /*@__PURE__*/
+  messageDesc(file_nested, "Outer.Inner.Deep");
+
+/**
+ * @generated from enum testdata.Outer.Inner.Level
+ */
+export enum Outer_Inner_Level {
+  /**
+   * @generated from enum value: LEVEL_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: LEVEL_HIGH = 1;
+   */
+  HIGH = 1,
+}
+
+/**
+ * Describes the enum testdata.Outer.Inner.Level.
+ */
+export const Outer_Inner_LevelSchema: GenEnum<Outer_Inner_Level> = /*@__PURE__*/
+  enumDesc(file_nested, "Outer.Inner.Level");
+
+/**
+ * @generated from enum testdata.Outer.Kind
+ */
+export enum Outer_Kind {
+  /**
+   * @generated from enum value: KIND_UNSPECIFIED = 0;
+   */
+  UNSPECIFIED = 0,
+
+  /**
+   * @generated from enum value: KIND_A = 1;
+   */
+  A = 1,
+}
+
+/**
+ * Describes the enum testdata.Outer.Kind.
+ */
+export const Outer_KindSchema: GenEnum<Outer_Kind> = /*@__PURE__*/
+  enumDesc(file_nested, "Outer.Kind");
+
+/**
+ * @generated from message testdata.Outer_Inner
+ */
+export type Outer_Inner$ = Message<"testdata.Outer_Inner"> & {
+  /**
+   * @generated from field: string collision = 1;
+   */
+  collision: string;
+};
+
+/**
+ * Describes the message testdata.Outer_Inner.
+ * Use `create(Outer_InnerSchema$)` to create a new message.
+ */
+export const Outer_InnerSchema$: GenMessage<Outer_Inner$> = /*@__PURE__*/
+  messageDesc(file_nested, "Outer_Inner");
 

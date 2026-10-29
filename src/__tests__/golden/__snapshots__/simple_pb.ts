@@ -3,25 +3,59 @@
 /* eslint-disable */
 
 import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv2";
-import { enumDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc } from "protoc-gen-es-string-descriptor";
 import type { Message } from "@bufbuild/protobuf";
 
-import { fileDesc } from "protoc-gen-es-string-descriptor";
 /**
  * Describes the file simple.proto.
  */
 export const file_simple: GenFile = /*@__PURE__*/
-  fileDesc("" +
-    "\n" +
-    "\fsimple.proto\x12\btestdata\"0\n" +
-    "\x04User\x12\f\n" +
-    "\x04name\x18\x01 \x01(\t\x12\v\n" +
-    "\x03age\x18\x02 \x01(\x05\x12\r\n" +
-    "\x05email\x18\x03 \x01(\t*H\n" +
-    "\x06Status\x12\x16\n" +
-    "\x12STATUS_UNSPECIFIED\x10\x00\x12\x11\n" +
-    "\rSTATUS_ACTIVE\x10\x01\x12\x13\n" +
-    "\x0fSTATUS_INACTIVE\x10\x02b\x06proto3\xd2\xf6\x03\x04\b\x00\x18\x00");
+  fileDesc([
+ "\n\fsimple.proto",
+ "\x12\btestdata",
+ ["\"", [
+  "\n\x04User",
+  ["\x12", [
+   "\n\x04name",
+   "\x18\x01 \x01(\t",
+  ]],
+  ["\x12", [
+   "\n\x03age",
+   "\x18\x02 \x01(\x05",
+  ]],
+  ["\x12", [
+   "\n\x05email",
+   "\x18\x03 \x01(\t",
+  ]],
+ ]],
+ ["*", [
+  "\n\x06Status",
+  ["\x12", [
+   "\n\x12STATUS_UNSPECIFIED",
+   "\x10\x00",
+  ]],
+  ["\x12", [
+   "\n\rSTATUS_ACTIVE",
+   "\x10\x01",
+  ]],
+  ["\x12", [
+   "\n\x0fSTATUS_INACTIVE",
+   "\x10\x02",
+  ]],
+ ]],
+ "b\x06proto3",
+], [
+]);
+export type _numbers_testdata_User = {
+  1: "name";
+  2: "age";
+  3: "email";
+};
+export type _numbers_testdata_Status = {
+  0: "STATUS_UNSPECIFIED";
+  1: "STATUS_ACTIVE";
+  2: "STATUS_INACTIVE";
+};
 
 /**
  * @generated from message testdata.User
@@ -48,7 +82,7 @@ export type User = Message<"testdata.User"> & {
  * Use `create(UserSchema)` to create a new message.
  */
 export const UserSchema: GenMessage<User> = /*@__PURE__*/
-  messageDesc(file_simple, 0);
+  messageDesc(file_simple, "User");
 
 /**
  * @generated from enum testdata.Status
@@ -74,5 +108,5 @@ export enum Status {
  * Describes the enum testdata.Status.
  */
 export const StatusSchema: GenEnum<Status> = /*@__PURE__*/
-  enumDesc(file_simple, 0);
+  enumDesc(file_simple, "Status");
 

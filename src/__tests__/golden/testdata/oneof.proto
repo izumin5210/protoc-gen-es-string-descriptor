@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package testdata;
+
+message Event {
+  string id = 1;
+  oneof kind {
+    Click click = 2;
+    string view = 3;
+  }
+  oneof source {
+    string web = 4;
+    int32 app = 5;
+  }
+  optional string note = 6;
+
+  message Click {
+    int32 x = 1;
+    int32 y = 2;
+    oneof target {
+      string button = 3;
+      string link = 4;
+    }
+  }
+}

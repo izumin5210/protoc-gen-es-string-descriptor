@@ -1,165 +1,267 @@
+import { create, toBinary } from "@bufbuild/protobuf";
 import { base64Encode } from "@bufbuild/protobuf/wire";
+import {
+  type FileDescriptorProto,
+  FileDescriptorProtoSchema,
+} from "@bufbuild/protobuf/wkt";
 import { describe, expect, it } from "vitest";
-import { jsStringToBytes } from "../escape.js";
 import { transformFileContent } from "../transform.js";
 
+const proto = create(FileDescriptorProtoSchema, {
+  name: "m.proto",
+  package: "example.v1",
+  messageType: [
+    {
+      name: "User",
+      field: [
+        { name: "id", number: 1 },
+        { name: "email", number: 3 },
+      ],
+      nestedType: [
+        { name: "TagsEntry", options: { mapEntry: true } },
+        { name: "Address", field: [{ name: "city", number: 1 }] },
+      ],
+      enumType: [
+        {
+          name: "Role",
+          value: [
+            { name: "ROLE_UNSPECIFIED", number: 0 },
+            { name: "ROLE_NONE", number: -1 },
+          ],
+        },
+      ],
+    },
+  ],
+  enumType: [
+    {
+      name: "Alias",
+      options: { allowAlias: true },
+      value: [
+        { name: "A", number: 0 },
+        { name: "B", number: 0 },
+      ],
+    },
+  ],
+  service: [{ name: "UserService" }],
+  dependency: ["dep.proto"],
+  publicDependency: [0],
+});
+
+function fileDescCall(file: FileDescriptorProto, deps: string): string {
+  const b64 = base64Encode(
+    toBinary(FileDescriptorProtoSchema, file),
+    "std_raw",
+  );
+  return `fileDesc("${b64}"${deps});\n`;
+}
+
+const generatedTs = `import type { GenFile } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc, tsEnum } from "@bufbuild/protobuf/codegenv2";
+import { file_dep } from "./dep_pb";
+
+export const file_m: GenFile = /*@__PURE__*/
+  ${fileDescCall({ ...proto, dependency: [] }, ", [file_dep]")}
+export const UserSchema = /*@__PURE__*/
+  messageDesc(file_m, 0);
+export const User_AddressSchema = /*@__PURE__*/
+  messageDesc(file_m, 0, 0);
+export const User_RoleSchema = /*@__PURE__*/
+  enumDesc(file_m, 0, 0);
+export const User_Role = /*@__PURE__*/
+  tsEnum(User_RoleSchema);
+export const UserService = /*@__PURE__*/
+  serviceDesc(file_m, 0);
+`;
+
 describe("transformFileContent", () => {
-  it("does not modify code without fileDesc", () => {
-    const code = `import { messageDesc } from "@bufbuild/protobuf/codegenv1";
-export const UserSchema = messageDesc(file_example, 0);`;
+  it("leaves code without fileDesc alone", () => {
+    const code = `import { messageDesc } from "@bufbuild/protobuf/codegenv2";\n`;
     expect(transformFileContent(code)).toBe(code);
   });
 
-  it("transforms a simple fileDesc call", () => {
-    // 0x0a 0x05 "hello" 0x12 0x03 "foo"
-    const bytes = new Uint8Array([
-      0x0a, 0x05, 0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x12, 0x03, 0x66, 0x6f, 0x6f,
-    ]);
-    const b64 = base64Encode(bytes, "std_raw");
+  it("rewrites a .ts file", () => {
+    expect(
+      transformFileContent(generatedTs, { source: proto, numberTypes: true }),
+    ).toBe(
+      `import type { GenFile } from "@bufbuild/protobuf/codegenv2";
+import { tsEnum } from "@bufbuild/protobuf/codegenv2";
+import { enumDesc, fileDesc, messageDesc, serviceDesc } from "protoc-gen-es-string-descriptor";
+import { file_dep } from "./dep_pb";
 
-    const input = `  fileDesc("${b64}");`;
-    const result = transformFileContent(input);
+export const file_m: GenFile = /*@__PURE__*/
+  fileDesc([
+ "\\n\\x07m.proto",
+ "\\x12\\nexample.v1",
+ ["\\"", [
+  "\\n\\x04User",
+  ["\\x12", [
+   "\\n\\x02id",
+   "\\x18\\x01",
+  ]],
+  ["\\x12", [
+   "\\n\\x05email",
+   "\\x18\\x03",
+  ]],
+  ["\\x1a", [
+   "\\n\\tTagsEntry",
+   [":", [
+    "8\\x01",
+   ]],
+  ]],
+  ["\\x1a", [
+   "\\n\\x07Address",
+   ["\\x12", [
+    "\\n\\x04city",
+    "\\x18\\x01",
+   ]],
+  ]],
+  ["\\"", [
+   "\\n\\x04Role",
+   ["\\x12", [
+    "\\n\\x10ROLE_UNSPECIFIED",
+    "\\x10\\x00",
+   ]],
+   ["\\x12", [
+    "\\n\\tROLE_NONE",
+    "\\x10\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\xff\\x01",
+   ]],
+  ]],
+ ]],
+ ["*", [
+  "\\n\\x05Alias",
+  ["\\x12", [
+   "\\n\\x01A",
+   "\\x10\\x00",
+  ]],
+  ["\\x12", [
+   "\\n\\x01B",
+   "\\x10\\x00",
+  ]],
+  ["\\x1a", [
+   "\\x10\\x01",
+  ]],
+ ]],
+ ["2", [
+  "\\n\\vUserService",
+ ]],
+ "\\xf2\\xff\\xff\\xff\\x0f\\tdep.proto",
+], [
+ file_dep,
+]);
+export type _numbers_example_v1_User = {
+  1: "id";
+  3: "email";
+};
+export type _numbers_example_v1_User_Role = {
+  0: "ROLE_UNSPECIFIED";
+  "-1": "ROLE_NONE";
+};
+export type _numbers_example_v1_User_Address = {
+  1: "city";
+};
 
-    // Should be multi-line
-    expect(result).toContain('" +');
-    // Should NOT contain the original base64 string on a single line
-    expect(result).not.toContain(`fileDesc("${b64}")`);
-  });
-
-  it("transforms fileDesc with dependencies", () => {
-    const bytes = new Uint8Array([0x0a, 0x03, 0x66, 0x6f, 0x6f]);
-    const b64 = base64Encode(bytes, "std_raw");
-
-    const input = `  fileDesc("${b64}", [file_dep1, file_dep2]);`;
-    const result = transformFileContent(input);
-
-    // Dependencies should be preserved
-    expect(result).toContain("[file_dep1, file_dep2]");
-    // Should be multi-line
-    expect(result).toContain('" +');
-  });
-
-  it("preserves byte-level correctness after transformation", () => {
-    const originalBytes = new Uint8Array([
-      0x0a, 0x0c, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x2e, 0x70, 0x72,
-      0x6f, 0x74, 0x6f, 0x12, 0x07, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65,
-      0x1a, 0x0a, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x12, 0x02, 0x0a, 0x00,
-    ]);
-    const b64 = base64Encode(originalBytes, "std_raw");
-
-    const input = `  fileDesc("${b64}");`;
-    const result = transformFileContent(input);
-
-    // Extract the raw string content from the transformed output
-    const stringParts: string[] = [];
-    const regex = /"([^"]*)"/g;
-    for (const match of result.matchAll(regex)) {
-      stringParts.push(match[1]);
-    }
-    const rawString = stringParts.join("");
-
-    // Unescape the JS string escapes to get the actual byte values
-    const unescaped = rawString
-      .replace(/\\x([0-9a-f]{2})/g, (_, hex: string) =>
-        String.fromCharCode(parseInt(hex, 16)),
-      )
-      .replace(/\\n/g, "\n")
-      .replace(/\\t/g, "\t")
-      .replace(/\\r/g, "\r")
-      .replace(/\\b/g, "\b")
-      .replace(/\\f/g, "\f")
-      .replace(/\\v/g, "\v")
-      .replace(/\\\\/g, "\\")
-      .replace(/\\"/g, '"');
-
-    const reconstructed = jsStringToBytes(unescaped);
-    expect(reconstructed).toEqual(originalBytes);
-  });
-
-  it("rewrites fileDesc import from codegenv1", () => {
-    const bytes = new Uint8Array([0x0a, 0x01, 0x61]);
-    const b64 = base64Encode(bytes, "std_raw");
-
-    const input = `import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1";
-export const file_example = fileDesc("${b64}");`;
-
-    const result = transformFileContent(input);
-
-    expect(result).toContain(
-      'import { fileDesc } from "protoc-gen-es-string-descriptor"',
-    );
-    expect(result).toContain(
-      'import { messageDesc } from "@bufbuild/protobuf/codegenv1"',
-    );
-    expect(result).not.toContain(
-      'import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv1"',
-    );
-  });
-
-  it("rewrites fileDesc import from codegenv2", () => {
-    const bytes = new Uint8Array([0x0a, 0x01, 0x61]);
-    const b64 = base64Encode(bytes, "std_raw");
-
-    const input = `import { fileDesc, messageDesc } from "@bufbuild/protobuf/codegenv2";
-export const file_example = fileDesc("${b64}");`;
-
-    const result = transformFileContent(input);
-
-    expect(result).toContain(
-      'import { fileDesc } from "protoc-gen-es-string-descriptor"',
-    );
-    expect(result).toContain(
-      'import { messageDesc } from "@bufbuild/protobuf/codegenv2"',
+export const UserSchema = /*@__PURE__*/
+  messageDesc(file_m, "User");
+export const User_AddressSchema = /*@__PURE__*/
+  messageDesc(file_m, "User.Address");
+export const User_RoleSchema = /*@__PURE__*/
+  enumDesc(file_m, "User.Role");
+export const User_Role = /*@__PURE__*/
+  tsEnum(User_RoleSchema);
+export const UserService = /*@__PURE__*/
+  serviceDesc(file_m, "UserService");
+`,
     );
   });
 
-  it("handles fileDesc as the only import", () => {
-    const bytes = new Uint8Array([0x0a, 0x01, 0x61]);
-    const b64 = base64Encode(bytes, "std_raw");
+  it("emits no number types without numberTypes, as for .js", () => {
+    const result = transformFileContent(generatedTs, { source: proto });
+    expect(result).not.toContain("_numbers_");
+    expect(result).toContain('messageDesc(file_m, "User.Address")');
+  });
 
-    const input = `import { fileDesc } from "@bufbuild/protobuf/codegenv1";
-export const file_example = fileDesc("${b64}");`;
+  it("emits number types after the GenFile declaration of a .d.ts file", () => {
+    const dts = `import type { GenFile } from "@bufbuild/protobuf/codegenv2";
 
-    const result = transformFileContent(input);
+export declare const file_m: GenFile;
 
-    expect(result).toContain(
-      'import { fileDesc } from "protoc-gen-es-string-descriptor"',
+export declare type User = {};
+`;
+    expect(
+      transformFileContent(dts, { source: proto, numberTypes: true }),
+    ).toBe(`import type { GenFile } from "@bufbuild/protobuf/codegenv2";
+
+export declare const file_m: GenFile;
+export type _numbers_example_v1_User = {
+  1: "id";
+  3: "email";
+};
+export type _numbers_example_v1_User_Role = {
+  0: "ROLE_UNSPECIFIED";
+  "-1": "ROLE_NONE";
+};
+export type _numbers_example_v1_User_Address = {
+  1: "city";
+};
+
+export declare type User = {};
+`);
+  });
+
+  it("replaces the codegenv2 import when everything moves", () => {
+    const code = `import { fileDesc } from "@bufbuild/protobuf/codegenv2";\n${fileDescCall(
+      create(FileDescriptorProtoSchema, { name: "e.proto" }),
+      "",
+    )}`;
+    expect(transformFileContent(code)).toBe(
+      `import { fileDesc } from "protoc-gen-es-string-descriptor";
+fileDesc([
+ "\\n\\x07e.proto",
+], [
+]);
+`,
     );
-    // The original import line should be removed entirely
-    expect(result).not.toContain('@bufbuild/protobuf/codegenv1"');
   });
 
-  it("does not modify type imports", () => {
-    const input = `import type { GenFile } from "@bufbuild/protobuf/codegenv1";`;
-    const result = transformFileContent(input);
-    expect(result).toBe(input);
+  it("needs the source file for the names of public imports", () => {
+    expect(() => transformFileContent(fileDescCall(proto, ""))).toThrow(
+      "m.proto: no file name for import 0",
+    );
   });
 
-  it("does not split when no 0x0a byte is present", () => {
-    // Bytes that don't contain 0x0a
-    const bytes = new Uint8Array([0x12, 0x03, 0x66, 0x6f, 0x6f]);
-    const b64 = base64Encode(bytes, "std_raw");
-
-    const input = `  fileDesc("${b64}");`;
-    const result = transformFileContent(input);
-
-    // Should still be transformed to raw string format but on a single line
-    expect(result).not.toContain('" +');
-    expect(result).toContain("fileDesc(");
+  it("rewrites only the calls that protoc-gen-es generates", () => {
+    const call = "messageDesc(file_m, 9)";
+    const file = create(FileDescriptorProtoSchema, {
+      name: "e.proto",
+      messageType: [
+        { name: "M", field: [{ name: "f", number: 1, defaultValue: call }] },
+      ],
+    });
+    const code = `/**\n * ${call}\n */\n${fileDescCall(file, "")}`;
+    expect(transformFileContent(code)).toContain(call);
+    expect(transformFileContent(code)).toContain(`\n * ${call}\n`);
   });
 
-  it("handles multiple fileDesc calls in one file", () => {
-    const bytes1 = new Uint8Array([0x0a, 0x01, 0x61]);
-    const bytes2 = new Uint8Array([0x0a, 0x01, 0x62]);
-    const b641 = base64Encode(bytes1, "std_raw");
-    const b642 = base64Encode(bytes2, "std_raw");
+  it("names number types without an empty package", () => {
+    const file = create(FileDescriptorProtoSchema, {
+      name: "e.proto",
+      messageType: [{ name: "M" }],
+    });
+    expect(
+      transformFileContent(fileDescCall(file, ""), {
+        source: file,
+        numberTypes: true,
+      }),
+    ).toContain("export type _numbers_M = {\n};\n");
+  });
 
-    const input = `  fileDesc("${b641}");
-  fileDesc("${b642}");`;
-    const result = transformFileContent(input);
-
-    // Both should be transformed
-    expect(result).not.toContain(b641);
-    expect(result).not.toContain(b642);
+  it("throws for a path that names no element", () => {
+    const code = `${fileDescCall(
+      create(FileDescriptorProtoSchema, { name: "e.proto" }),
+      "",
+    )}  messageDesc(file_m, 3);\n`;
+    expect(() => transformFileContent(code)).toThrow(
+      "no element for messageDesc(file_m, 3)",
+    );
   });
 });

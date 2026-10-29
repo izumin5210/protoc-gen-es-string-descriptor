@@ -8,8 +8,29 @@ message Outer {
   message Inner {
     string value = 1;
     int32 count = 2;
+
+    message Deep {
+      bool flag = 1;
+    }
+
+    enum Level {
+      LEVEL_UNSPECIFIED = 0;
+      LEVEL_HIGH = 1;
+    }
+  }
+
+  enum Kind {
+    KIND_UNSPECIFIED = 0;
+    KIND_A = 1;
   }
 
   Inner inner = 2;
   repeated Inner items = 3;
+  Inner.Deep deep = 4;
+  Kind kind = 5;
+}
+
+// Same TypeScript name as Outer.Inner.
+message Outer_Inner {
+  string collision = 1;
 }

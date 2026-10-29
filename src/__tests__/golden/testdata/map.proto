@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package testdata;
+
+message Inventory {
+  map<string, int32> counts = 1;
+  map<int64, Item> items = 2;
+  map<string, Availability> availability = 3;
+
+  message Item {
+    string name = 1;
+  }
+}
+
+enum Availability {
+  AVAILABILITY_UNSPECIFIED = 0;
+  AVAILABILITY_IN_STOCK = 1;
+  AVAILABILITY_SOLD_OUT = -1;
+}

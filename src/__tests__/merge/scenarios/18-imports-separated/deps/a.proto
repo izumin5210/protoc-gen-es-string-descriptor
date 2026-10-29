@@ -1,0 +1,4 @@
+syntax = "proto3";
+package dep.a;
+
+message A {}

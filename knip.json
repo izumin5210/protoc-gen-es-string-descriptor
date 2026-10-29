@@ -5,6 +5,8 @@
     "type": true
   },
   "tags": ["-lintignore"],
-  "ignoreFiles": ["src/__tests__/golden/**"],
-  "ignoreDependencies": ["@bufbuild/buf", "@vitest/coverage-v8"]
+  "ignore": ["src/__tests__/golden/**"],
+  "vitest": {
+    "entry": ["src/**/*.{test,bench}.ts"]
+  }
 }

@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package testdata;
+
+import "dep/a.proto";
+import public "dep/b.proto";
+import "google/protobuf/timestamp.proto";
+
+message Envelope {
+  testdata.dep.A a = 1;
+  testdata.dep.B b = 2;
+  google.protobuf.Timestamp sent_at = 3;
+}
